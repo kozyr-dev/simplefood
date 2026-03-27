@@ -1,0 +1,27 @@
+.navbar {
+	background-color: #212121;
+	position: fixed;
+	width: 100%;
+	z-index: 99;
+}
+
+.navbar_top {
+	position: relative;
+	z-index: 60;
+	width: 100%;
+	min-height: 70px;
+	padding: 10px 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #46ba3c;
+	transition: margin-top 0.1s linear;
+
+	&.hide {
+		margin-top: -70px;
+
+		.menus.open {
+			padding-top: 60px;
+		}
+	}
+}

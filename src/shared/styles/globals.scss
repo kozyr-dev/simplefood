@@ -1,0 +1,310 @@
+@use "variables.scss";
+@use "customize";
+@use "fonts";
+@use "mixins.scss";
+@use "tailwindcss";
+
+body {
+  font-family: "Geometria", sans-serif;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.4;
+  min-width: 1500px;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+img {
+  max-width: 100%;
+}
+a {
+  color: #ea5b21;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.gray {
+  color: #8b8b8b;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: "Geometria", sans-serif;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 1.2;
+  margin-bottom: 25px;
+}
+h2 {
+  font-family: "Geometria", sans-serif;
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 1.2;
+  margin-bottom: 25px;
+}
+h3 {
+  font-family: "Geometria", sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+h4 {
+  font-family: "Geometria", sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+h5 {
+  font-family: "Geometria", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 15px;
+}
+h6 {
+  font-family: "Geometria", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 15px;
+}
+
+p {
+  margin-bottom: 15px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.page-section {
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    span,
+    strong,
+    b {
+      color: #8b8b8b;
+    }
+  }
+}
+.section-padding {
+  padding: 50px 0;
+}
+.section-margin {
+  padding: 50px 0;
+}
+
+.cta {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.form {
+  position: relative;
+  &-group {
+    margin-bottom: 20px;
+    position: relative;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      font-size: 14px;
+      vertical-align: middle;
+    }
+    .error {
+      font-size: 11px;
+      line-height: 15px;
+      color: red;
+      position: absolute;
+      bottom: -15px;
+      left: 0;
+    }
+    .checkbox-input {
+      input[type="checkbox"] {
+        margin-right: 5px;
+        vertical-align: -1px;
+      }
+    }
+  }
+  &-control {
+    display: block;
+    width: 100%;
+    height: 38px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #555;
+    background-color: #f8f8f8;
+    background-image: none;
+    border: 1px solid #8b8b8b;
+    border-radius: 5px;
+    box-shadow: none;
+    outline: none;
+    -webkit-transition:
+      border-color ease-in-out 0.15s,
+      -webkit-box-shadow ease-in-out 0.15s;
+    -o-transition:
+      border-color ease-in-out 0.15s,
+      box-shadow ease-in-out 0.15s;
+    transition:
+      border-color ease-in-out 0.15s,
+      box-shadow ease-in-out 0.15s;
+    &.textarea {
+      height: 100px;
+    }
+  }
+  &-submit {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    .spinner {
+      margin-left: 15px;
+    }
+  }
+  &-submit-btn {
+    border: 1px solid #46ba3c;
+    color: #fff;
+    background-color: #46ba3c;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px 1px rgb(53 53 53 / 20%);
+    display: block;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 15px;
+    min-width: 250px;
+    width: 100%;
+    transition: all 0.3s ease;
+    &:hover {
+      box-shadow: 2px 2px 2px 1px rgb(53 53 53 / 20%);
+      background-color: #34a52a;
+      color: #fff;
+    }
+    &--plain {
+      font-size: 16px;
+      padding: 13px 15px;
+      min-width: 180px;
+      display: inline-block;
+      width: auto;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    &--thin {
+      box-shadow: none;
+      border-radius: 0;
+      background-color: transparent;
+      color: #46ba3c;
+    }
+    &--large {
+      font-size: 20px;
+      padding: 20px;
+    }
+  }
+  &-submit-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #fff;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px #e2e2e2;
+    h5 {
+      color: inherit;
+      text-align: center;
+      margin: 0;
+    }
+    &.status-200 {
+      color: #46ba3c;
+    }
+    &.status-400 {
+      color: red;
+    }
+  }
+  .privacy-policy-text {
+    color: #8b8b8b;
+  }
+  &--contact {
+    .form-submit-btn {
+      background-color: transparent;
+      border: 1px solid #ea5b21;
+      color: #ea5b21;
+      width: auto;
+      min-width: 170px;
+      box-shadow: none;
+      border-radius: 0;
+      &:hover {
+        background-color: #ea5b21;
+        color: #fff;
+        border-color: #fff;
+      }
+      &.processing {
+        opacity: 0.5;
+        pointer-events: none;
+        background-color: #ea5b21;
+        color: #fff;
+        border-color: #fff;
+      }
+    }
+    .form-control {
+      padding: 6px 0;
+      color: #000;
+      background-color: #fff;
+      border: none;
+      border-bottom: 1px solid #000;
+      border-radius: 0;
+    }
+  }
+  .button-radio-group {
+    &__button {
+      display: block;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: "OpenSans", sans-serif;
+      font-size: 14px;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border: 1px solid #8b8b8b;
+      background-color: #d5d5d5;
+      color: #ea5b21;
+      min-width: 200px;
+      text-decoration: none !important;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      input[type="radio"] {
+        display: none;
+      }
+      &.active {
+        border-color: #46ba3c;
+        color: #fff;
+        background-color: #46ba3c;
+      }
+    }
+  }
+  [disabled] {
+    cursor: not-allowed;
+  }
+  [hidden] {
+    display: none;
+  }
+}
+
+.scrollable-y {
+  @include mixins.scrollbar;
+}

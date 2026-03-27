@@ -1,0 +1,45 @@
+.center_blk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .logo {
+    margin: 0 100px;
+    @media (max-width: 1399px) {
+      margin: 0 50px;
+    }
+  }
+
+  .working table td {
+    padding: 0 5px;
+    font-weight: 500;
+    font-family: "Geometria", sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .freeship {
+    display: flex;
+    align-items: center;
+
+    .text {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 500;
+      font-family: "Geometria", sans-serif;
+      text-transform: uppercase;
+      margin-left: 10px;
+      margin-bottom: 0;
+      color: #000;
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      span {
+        color: #fff;
+      }
+    }
+  }
+}

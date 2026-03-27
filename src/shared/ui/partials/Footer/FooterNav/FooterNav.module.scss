@@ -1,0 +1,28 @@
+.page-footer-nav {
+  ul {
+    margin-bottom: 0;
+    text-align: center;
+
+    li {
+      display: inline;
+      margin-right: 20px;
+
+      a {
+        font-size: 16px;
+        font-family: 'OpenSans', sans-serif;
+        font-weight: 700;
+        color: #fff;
+        text-transform: uppercase;
+
+        &.active {
+          color: #ea5b21 !important;
+        }
+
+        &:hover {
+          color: #46ba3c;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

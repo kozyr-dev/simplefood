@@ -1,0 +1,187 @@
+.menus {
+  display: none;
+  background-color: #212121;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 130px;
+  width: 550px;
+  height: 100vh;
+  z-index: 50;
+  box-shadow: 0 20px 20px 0px rgb(0 0 0 / 80%);
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
+
+  &.open {
+    display: block;
+  }
+  &.shrink {
+    padding-top: 60px;
+  }
+  .menus__wrap {
+    height: 100%;
+    padding: 50px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #f5f5f5;
+    }
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: #f5f5f5;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #46ba3c;
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #46ba3c;
+    }
+    hr {
+      margin: 25px 0;
+      border-top-color: #292929;
+    }
+  }
+  .menus__main {
+  }
+  .menus__contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__phone {
+      display: flex;
+      align-items: center;
+      img {
+        vertical-align: middle;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+      a {
+        color: #bababa;
+        font-size: 22px;
+        font-family: GeometriaMedium, sans-serif;
+        display: flex;
+        align-items: center;
+        text-decoration: none !important;
+        & > span {
+          vertical-align: middle;
+          margin-right: 10px !important;
+          flex-shrink: 0;
+        }
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    &__social {
+      .fsoc {
+        display: flex;
+        align-items: center;
+
+        &__item {
+          margin-left: 25px;
+          a {
+            font-size: 27px;
+            color: #bababa;
+            font-family: "Geometria", sans-serif;
+            .icon {
+              &:before,
+              &:after {
+                margin: 0;
+              }
+            }
+            &:hover {
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+  .menus__group {
+    &--bottom {
+      .menu-list__item a:hover {
+        color: #ea5b21;
+        text-decoration: none;
+      }
+    }
+  }
+  .menu-list {
+    margin: 0;
+    padding: 0;
+
+    &__item {
+      margin: 0 0 10px 0;
+      position: relative;
+      &.highlight1 a {
+        color: #ea5b21;
+      }
+      &.highlight2 a {
+        color: #fff;
+      }
+      &.highlight3 a {
+        color: #f7d300;
+      }
+      &.highlight4 a {
+        color: #46ba3c;
+      }
+      &.menu_img {
+        display: flex;
+        align-items: center;
+
+        &:before {
+          content: "";
+          display: inline-block;
+          height: 39px;
+          width: 39px;
+          margin-right: 10px;
+          vertical-align: middle;
+          position: relative;
+          bottom: 2px;
+        }
+        &.img_cabinet:before {
+          background: url(/menu_cabinet.png) no-repeat;
+        }
+        &.img_about:before {
+          background: url(/menu_about.png) no-repeat;
+        }
+        &.img_delivery:before {
+          background: url(/menu_delivery.png) no-repeat;
+        }
+        &.img_news:before {
+          background: url(/menu_news.png) no-repeat;
+        }
+        &.img_discount:before {
+          background: url(/menu_discount.png) no-repeat;
+        }
+        &.img_contacts:before {
+          background: url(/menu_contacts.png) no-repeat;
+        }
+      }
+      a {
+        font-size: 21px;
+        font-family: "Geometria", sans-serif;
+        display: block;
+        color: #959595;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  .menus_wrap {
+    max-width: 600px;
+    width: 100%;
+  }
+  .contents {
+    margin-top: 100px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+}

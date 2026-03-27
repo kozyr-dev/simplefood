@@ -1,0 +1,86 @@
+.navbar-collapse-btn {
+  padding: 13px 10px 5px 0;
+
+  .burger-container {
+    outline: none !important;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    transition: all 0.3s cubic-bezier(0.4, 0.01, 0.165, 0.99);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    #burger .bar {
+      display: block;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0.01, 0.165, 0.99);
+      transition-delay: 0s;
+    }
+
+    #burger .bar.topBar {
+      -webkit-transform: translateY(0px) rotate(0deg);
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    #burger .bar.midBar {
+      -webkit-transform: translateY(0px) rotate(0deg);
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    #burger .bar.btmBar {
+      -webkit-transform: translateY(0px) rotate(0deg);
+      transform: translateY(0px) rotate(0deg);
+    }
+
+    .icon-bar {
+      display: block;
+      width: 30px;
+      height: 2px;
+      background: #8b8b8b;
+      margin: 7px 0;
+    }
+
+    &:hover .icon-bar {
+      background: #46ba3c;
+    }
+  }
+
+  &.menu-opened {
+    transition: all 0.3s ease-in;
+    transition-delay: 0.25s;
+
+    .navbar-toggle .icon-bar {
+      background: #fff;
+    }
+
+    .burger-container {
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg);
+
+      #burger .bar {
+        transition: all 0.2s cubic-bezier(0.4, 0.01, 0.165, 0.99);
+        transition-delay: 0.2s;
+      }
+
+      #burger .bar.midBar {
+        opacity: 0;
+        transition: none;
+      }
+
+      #burger .bar.topBar {
+        -webkit-transform: translateY(9px) rotate(45deg);
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      #burger .bar.btmBar {
+        -webkit-transform: translateY(-9px) rotate(-45deg);
+        transform: translateY(-9px) rotate(-45deg);
+      }
+    }
+  }
+}

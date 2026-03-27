@@ -1,0 +1,37 @@
+.modal-call-us {
+  h6.title {
+    font-family: "OpenSans", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 10px 0;
+    color: #ea5b21;
+  }
+  .tel {
+    font-family: "OpenSans", sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #292929;
+    margin-bottom: 10px;
+    display: block;
+    text-decoration: none !important;
+  }
+  .form {
+    margin-top: 5px;
+  }
+  .form-control {
+    border: none;
+    border-bottom: 1px solid #8b8b8b;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none !important;
+    padding: 6px 0 !important;
+  }
+  .form-submit {
+    margin-top: 30px;
+    button {
+      width: 100%;
+    }
+  }
+}

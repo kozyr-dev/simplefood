@@ -1,0 +1,19 @@
+.cart-product-info {
+  .quantity {
+    .minus,
+    .plus {
+      span {
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        em:before,
+        em:after {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .remove-product {
+    cursor: pointer;
+  }
+}
