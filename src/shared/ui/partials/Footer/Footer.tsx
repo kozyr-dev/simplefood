@@ -3,8 +3,8 @@ import clsx from "clsx";
 import Link from "next/link";
 import FooterNav from "./FooterNav/FooterNav";
 import styles from "./Footer.module.scss";
-import { SiteOptions } from "@/shared/types/types";
 import { defaultSiteOptions } from "@/shared/constants/constants";
+import { SiteOptions } from "@/shared/types/types";
 
 interface FooterProps {
   siteOptions?: SiteOptions;
@@ -25,7 +25,7 @@ export default function Footer(props: FooterProps): JSX.Element {
               <p>
                 Замовлення приймаються:
                 <br />
-                {siteOptions?.workingHours} | без вихідних
+                {siteOptions?.data.takingOrdersHours} | без вихідних
               </p>
             </div>
           </div>
@@ -35,12 +35,12 @@ export default function Footer(props: FooterProps): JSX.Element {
           <div className={clsx(styles["fsoc"], "basis-2/12")}>
             <ul>
               <li className={styles["menu-soc"]}>
-                <Link target="_blank" href={siteOptions?.facebook || "#"}>
+                <Link target="_blank" href={siteOptions?.data.facebook || "#"}>
                   <em className={clsx("icon, icon-facebook")}></em>
                 </Link>
               </li>
               <li className={styles["menu-soc"]}>
-                <Link target="_blank" href={siteOptions?.instagram || "#"}>
+                <Link target="_blank" href={siteOptions?.data.instagram || "#"}>
                   <em className={clsx("icon, icon-instagram")}></em>
                 </Link>
               </li>

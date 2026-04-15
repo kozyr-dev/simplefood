@@ -6,7 +6,7 @@ import ModalCallUs from "@/shared/ui/modals/ModalCallUs/ModalCallUs";
 import styles from "./NavbarTel.module.scss";
 import { SiteOptions } from "@/shared/types/types";
 
-export default function NavbarTel({ phone }: SiteOptions): JSX.Element {
+export default function NavbarTel({ data }: SiteOptions): JSX.Element {
   useEffect(() => {
     // Dynamically load MicroModal.js
     (async () => {
@@ -29,14 +29,14 @@ export default function NavbarTel({ phone }: SiteOptions): JSX.Element {
       <div className={styles.tel}>
         <Image src="/phone.png" alt="" width="35" height="35" />
         <p className={styles.phone}>
-          {phone}
+          {data?.phone}
           <span onClick={openCallMeModal}>
             <a href="#">замовити зворотній дзвінок</a>
           </span>
         </p>
       </div>
       <Portal>
-        <ModalCallUs phone={phone} />
+        <ModalCallUs phone={data?.phone} />
       </Portal>
     </>
   );

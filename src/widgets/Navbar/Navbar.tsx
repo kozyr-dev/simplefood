@@ -14,8 +14,15 @@ import {
   defaultHeaderMenu,
   defaultSiteOptions,
 } from "@/shared/constants/constants";
+import { SiteOptions } from "@/shared/types/types";
 
-export const Navbar = (): JSX.Element => {
+interface NavbarProps {
+  siteOptions?: SiteOptions;
+}
+
+export const Navbar = (props: NavbarProps): JSX.Element => {
+  const { siteOptions = defaultSiteOptions } = props;
+
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
   const [navBarCollapseDropdownMenuOpen, setNavBarCollapseDropdownMenuOpen] = useState(false);
 
@@ -61,15 +68,15 @@ export const Navbar = (): JSX.Element => {
   return (
     <div className={clsx(styles["navbar"], "basis-3/12", "md:visible", "bg-primary")}>
       <div className={clsx(styles["navbar_top"])} ref={navBarTop}>
-        <NavbarTel {...defaultSiteOptions} />
-        <NavbarCenter {...defaultSiteOptions} />
+        <NavbarTel {...siteOptions} />
+        <NavbarCenter {...siteOptions} />
         <NavbarLogin />
       </div>
       <NavbarCollapse headerMenu={defaultHeaderMenu} cart={defaultCartState} />
       <NavbarCollapseDropdownMenu
         navbarCollapsed={navbarCollapsed}
         dropDownMenuOpen={navBarCollapseDropdownMenuOpen}
-        siteOptions={defaultSiteOptions}
+        siteOptions={siteOptions}
         dropDownMenu={defaultDropDownMenu}
       />
     </div>

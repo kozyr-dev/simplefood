@@ -1,82 +1,83 @@
 import type { Metadata } from "next";
 import Head from "next/head";
-import localFont from 'next/font/local'
-import MainLayout from "@/shared/layouts/MainLayout/MainLayout";
+import localFont from "next/font/local";
+import { QueryProvider } from "@/app/QueryProvider";
+import MainLayout from "@/app/layouts/MainLayout/MainLayout";
 import "@/shared/styles/globals.scss";
 
 const openSans = localFont({
   src: [
     {
-      path: '../src/shared/fonts/OpenSansRegular.woff2',
-      weight: '400',
-      style: 'normal',
+      path: "../src/shared/fonts/OpenSansRegular.woff2",
+      weight: "400",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/OpenSansMedium.woff2',
-      weight: '500',
-      style: 'normal',
+      path: "../src/shared/fonts/OpenSansMedium.woff2",
+      weight: "500",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/OpenSansSemiBold.woff2',
-      weight: '600',
-      style: 'normal',
+      path: "../src/shared/fonts/OpenSansSemiBold.woff2",
+      weight: "600",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/OpenSansBold.woff2',
-      weight: '700',
-      style: 'normal',
+      path: "../src/shared/fonts/OpenSansBold.woff2",
+      weight: "700",
+      style: "normal",
     },
   ],
-  display: 'swap',
-  variable: '--font-open-sans',
-})
+  display: "swap",
+  variable: "--font-open-sans",
+});
 
 const geometria = localFont({
   src: [
     {
-      path: '../src/shared/fonts/Geometria-Light.woff',
-      weight: '300',
-      style: 'normal',
+      path: "../src/shared/fonts/Geometria-Light.woff",
+      weight: "300",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/Geometria-LightItalic.woff',
-      weight: '500',
-      style: 'italic',
+      path: "../src/shared/fonts/Geometria-LightItalic.woff",
+      weight: "500",
+      style: "italic",
     },
     {
-      path: '../src/shared/fonts/Geometria.woff',
-      weight: '400',
-      style: 'normal',
+      path: "../src/shared/fonts/Geometria.woff",
+      weight: "400",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/Geometria-Italic.woff',
-      weight: '400',
-      style: 'italic',
+      path: "../src/shared/fonts/Geometria-Italic.woff",
+      weight: "400",
+      style: "italic",
     },
     {
-      path: '../src/shared/fonts/Geometria-MediumItalic.woff',
-      weight: '500',
-      style: 'italic',
+      path: "../src/shared/fonts/Geometria-MediumItalic.woff",
+      weight: "500",
+      style: "italic",
     },
     {
-      path: '../src/shared/fonts/Geometria-Medium.woff',
-      weight: '500',
-      style: 'normal',
+      path: "../src/shared/fonts/Geometria-Medium.woff",
+      weight: "500",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/Geometria-Bold.woff',
-      weight: '700',
-      style: 'normal',
+      path: "../src/shared/fonts/Geometria-Bold.woff",
+      weight: "700",
+      style: "normal",
     },
     {
-      path: '../src/shared/fonts/Geometria-ExtraBold.woff',
-      weight: '800',
-      style: 'normal',
+      path: "../src/shared/fonts/Geometria-ExtraBold.woff",
+      weight: "800",
+      style: "normal",
     },
   ],
-  display: 'swap',
-  variable: '--font-geometria',
-})
+  display: "swap",
+  variable: "--font-geometria",
+});
 
 export const metadata: Metadata = {
   title: "Simple Food",
@@ -94,9 +95,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
-        <MainLayout>
-          {children}
-        </MainLayout>
+        <QueryProvider>
+          <MainLayout>{children}</MainLayout>
+        </QueryProvider>
         <div id="portal-root"></div>
       </body>
     </html>

@@ -1,9 +1,19 @@
+// globally used types
 export type SiteOptions = {
-  workingHours: string;
-  facebook: string;
-  instagram: string;
-  takingOrdersHours: string;
-  phone: string;
+  data: {
+    workingHours: string;
+    facebook: string;
+    instagram: string;
+    takingOrdersHours: string;
+    phone: string;
+    address: string;
+    SiteName: string;
+    SEO: {
+      seo_title: string;
+      seo_description: string;
+    };
+  };
+  meta: object;
 };
 
 export type HeaderMenu = {

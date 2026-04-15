@@ -6,7 +6,7 @@ import styles from "./NavbarCenter.module.scss";
 import { SiteOptions } from "@/shared/types/types";
 import { helpers } from "@/shared/utils/helpers/base";
 
-export default function NavbarCenter({ takingOrdersHours }: SiteOptions): JSX.Element {
+export default function NavbarCenter({ data }: SiteOptions): JSX.Element {
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     helpers.scrollToAnchor("#delivery");
@@ -18,7 +18,7 @@ export default function NavbarCenter({ takingOrdersHours }: SiteOptions): JSX.El
         <table>
           <tbody>
             <tr>
-              <td className="text-left">{takingOrdersHours}</td>
+              <td className="text-left">{data?.takingOrdersHours}</td>
             </tr>
             <tr>
               <td className={clsx("text-right", "text-white")}>Без вихідних</td>

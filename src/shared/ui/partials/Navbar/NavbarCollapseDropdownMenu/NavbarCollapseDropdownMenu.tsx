@@ -60,20 +60,20 @@ export default function NavbarCollapseDropdownMenu({
         <hr />
         <div className={styles["menus__contact"]}>
           <div className={styles["menus__contact__phone"]}>
-            <a href={`tel:${siteOptions?.phone || ""}`}>
+            <a href={`tel:${siteOptions?.data?.phone || ""}`}>
               <Image src="/phone1.png" alt="" width="35" height="35" />
-              {siteOptions?.phone}
+              {siteOptions?.data?.phone}
             </a>
           </div>
           <div className={styles["menus__contact__social"]}>
             <div className={styles["fsoc"]}>
               <div className={styles["fsoc__item"]}>
-                <Link target="_blank" href={siteOptions?.facebook || ""}>
+                <Link target="_blank" href={siteOptions?.data?.facebook || ""}>
                   <em className="icon icon-facebook"></em>
                 </Link>
               </div>
               <div className={styles["fsoc__item"]}>
-                <Link target="_blank" href={siteOptions?.instagram || ""}>
+                <Link target="_blank" href={siteOptions?.data?.instagram || ""}>
                   <em className="icon icon-instagram"></em>
                 </Link>
               </div>

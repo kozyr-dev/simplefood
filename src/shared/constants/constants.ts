@@ -1,24 +1,28 @@
+import { DropDownMenu, HeaderMenu, SiteOptions } from "../types/types";
+
 export const defaultCartState = {
   items: [],
   totalAmount: 0,
 };
 
-export const defaultSiteOptions = {
-  phone: "067 401 38 00",
-  workingHours: "10:00-20:00",
-  takingOrdersHours: "10:00-19:00",
-  facebook: "https://www.facebook.com/simple.food.delivery",
-  instagram: "https://www.instagram.com/simple_food_delivery/",
-  SiteName: "Simple Food",
-  address: "м. Миколаїв, вул. 6-та Слобідська 101в",
-  SEO: {
-    id: 4,
-    seo_title: "Simple Food",
-    seo_description: "Сервіс з приготування і доставки їжі в Миколаєві",
+export const defaultSiteOptions: SiteOptions = {
+  data: {
+    phone: "067 401 38 00",
+    workingHours: "10:00-20:00",
+    takingOrdersHours: "10:00-19:00",
+    facebook: "https://www.facebook.com/simple.food.delivery",
+    instagram: "https://www.instagram.com/simple_food_delivery/",
+    SiteName: "Simple Food",
+    address: "м. Миколаїв, вул. 6-та Слобідська 101в",
+    SEO: {
+      seo_title: "Simple Food",
+      seo_description: "Сервіс з приготування і доставки їжі в Миколаєві",
+    },
   },
+  meta: {},
 };
 
-export const defaultHeaderMenu = [
+export const defaultHeaderMenu: HeaderMenu = [
   {
     id: 2,
     Title: "Супи",
@@ -81,7 +85,7 @@ export const defaultHeaderMenu = [
   },
 ];
 
-export const defaultDropDownMenu = {
+export const defaultDropDownMenu: DropDownMenu = {
   menuItem: [
     {
       id: 17,
