@@ -1,5 +1,5 @@
 import { fetchAPI } from "@/shared/utils/helpers/api";
-import { SiteOptions } from "../model/types";
+import { SiteOptions } from "@/shared/types/types";
 
 const globalOptionsApi = {
   get: (): Promise<SiteOptions> =>

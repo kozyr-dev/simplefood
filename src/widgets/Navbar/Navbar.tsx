@@ -2,12 +2,13 @@
 
 import clsx from "clsx";
 import { JSX, useCallback, useEffect, useRef, useState } from "react";
-import styles from "./Navbar.module.scss";
+import { useHeaderMenuQuery, useDropDownMenuQuery } from "@/entities/Menu";
 import NavbarCenter from "../../shared/ui/partials/Navbar/NavbarCenter/NavbarCenter";
 import NavbarLogin from "../../shared/ui/partials/Navbar/NavbarLogin/NavbarLogin";
 import NavbarTel from "../../shared/ui/partials/Navbar/NavbarTel/NavbarTel";
 import NavbarCollapse from "../../shared/ui/partials/Navbar/NavbarCollapse/NavbarCollapse";
 import NavbarCollapseDropdownMenu from "../../shared/ui/partials/Navbar/NavbarCollapseDropdownMenu/NavbarCollapseDropdownMenu";
+import styles from "./Navbar.module.scss";
 import {
   defaultCartState,
   defaultDropDownMenu,
@@ -22,6 +23,11 @@ interface NavbarProps {
 
 export const Navbar = (props: NavbarProps): JSX.Element => {
   const { siteOptions = defaultSiteOptions } = props;
+  const { data: headerMenuData } = useHeaderMenuQuery();
+  const { data: dropDownMenuData } = useDropDownMenuQuery();
+
+  const headerMenu = headerMenuData?.data?.menuItem || defaultHeaderMenu;
+  const dropDownMenu = dropDownMenuData?.data?.menuItem || defaultDropDownMenu;
 
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
   const [navBarCollapseDropdownMenuOpen, setNavBarCollapseDropdownMenuOpen] = useState(false);
@@ -72,12 +78,12 @@ export const Navbar = (props: NavbarProps): JSX.Element => {
         <NavbarCenter {...siteOptions} />
         <NavbarLogin />
       </div>
-      <NavbarCollapse headerMenu={defaultHeaderMenu} cart={defaultCartState} />
+      <NavbarCollapse headerMenu={headerMenu} cart={defaultCartState} />
       <NavbarCollapseDropdownMenu
         navbarCollapsed={navbarCollapsed}
         dropDownMenuOpen={navBarCollapseDropdownMenuOpen}
         siteOptions={siteOptions}
-        dropDownMenu={defaultDropDownMenu}
+        dropDownMenu={dropDownMenu}
       />
     </div>
   );

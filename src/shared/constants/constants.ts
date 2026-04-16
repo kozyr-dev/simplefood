@@ -1,4 +1,4 @@
-import { DropDownMenu, HeaderMenu, SiteOptions } from "../types/types";
+import { DropDownMenu, HeaderMenu, FooterMenu, SiteOptions } from "../types/types";
 
 export const defaultCartState = {
   items: [],
@@ -82,6 +82,39 @@ export const defaultHeaderMenu: HeaderMenu = [
     Title: "Street Food",
     Link: "/papasha-menu",
     Classname: "highlight3",
+  },
+];
+
+export const defaultFooterMenu: FooterMenu = [
+  {
+    id: 1,
+    Link: "#",
+    Title: "Акції",
+    Classname: "",
+  },
+  {
+    id: 2,
+    Link: "#",
+    Title: "Про нас",
+    Classname: "",
+  },
+  {
+    id: 3,
+    Link: "#",
+    Title: "Доставка",
+    Classname: "",
+  },
+  {
+    id: 4,
+    Link: "#",
+    Title: "Новини та статтi",
+    Classname: "",
+  },
+  {
+    id: 5,
+    Link: "#",
+    Title: "Контакти",
+    Classname: "",
   },
 ];
 

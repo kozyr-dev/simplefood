@@ -3,15 +3,15 @@ import clsx from "clsx";
 import Link from "next/link";
 import FooterNav from "./FooterNav/FooterNav";
 import styles from "./Footer.module.scss";
-import { defaultSiteOptions } from "@/shared/constants/constants";
-import { SiteOptions } from "@/shared/types/types";
+import { FooterMenu, SiteOptions } from "@/shared/types/types";
 
 interface FooterProps {
-  siteOptions?: SiteOptions;
+  siteOptions: SiteOptions;
+  footerMenu: FooterMenu;
 }
 
 export default function Footer(props: FooterProps): JSX.Element {
-  const { siteOptions = defaultSiteOptions } = props;
+  const { siteOptions, footerMenu } = props;
 
   return (
     <footer className={styles["page-footer"]}>
@@ -30,7 +30,7 @@ export default function Footer(props: FooterProps): JSX.Element {
             </div>
           </div>
           <div className={clsx(styles["fmenu"], "basis-7/12")}>
-            <FooterNav />
+            <FooterNav footerMenu={footerMenu} />
           </div>
           <div className={clsx(styles["fsoc"], "basis-2/12")}>
             <ul>

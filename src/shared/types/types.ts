@@ -23,6 +23,13 @@ export type HeaderMenu = {
   Classname?: string | null;
 }[];
 
+export type FooterMenu = {
+  id: number;
+  Title: string;
+  Link: string;
+  Classname?: string | null;
+}[];
+
 export type DropDownMenu = {
   menuItem: {
     id: number;
