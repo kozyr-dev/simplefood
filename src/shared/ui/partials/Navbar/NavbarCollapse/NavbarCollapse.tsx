@@ -2,8 +2,9 @@ import { JSX } from "react";
 import NavbarCollapseBtn from "../NavbarCollapseBtn/NavbarCollapseBtn";
 import NavbarCollapseMenu from "../NavbarCollapseMenu/NavbarCollapseMenu";
 import NavbarCollapseCart from "../NavbarCollapseCart/NavbarCollapseCart";
-import { CartState, HeaderMenu } from "@/shared/types/types";
+import { HeaderMenu } from "@/shared/types/types";
 import styles from "./NavbarCollapse.module.scss";
+import { CartState } from "@/entities/Cart";
 
 interface NavbarCollapseProps {
   headerMenu?: HeaderMenu;

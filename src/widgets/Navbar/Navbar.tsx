@@ -3,18 +3,15 @@
 import clsx from "clsx";
 import { JSX, useCallback, useEffect, useRef, useState } from "react";
 import { useHeaderMenuQuery, useDropDownMenuQuery } from "@/entities/Menu";
-import NavbarCenter from "../../shared/ui/partials/Navbar/NavbarCenter/NavbarCenter";
-import NavbarLogin from "../../shared/ui/partials/Navbar/NavbarLogin/NavbarLogin";
-import NavbarTel from "../../shared/ui/partials/Navbar/NavbarTel/NavbarTel";
-import NavbarCollapse from "../../shared/ui/partials/Navbar/NavbarCollapse/NavbarCollapse";
-import NavbarCollapseDropdownMenu from "../../shared/ui/partials/Navbar/NavbarCollapseDropdownMenu/NavbarCollapseDropdownMenu";
+import { useIsDropdownMenuOpen } from "@/entities/NavBar";
+import { useCart } from "@/entities/Cart";
+import NavbarCenter from "@/shared/ui/partials/Navbar/NavbarCenter/NavbarCenter";
+import NavbarLogin from "@/shared/ui/partials/Navbar/NavbarLogin/NavbarLogin";
+import NavbarTel from "@/shared/ui/partials/Navbar/NavbarTel/NavbarTel";
+import NavbarCollapse from "@/shared/ui/partials/Navbar/NavbarCollapse/NavbarCollapse";
+import NavbarCollapseDropdownMenu from "@/shared/ui/partials/Navbar/NavbarCollapseDropdownMenu/NavbarCollapseDropdownMenu";
 import styles from "./Navbar.module.scss";
-import {
-  defaultCartState,
-  defaultDropDownMenu,
-  defaultHeaderMenu,
-  defaultSiteOptions,
-} from "@/shared/constants/constants";
+import { defaultDropDownMenu, defaultHeaderMenu, defaultSiteOptions } from "@/shared/constants/constants";
 import { SiteOptions } from "@/shared/types/types";
 
 interface NavbarProps {
@@ -27,10 +24,11 @@ export const Navbar = (props: NavbarProps): JSX.Element => {
   const { data: dropDownMenuData } = useDropDownMenuQuery();
 
   const headerMenu = headerMenuData?.data?.menuItem || defaultHeaderMenu;
-  const dropDownMenu = dropDownMenuData?.data?.menuItem || defaultDropDownMenu;
+  const dropDownMenu1 = dropDownMenuData?.data?.menuItem || defaultDropDownMenu.menuItem;
+  const dropDownMenu2 = dropDownMenuData?.data?.menuListItem || defaultDropDownMenu.menuListItem;
 
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
-  const [navBarCollapseDropdownMenuOpen, setNavBarCollapseDropdownMenuOpen] = useState(false);
+  const navBarCollapseDropdownMenuOpen = useIsDropdownMenuOpen();
 
   const navBarTop = useRef<HTMLDivElement | null>(null);
 
@@ -78,12 +76,13 @@ export const Navbar = (props: NavbarProps): JSX.Element => {
         <NavbarCenter {...siteOptions} />
         <NavbarLogin />
       </div>
-      <NavbarCollapse headerMenu={headerMenu} cart={defaultCartState} />
+      <NavbarCollapse headerMenu={headerMenu} cart={useCart()} />
       <NavbarCollapseDropdownMenu
-        navbarCollapsed={navbarCollapsed}
         dropDownMenuOpen={navBarCollapseDropdownMenuOpen}
+        navbarCollapsed={navbarCollapsed}
         siteOptions={siteOptions}
-        dropDownMenu={dropDownMenu}
+        dropDownMenu1={dropDownMenu1}
+        dropDownMenu2={dropDownMenu2}
       />
     </div>
   );

@@ -3,7 +3,7 @@ import { JSX, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import NavBarDropdownCart from "../NavbarDropdownCart/NavbarDropdownCart";
-import { CartState } from "@/shared/types/types";
+import { CartState } from "@/entities/Cart";
 import styles from "./NavbarCollapseCart.module.scss";
 
 interface NavbarCollapseCartProps {

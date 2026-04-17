@@ -2,8 +2,8 @@ import { HeaderMenu, FooterMenu, DropDownMenu } from "@/shared/types/types";
 
 export interface HeaderMenuResponseType {
   data: {
-    createdAt: string;
     id: number;
+    createdAt: string;
     menuItem: HeaderMenu;
     publishedAt: string;
     updatedAt: string;
@@ -13,8 +13,8 @@ export interface HeaderMenuResponseType {
 
 export interface FooterMenuResponseType {
   data: {
-    createdAt: string;
     id: number;
+    createdAt: string;
     menuItem: FooterMenu;
     publishedAt: string;
     updatedAt: string;
@@ -24,11 +24,12 @@ export interface FooterMenuResponseType {
 
 export interface DropdownMenuResponseType {
   data: {
-    createdAt: string;
     id: number;
-    menuItem: DropDownMenu;
+    createdAt: string;
     publishedAt: string;
     updatedAt: string;
+    menuItem: DropDownMenu;
+    menuListItem: DropDownMenu;
   };
   meta: object;
 }

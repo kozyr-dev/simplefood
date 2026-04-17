@@ -1,9 +1,4 @@
-import { DropDownMenu, HeaderMenu, FooterMenu, SiteOptions } from "../types/types";
-
-export const defaultCartState = {
-  items: [],
-  totalAmount: 0,
-};
+import { HeaderMenu, FooterMenu, SiteOptions } from "../types/types";
 
 export const defaultSiteOptions: SiteOptions = {
   data: {
@@ -118,7 +113,7 @@ export const defaultFooterMenu: FooterMenu = [
   },
 ];
 
-export const defaultDropDownMenu: DropDownMenu = {
+export const defaultDropDownMenu = {
   menuItem: [
     {
       id: 17,

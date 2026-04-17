@@ -3,7 +3,7 @@ import { JSX } from "react";
 import Button from "@/shared/ui/base/Button/Button";
 import ShopCartItem from "../../elements/ShopCartItem/ShopCartItem";
 import styles from "./ShopCart.module.scss";
-import { CartItem, CartState } from "@/shared/types/types";
+import { CartItem, CartState } from "@/entities/Cart";
 
 interface ShopCartProps {
   cart: CartState;

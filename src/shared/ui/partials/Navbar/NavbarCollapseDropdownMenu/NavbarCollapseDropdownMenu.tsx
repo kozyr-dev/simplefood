@@ -9,17 +9,21 @@ interface NavbarCollapseDropdownMenuProps {
   dropDownMenuOpen: boolean;
   navbarCollapsed: boolean;
   siteOptions?: SiteOptions;
-  dropDownMenu?: DropDownMenu;
+  dropDownMenu1?: DropDownMenu;
+  dropDownMenu2?: DropDownMenu;
 }
 
 export default function NavbarCollapseDropdownMenu({
   dropDownMenuOpen,
   navbarCollapsed,
   siteOptions,
-  dropDownMenu,
+  dropDownMenu1,
+  dropDownMenu2,
 }: NavbarCollapseDropdownMenuProps): JSX.Element {
   return (
-    <div className={clsx([styles.menus], { open: dropDownMenuOpen, shrink: navbarCollapsed })}>
+    <div
+      className={clsx([styles["menus"]], { [styles["open"]]: dropDownMenuOpen, [styles["shrink"]]: navbarCollapsed })}
+    >
       <div className={styles["menus__wrap"]}>
         <div className={styles["menus__main"]}>
           <div className={clsx(styles["menus__group"], styles["menus__group--top"])}>
@@ -31,9 +35,9 @@ export default function NavbarCollapseDropdownMenu({
           </div>
           <hr />
           <div className={clsx(styles["menus__group"], styles["menus__group--main"])}>
-            {dropDownMenu?.menuItem && (
+            {dropDownMenu1 && (
               <ul className={styles["menu-list"]}>
-                {dropDownMenu.menuItem.map((item) => (
+                {dropDownMenu1.map((item) => (
                   <li className={clsx(styles["menu-list__item"], styles[item.Classname || ""])} key={item.id}>
                     <Link href={item.Link}>{item.Title}</Link>
                   </li>
@@ -43,11 +47,14 @@ export default function NavbarCollapseDropdownMenu({
           </div>
           <hr />
           <div className={clsx(styles["menus__group"], styles["menus__group--bottom"])}>
-            {dropDownMenu?.menuListItem && (
+            {dropDownMenu2 && (
               <ul className={styles["menu-list"]}>
-                {dropDownMenu.menuListItem.map((item) => (
+                {dropDownMenu2.map((item) => (
                   <li
-                    className={clsx(styles["menu-list__item"], styles["menu_img"], styles[item.Classname || ""])}
+                    className={clsx(
+                      styles["menu-list__item"],
+                      ...(item.Classname || "").split(" ").map((cls) => styles[cls]),
+                    )}
                     key={item.id}
                   >
                     <Link href={item.Link}>{item.Title}</Link>

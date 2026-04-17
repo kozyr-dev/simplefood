@@ -31,19 +31,11 @@ export type FooterMenu = {
 }[];
 
 export type DropDownMenu = {
-  menuItem: {
-    id: number;
-    Title: string;
-    Link: string;
-    Classname?: string | null;
-  }[];
-  menuListItem: {
-    id: number;
-    Title: string;
-    Link: string;
-    Classname?: string | null;
-  }[];
-};
+  id: number;
+  Title: string;
+  Link: string;
+  Classname?: string | null;
+}[];
 
 export type ImageProps = {
   url: string;
@@ -75,19 +67,6 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
-
-export type CartItem = {
-  id: number;
-  title: string;
-  image: ImageProps;
-  price: number;
-  amount: number;
-};
-
-export interface CartState {
-  items: Array<CartItem>;
-  totalAmount: number;
-}
 
 export type Order = {
   address: string;
