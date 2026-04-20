@@ -1,1 +1,1 @@
-export { useProductsQuery } from "./model/hooks";
+export { usePageDataQuery, usePageDynamicDataQuery } from "./model/hooks";
