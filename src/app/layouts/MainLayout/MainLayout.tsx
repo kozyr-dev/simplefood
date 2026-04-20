@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import styles from "./MainLayout.module.scss";
 import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { optionsQuery } from "@/entities/Options/model/queries";
+import { optionsQuery } from "@/entities/Options";
 import FooterWidget from "@/widgets/FooterWidget";
 import HeaderWidget from "@/widgets/HeaderWidget";
 
