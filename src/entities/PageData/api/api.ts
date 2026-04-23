@@ -39,6 +39,11 @@ export const singleTypePageSectionsPopulate = {
           images: true,
         },
       },
+      "sections.video-block": {
+        populate: {
+          placeholder_image: true,
+        },
+      },
     },
   },
 };
