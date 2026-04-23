@@ -3,21 +3,12 @@ import { JSX } from "react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import Button from "@/shared/ui/base/Button/Button";
-import { ImageProps, ButtonProps } from "@/shared/types/types";
+
 import styles from "./ImageBanner.module.scss";
+import { ImageBannerProps } from "../model/types";
 
-export interface ImageBannerProps {
-  title: string;
-  text: string;
-  bgColor: string;
-  image: ImageProps;
-  button: ButtonProps;
-}
-
-export default function ImageBanner(props: ImageBannerProps): JSX.Element {
+export function ImageBanner(props: ImageBannerProps): JSX.Element {
   const { title, text, image, bgColor, button } = props;
-
-  console.log("Image:", process.env.API_URL + image.url);
 
   return (
     <div

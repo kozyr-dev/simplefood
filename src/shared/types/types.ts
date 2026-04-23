@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 // globally used types
 export type SiteOptions = {
   data: {
@@ -59,6 +61,12 @@ export type ButtonProps = {
   url: string;
   text: string;
 };
+export interface Button {
+  url?: string | undefined;
+  children: JSX.Element | string;
+  className?: string;
+  onClick?: (e: React.MouseEvent) => void;
+}
 
 export type User = {
   id: number;

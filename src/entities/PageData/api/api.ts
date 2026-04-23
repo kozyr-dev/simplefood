@@ -15,6 +15,14 @@ export const singleTypePageSectionsPopulate = {
           },
         },
       },
+      "sections.benefits": {
+        populate: {
+          Benefit: {
+            populate: { icon: true },
+          },
+          button: true,
+        },
+      },
     },
   },
 };

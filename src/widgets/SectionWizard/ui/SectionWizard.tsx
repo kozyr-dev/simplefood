@@ -1,9 +1,10 @@
 "use client";
 
 import { useSingleTypePageSectionsQuery } from "@/entities/PageData";
-import ImageBanner from "@/shared/ui/sections/ImageBanner/ImageBanner";
+import { ImageBanner } from "@/widgets/ImageBanner";
 import { ProductsRawData } from "@/widgets/ProductList/model/types";
 import { ProductList } from "@/widgets/ProductList";
+import { BenefitsList } from "@/widgets/BenefitsList";
 
 interface SectionWizardProps {
   pageSlug: string;
@@ -46,11 +47,11 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.benefits") {
-          //   return (
-          //     <SectionBenefits articles={section.Benefit} title={section.title} button={section.button} key={index} />
-          //   );
-          // }
+          if (sectionId === "sections.benefits") {
+            return (
+              <BenefitsList articles={section.Benefit} title={section.title} button={section.button} key={index} />
+            );
+          }
 
           // if (sectionId === "sections.promo-block") {
           //   return (
