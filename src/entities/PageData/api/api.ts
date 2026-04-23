@@ -26,6 +26,14 @@ export const singleTypePageSectionsPopulate = {
       "sections.promo-block": {
         populate: { icon: true, image: true, button: true },
       },
+      "sections.articles": {
+        populate: {
+          article: {
+            populate: { icon: true },
+          },
+          button: true,
+        },
+      },
     },
   },
 };

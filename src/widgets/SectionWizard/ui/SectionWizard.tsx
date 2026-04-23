@@ -6,6 +6,7 @@ import { ProductsRawData } from "@/widgets/ProductList/model/types";
 import { ProductList } from "@/widgets/ProductList";
 import { BenefitsList } from "@/widgets/BenefitsList";
 import PromoBlock from "@/shared/ui/blocks/PromoBlock/PromoBlock";
+import { ArticlesList } from "@/widgets/ArticlesList";
 
 interface SectionWizardProps {
   pageSlug: string;
@@ -68,18 +69,18 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.articles") {
-          //   return (
-          //     <SectionArticles
-          //       articles={section.article}
-          //       title={section.title}
-          //       button={section.button}
-          //       id={section.custom_ID}
-          //       class={section.custom_Class}
-          //       key={index}
-          //     />
-          //   );
-          // }
+          if (sectionId === "sections.articles") {
+            return (
+              <ArticlesList
+                articles={section.article}
+                title={section.title}
+                button={section.button}
+                id={section.custom_ID}
+                class={section.custom_Class}
+                key={index}
+              />
+            );
+          }
 
           // if (sectionId === "sections.image-gallery") {
           //   return <SectionGallery images={section.images.data} title={section.Title} key={index} />;
