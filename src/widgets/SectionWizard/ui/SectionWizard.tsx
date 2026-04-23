@@ -5,6 +5,7 @@ import { ImageBanner } from "@/widgets/ImageBanner";
 import { ProductsRawData } from "@/widgets/ProductList/model/types";
 import { ProductList } from "@/widgets/ProductList";
 import { BenefitsList } from "@/widgets/BenefitsList";
+import PromoBlock from "@/shared/ui/blocks/PromoBlock/PromoBlock";
 
 interface SectionWizardProps {
   pageSlug: string;
@@ -53,19 +54,19 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.promo-block") {
-          //   return (
-          //     <SectionPromo
-          //       title={section.title}
-          //       text={section.text}
-          //       button={section.button}
-          //       icon={section.icon.data}
-          //       image={section.image.data}
-          //       invert={section.invert_layout}
-          //       key={index}
-          //     />
-          //   );
-          // }
+          if (sectionId === "sections.promo-block") {
+            return (
+              <PromoBlock
+                title={section.title}
+                text={section.text}
+                button={section.button}
+                icon={section.icon}
+                image={section.image}
+                invert={section.invert_layout}
+                key={index}
+              />
+            );
+          }
 
           // if (sectionId === "sections.articles") {
           //   return (

@@ -23,6 +23,9 @@ export const singleTypePageSectionsPopulate = {
           button: true,
         },
       },
+      "sections.promo-block": {
+        populate: { icon: true, image: true, button: true },
+      },
     },
   },
 };
