@@ -18,7 +18,7 @@ export function getStrapiURL(path = "") {
  * @param {Object} options Options passed to fetch
  * @returns Parsed API call response
  */
-export async function fetchAPI(path: string, urlParamsObject: Record<string, string> = {}, options: RequestInit = {}) {
+export async function fetchAPI(path: string, urlParamsObject: Record<string, unknown> = {}, options: RequestInit = {}) {
   // Merge default and user options
   const mergedOptions = {
     headers: {

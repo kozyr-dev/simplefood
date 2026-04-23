@@ -55,6 +55,11 @@ export type ImageProps = {
   alternativeText: string;
 };
 
+export type ButtonProps = {
+  url: string;
+  text: string;
+};
+
 export type User = {
   id: number;
   username: string;

@@ -1,36 +1,47 @@
 import qs from "qs";
 import { fetchAPI } from "@/shared/utils/helpers/api";
-import { PageData } from "../types/types";
+import { PageData, SingleTypePageSectionsData } from "../types/types";
 
-export const pageDataApi = {
-  getSingleTypePageSections: (slug: string): Promise<PageData> =>
-    fetchAPI("/" + slug, {
-      "populate[Body][populate]": "*",
-    }),
-  getSingleTypePageSection: (slug: string, section_slug: string): Promise<PageData> =>
-    fetchAPI("/" + slug, {
-      populate: qs.stringify(
-        {
-          Body: {
-            on: {
-              [section_slug]: {
-                populate: "*",
-              },
-            },
+export const singleTypePageSectionsPopulate = {
+  Body: {
+    on: {
+      "sections.image-banner": {
+        populate: { image: true, button: true },
+      },
+      "sections.products": {
+        populate: {
+          products: {
+            populate: { image: true },
           },
         },
-        {
-          encodeValuesOnly: true,
-        },
-      ),
-    }),
-  get: (slug: string): Promise<PageData> =>
+      },
+    },
+  },
+};
+
+export const singleTypePageSectionPopulate = (section_slug: string) => ({
+  Body: {
+    on: {
+      [section_slug]: {
+        populate: "*",
+      },
+    },
+  },
+});
+
+export const pageDataApi = {
+  getSingleTypePageSections: (
+    slug: string,
+    populate: Record<string, unknown> = singleTypePageSectionsPopulate,
+  ): Promise<SingleTypePageSectionsData> => fetchAPI("/" + slug, { populate }),
+  getSingleTypePageSection: (
+    slug: string,
+    section_slug: string,
+    populate: Record<string, unknown> = singleTypePageSectionPopulate(section_slug),
+  ): Promise<PageData> =>
     fetchAPI("/" + slug, {
-      populate: "*",
-    }),
-  getDynamic: (slug: string): Promise<PageData> =>
-    fetchAPI("/pages", {
-      filters: qs.stringify({ slug: slug }, { encodeValuesOnly: true }),
-      populate: "*",
+      populate: qs.stringify(populate, {
+        encodeValuesOnly: true,
+      }),
     }),
 };

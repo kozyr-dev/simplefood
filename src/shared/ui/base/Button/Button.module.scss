@@ -32,3 +32,54 @@
     color: #46ba3c;
   }
 }
+
+.button--green {
+  border-color: #46ba3c;
+  background-color: #46ba3c;
+  color: #fff;
+
+  &:hover {
+    background-color: #34a52a;
+    border-color: #34a52a;
+    color: #fff;
+  }
+}
+
+.button--white {
+  border-color: #fff;
+  color: #fff;
+
+  &:hover {
+    border-color: #fff;
+    background-color: #fff;
+    color: #46ba3c;
+  }
+}
+
+.button--icon {
+  padding: 10px 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    margin-left: 10px;
+    width: 20px;
+    fill: #fff;
+    height: 20px;
+  }
+}
+
+.button--small {
+  font-size: 16px;
+  padding: 10px 15px;
+  min-width: 180px;
+}
+
+.button--plain {
+  border-radius: 0;
+}

@@ -1,8 +1,8 @@
 import { fetchAPI } from "@/shared/utils/helpers/api";
-import { ProductsType } from "../types/types";
+import { ProductsResponseType } from "../model/types";
 
 export const productsApi = {
-  get: (): Promise<ProductsType> =>
+  get: (): Promise<ProductsResponseType> =>
     fetchAPI("/products", {
       populate: "*",
     }),

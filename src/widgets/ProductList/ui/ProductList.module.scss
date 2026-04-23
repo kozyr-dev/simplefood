@@ -1,0 +1,18 @@
+.section-products {
+  background-color: #fafafa;
+
+  .products-slider {
+    margin: -15px;
+    margin-bottom: 50px;
+  }
+
+  .products-grid {
+    margin: -15px;
+    display: flex;
+    flex-wrap: wrap;
+
+    &__el {
+      width: 25%;
+    }
+  }
+}

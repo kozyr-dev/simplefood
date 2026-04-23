@@ -1,0 +1,127 @@
+.shop-cart {
+  table {
+    th {
+      font-size: 14px;
+      color: #8b8b8b;
+      padding: 10px 0;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .table-header {
+      display: table-row;
+    }
+    .quantity input[type="text"] {
+      color: #333;
+    }
+    .mini_price {
+      color: #ea5b21;
+    }
+    .mini_name_prod {
+      color: #333;
+    }
+    tr {
+      border-top: 1px solid #3b3b3b;
+    }
+    td {
+      padding-top: 10px;
+    }
+    .quantity .q_up1,
+    .quantity .q_down1 {
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      line-height: 28px;
+    }
+    &.scrollable-y {
+      max-height: 100% !important;
+    }
+  }
+  // .mini_cart_checkout {
+  //   display: none;
+  // }
+  .mini_cart_text p {
+    color: #333;
+  }
+  .mini_cart_text {
+    width: 50%;
+  }
+  .mini_cart_allprice {
+    width: 50%;
+    padding: 0 15px;
+  }
+  .mini_cart_allprice p {
+    display: flex;
+    align-items: flex-end;
+    font-size: 20px;
+    color: #333;
+
+    br {
+      display: none;
+    }
+    span {
+      font-size: 30px;
+      margin-left: 15px;
+    }
+  }
+  .table td {
+    border-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  // .table-header {
+  //   display: none;
+  // }
+}
+#scrolltable {
+  max-height: 305px;
+  display: block;
+  overflow-y: auto;
+}
+
+.divider {
+  margin: 10px 0;
+  border-top-color: #3b3b3b;
+  border-style: solid;
+}
+.mini_cart_summary {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+.mini_cart_text {
+  width: 66.66%;
+  padding: 0 15px;
+  p {
+    font-size: 12px;
+    margin-bottom: 0;
+    text-shadow: 0 0 0 #2a2a2a;
+    color: #bfbfbf !important;
+    font-family: "OpenSans";
+  }
+}
+.mini_cart_allprice {
+  width: 33.33%;
+  padding: 0 15px;
+  p span {
+    font-size: 26px;
+  }
+  .orange {
+    color: #ea5b21;
+  }
+}
+.mini_cart_allprice p {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0;
+  line-height: 1.2;
+  color: #bfbfbf !important;
+  font-family: "OpenSans";
+}
+.mini_cart_checkout {
+  width: 100%;
+  padding: 0 15px;
+  margin-top: 20px;
+}

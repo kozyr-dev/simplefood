@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { JSX } from "react";
 import styles from "./NavbarDropdownCart.module.scss";
-import ShopCart from "@/shared/ui/blocks/ShopCart/ShopCart";
+import ShopCart from "@/widgets/ShopCart/ShopCart";
 import { CartState } from "@/entities/Cart";
 
 interface NavbarDropdownCartProps {

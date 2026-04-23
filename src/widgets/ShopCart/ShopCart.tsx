@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import { JSX } from "react";
-import Button from "@/shared/ui/base/Button/Button";
-import ShopCartItem from "../../elements/ShopCartItem/ShopCartItem";
-import styles from "./ShopCart.module.scss";
 import { CartItem, CartState } from "@/entities/Cart";
+import { useAddItemToCart, useDeleteItemFromCart, useRemoveItemFromCart } from "@/entities/Cart";
+import ShopCartItem from "@/shared/ui/elements/ShopCartItem/ShopCartItem";
+import Button from "@/shared/ui/base/Button/Button";
+import styles from "./ShopCart.module.scss";
 
 interface ShopCartProps {
   cart: CartState;
@@ -12,47 +13,52 @@ interface ShopCartProps {
 export default function ShopCart({ cart }: ShopCartProps): JSX.Element {
   const totalAmount = cart.totalAmount.toFixed(0);
   const hasItems = cart.items.length > 0;
+  const addItemToCart = useAddItemToCart();
+  const deleteItemFromCart = useDeleteItemFromCart();
+  const removeItemFromCart = useRemoveItemFromCart();
 
   const cartItemRemoveHandler = (id: number): void => {
-    console.log("remove item with id:", id);
+    removeItemFromCart(id);
   };
 
   const cartDeleteItemHandler = (id: number): void => {
-    console.log("delete item with id:", id);
+    deleteItemFromCart(id);
   };
 
   const cartItemAddHandler = (item: CartItem): void => {
-    console.log("add item:", item);
+    addItemToCart(item);
   };
 
   return (
     <div className={styles["shop-cart"]}>
       <div>
-        <table id="scrolltable" className={clsx("table", "scrollable-y")}>
-          <tbody>
-            <tr className={styles["table-header"]}>
-              <th className={clsx("cart_prod", "text-left")} colSpan={2}>
-                найменування
-              </th>
-              <th></th>
-              <th className={clsx("text-center")}>ціна</th>
-              <th></th>
-            </tr>
-            {cart.items.map((item) => (
-              <ShopCartItem
-                key={item.id}
-                id={item.id}
-                amount={item.amount}
-                title={item.title}
-                image={item.image}
-                price={item.price}
-                onRemove={cartItemRemoveHandler.bind(null, item.id)}
-                onDelete={cartDeleteItemHandler.bind(null, item.id)}
-                onAdd={cartItemAddHandler.bind(null, item)}
-              />
-            ))}
-          </tbody>
-        </table>
+        {hasItems && (
+          <table id={styles["scrolltable"]} className={clsx(styles["table"], "scrollable-y")}>
+            <tbody>
+              <tr className={styles["table-header"]}>
+                <th className={clsx("cart_prod", "text-left")} colSpan={2}>
+                  найменування
+                </th>
+                <th></th>
+                <th className={clsx("text-center")}>ціна</th>
+                <th></th>
+              </tr>
+              {cart.items.map((item) => (
+                <ShopCartItem
+                  key={item.id}
+                  id={item.id}
+                  amount={item.amount}
+                  title={item.title}
+                  image={item.image}
+                  price={item.price}
+                  onRemove={cartItemRemoveHandler.bind(null, item.id)}
+                  onDelete={cartDeleteItemHandler.bind(null, item.id)}
+                  onAdd={cartItemAddHandler.bind(null, item)}
+                />
+              ))}
+            </tbody>
+          </table>
+        )}
         <hr className={styles["divider"]} />
         <div className={styles["mini_cart_summary"]}>
           <div className={styles["mini_cart_text"]}>
@@ -69,7 +75,7 @@ export default function ShopCart({ cart }: ShopCartProps): JSX.Element {
           </div>
           <div className={styles["mini_cart_checkout"]}>
             {hasItems && (
-              <Button url="/checkout" className={styles["button--green"]}>
+              <Button url="/checkout" className="button--green button--icon">
                 <>
                   Оформити замовлення
                   <svg

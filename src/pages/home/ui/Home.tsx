@@ -1,6 +1,7 @@
 import { JSX } from "react";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { singleTypePageSectionsQuery } from "@/entities/PageData";
+import { SectionWizard } from "@/widgets/SectionWizard";
 
 export async function Home(): Promise<JSX.Element> {
   const queryClient = new QueryClient();
@@ -9,7 +10,7 @@ export async function Home(): Promise<JSX.Element> {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div>This is homepage</div>
+      <SectionWizard pageSlug="homepage" />
     </HydrationBoundary>
   );
 }

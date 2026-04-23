@@ -1,4 +1,113 @@
 .cart-product-info {
+  &:last-child {
+    border-bottom: 0;
+  }
+  td.mini-cart-prod {
+    padding-left: 20px !important;
+    max-width: 285px !important;
+    padding-right: 10px !important;
+  }
+  .remove {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+  }
+  img {
+    margin: 0;
+    display: inline-block;
+  }
+  .mini_price {
+    font-size: 16px;
+    color: #fff;
+    font-weight: 700;
+    font-family: "OpenSans", sans-serif;
+  }
+  .mini_cart_img {
+    width: 60px;
+  }
+  .mini_name_prod {
+    font-size: 14px;
+    font-family: "OpenSans", sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0 0 0 #2a2a2a;
+    min-width: 261px;
+    max-width: 261px;
+    color: #bfbfbf;
+  }
+  .quantity {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  .quantity .plus,
+  .quantity .minus,
+  .quantity .chick {
+    display: inline-block;
+    align-self: center;
+  }
+  .cart a {
+    display: block;
+    padding: 7px;
+    border-radius: 10px;
+    box-shadow: inset 2px 4px 3px 0px rgb(0 0 0 / 20%);
+    border-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .quantity .q_up1,
+  .quantity .q_down1 {
+    border: 1px solid #555555;
+    border-radius: 7px;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .quantity .q_up1,
+  .quantity .q_down1 {
+    color: #46ba3c;
+    &:hover {
+      color: #ea5b21;
+    }
+  }
+  .quantity input[type="text"] {
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 0;
+    font-size: 16px;
+    font-family: "GeometriaBold", sans-serif;
+    text-align: center;
+    width: 30px;
+    box-shadow: none;
+    text-indent: 0;
+    padding: 0;
+    background-color: transparent;
+    color: #fff;
+    cursor: default;
+  }
+  .quantity .input-quantity1 {
+    border-bottom-color: transparent !important;
+    width: 30px !important;
+    color: #fff !important;
+  }
+  .remove .remove-product {
+    svg {
+      margin: 0;
+      display: inline-block;
+      text-align: center;
+      fill: #8b8b8b;
+      width: 18px;
+      height: 18px;
+    }
+    &:hover {
+      svg {
+        fill: #ea5b21;
+      }
+    }
+  }
+
   .quantity {
     .minus,
     .plus {

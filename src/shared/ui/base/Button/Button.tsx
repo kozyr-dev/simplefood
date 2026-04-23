@@ -14,11 +14,16 @@ export default function Button(props: ButtonProps): JSX.Element {
   return (
     <div className={styles["button-wrapper"]} onClick={props.onClick}>
       {props.url ? (
-        <Link href={props.url} className={clsx(styles["button"], styles[props.className || ""])}>
+        <Link
+          href={props.url}
+          className={clsx(styles["button"], ...(props.className || "").split(" ").map((cls) => styles[cls]))}
+        >
           {props.children}
         </Link>
       ) : (
-        <a className={clsx(styles["button"], styles[props.className || ""])}>{props.children}</a>
+        <a className={clsx(styles["button"], ...(props.className || "").split(" ").map((cls) => styles[cls]))}>
+          {props.children}
+        </a>
       )}
     </div>
   );
