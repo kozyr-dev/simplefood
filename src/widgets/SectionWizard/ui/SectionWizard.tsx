@@ -7,6 +7,7 @@ import { ProductList } from "@/widgets/ProductList";
 import { BenefitsList } from "@/widgets/BenefitsList";
 import PromoBlock from "@/shared/ui/blocks/PromoBlock/PromoBlock";
 import { ArticlesList } from "@/widgets/ArticlesList";
+import ImageGallery from "@/shared/ui/blocks/ImageGallery/ImageGallery";
 
 interface SectionWizardProps {
   pageSlug: string;
@@ -82,9 +83,9 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.image-gallery") {
-          //   return <SectionGallery images={section.images.data} title={section.Title} key={index} />;
-          // }
+          if (sectionId === "sections.image-gallery") {
+            return <ImageGallery images={section.images} title={section.Title} key={index} />;
+          }
 
           // if (sectionId === "sections.video-block") {
           //   return (
@@ -92,7 +93,7 @@ export function SectionWizard(props: SectionWizardProps) {
           //       title={section.title}
           //       description={section.description}
           //       videoUrl={section.embed_video_url}
-          //       image={section.placeholder_image.data}
+          //       image={section.placeholder_image}
           //       key={index}
           //     />
           //   );

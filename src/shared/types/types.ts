@@ -40,6 +40,7 @@ export type DropDownMenu = {
 }[];
 
 export type ImageProps = {
+  id: string;
   url: string;
   width: number;
   height: number;

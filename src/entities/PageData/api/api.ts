@@ -34,6 +34,11 @@ export const singleTypePageSectionsPopulate = {
           button: true,
         },
       },
+      "sections.image-gallery": {
+        populate: {
+          images: true,
+        },
+      },
     },
   },
 };
