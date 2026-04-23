@@ -1,0 +1,31 @@
+.news-slider {
+  margin: 0 -15px;
+  margin-bottom: 50px;
+}
+.news-slider__slide {
+  padding: 15px;
+}
+
+.news-list {
+  &__el {
+    margin-bottom: 40px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .blog-post {
+      box-shadow: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      &__image {
+        width: 45%;
+      }
+      &__description {
+        width: 51%;
+        .read-more {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}

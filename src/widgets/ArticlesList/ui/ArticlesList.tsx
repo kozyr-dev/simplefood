@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import ReactMarkdown from "react-markdown";
 import Button from "@/shared/ui/base/Button/Button";
-import ArticlePost from "@/shared/ui/blocks/ArticlePost/ArticlePost";
+import ArticlePost from "@/shared/ui/elements/ArticlePost/ArticlePost";
 import { ArticlesListProps } from "../model/types";
 import styles from "./ArticlesList.module.scss";
 

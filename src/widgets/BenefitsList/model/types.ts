@@ -1,5 +1,5 @@
 import { ButtonProps } from "@/shared/types/types";
-import { BenefitPostProps as Article } from "@/shared/ui/blocks/BenefitPost/BenefitPost";
+import { BenefitPostProps as Article } from "@/shared/ui/elements/BenefitPost/BenefitPost";
 
 export interface BenefitsListProps {
   title: string;

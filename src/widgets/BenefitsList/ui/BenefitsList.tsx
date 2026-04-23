@@ -1,7 +1,7 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import Button from "@/shared/ui/base/Button/Button";
-import BenefitPost from "@/shared/ui/blocks/BenefitPost/BenefitPost";
+import BenefitPost from "@/shared/ui/elements/BenefitPost/BenefitPost";
 import { BenefitsListProps } from "../model/types";
 import styles from "./BenefitsList.module.scss";
 
@@ -17,7 +17,7 @@ export function BenefitsList(props: BenefitsListProps) {
               </div>
             )}
             <div className={`flex flex-row ${styles["articles-grid"]} space-x-6`}>
-              {props.articles.map((article) => (
+              {props.articles?.map((article) => (
                 <div className="basis-full md:basis-1/2 lg:basis-1/3" key={article.id}>
                   <BenefitPost {...article} />
                 </div>

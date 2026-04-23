@@ -1,0 +1,29 @@
+.blog-post {
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+
+  .blog-post__image {
+    position: relative;
+  }
+  .blog-post__description {
+    background-color: #fff;
+    padding: 25px;
+    h6 {
+      color: #46ba3c;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .excerpt {
+      line-height: 20px;
+      font-size: 14px;
+      font-family: "OpenSans", sans-serif;
+    }
+    .read-more {
+      margin-top: 7px;
+      color: #ea5b21;
+      display: inline-block;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

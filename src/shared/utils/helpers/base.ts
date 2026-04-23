@@ -107,8 +107,8 @@ export const helpers = {
     return today.getFullYear();
   },
 
-  truncate(str: string, no_words: number) {
-    return str.split(" ").splice(0, no_words).join(" ");
+  truncate(str: string | undefined | null, no_words: number) {
+    return str?.split(" ").splice(0, no_words).join(" ") ?? "";
   },
 };
 

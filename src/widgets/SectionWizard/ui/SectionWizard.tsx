@@ -2,13 +2,14 @@
 
 import { useSingleTypePageSectionsQuery } from "@/entities/PageData";
 import { ImageBanner } from "@/widgets/ImageBanner";
-import { ProductsRawData } from "@/widgets/ProductList/model/types";
 import { ProductList } from "@/widgets/ProductList";
 import { BenefitsList } from "@/widgets/BenefitsList";
 import PromoBlock from "@/shared/ui/blocks/PromoBlock/PromoBlock";
 import { ArticlesList } from "@/widgets/ArticlesList";
 import ImageGallery from "@/shared/ui/blocks/ImageGallery/ImageGallery";
 import { VideoWidget } from "@/widgets/VideoWidget";
+import { NewsWidget } from "@/widgets/NewsWidget";
+import { ProductsRawData } from "@/widgets/ProductList";
 
 interface SectionWizardProps {
   pageSlug: string;
@@ -53,7 +54,7 @@ export function SectionWizard(props: SectionWizardProps) {
 
           if (sectionId === "sections.benefits") {
             return (
-              <BenefitsList articles={section.Benefit} title={section.title} button={section.button} key={index} />
+              <BenefitsList title={section.title} articles={section.Benefit} button={section.button} key={index} />
             );
           }
 
@@ -100,9 +101,16 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.news-section") {
-          //   return <SectionNews rawData={section} blogData={rawBlog} key={index} />;
-          // }
+          if (sectionId === "sections.news-section") {
+            return (
+              <NewsWidget
+                title={section.title}
+                layout={section.layout}
+                blog_category={section.blog_category}
+                key={index}
+              />
+            );
+          }
 
           // if (sectionId === "sections.content") {
           //   return (

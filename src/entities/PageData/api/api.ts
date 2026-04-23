@@ -44,6 +44,9 @@ export const singleTypePageSectionsPopulate = {
           placeholder_image: true,
         },
       },
+      "sections.news-section": {
+        populate: "*",
+      },
     },
   },
 };

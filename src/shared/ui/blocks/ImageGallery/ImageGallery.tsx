@@ -14,8 +14,6 @@ export interface ImageGalleryProps {
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = (props) => {
-  console.log("ImageGallery props:", props);
-
   return (
     <section className="page-section section-padding section-gallery">
       <div className="w-full">

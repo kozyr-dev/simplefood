@@ -1,0 +1,116 @@
+.pagination {
+  margin: 50px 0 0 0;
+  text-align: center;
+  ul {
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+  }
+  li {
+    display: inline-block;
+    list-style: none;
+    margin: 5px;
+    vertical-align: middle;
+    a {
+      display: block;
+      border: 1px solid #ececec;
+      border-radius: 3px;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      font-weight: 400;
+      font-size: 18px;
+      color: #000;
+      text-decoration: none !important;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      &:hover {
+        color: #fff;
+        background-color: #8b8b8b;
+      }
+    }
+  }
+  li.page--current {
+    a {
+      background-color: #46ba3c;
+      border-color: #46ba3c;
+      color: #fff;
+      cursor: default;
+      box-shadow: 0px 4px 24px rgba(70, 186, 60, 0.4);
+    }
+  }
+  li.prev,
+  li.next {
+    a {
+      color: #fff;
+      box-shadow: 0px 4px 24px rgba(26, 26, 26, 0.4);
+      background: #272727;
+      border-color: #272727;
+      &:hover {
+        background-color: #46ba3c;
+        border-color: #46ba3c;
+        box-shadow: 0px 4px 24px rgba(70, 186, 60, 0.4);
+      }
+    }
+    &.disabled a {
+      //pointer-events: none;
+      cursor: not-allowed;
+      color: #fff;
+      box-shadow: 0px 4px 24px rgba(26, 26, 26, 0.4);
+      background: #272727;
+      border-color: #272727;
+    }
+  }
+  li.prev {
+    margin-right: 30px;
+  }
+  li.next {
+    margin-left: 30px;
+  }
+}
+@media (max-width: 767px) {
+  .pagination li a {
+    display: block;
+    width: 30px;
+    height: 35px;
+    font-size: 16px;
+    line-height: 33px;
+  }
+  .pagination li {
+    margin: 3px;
+  }
+  .pagination li.next {
+    margin-left: 20px;
+  }
+  .pagination li.prev {
+    margin-right: 20px;
+  }
+}
+@media (max-width: 575px) {
+  .pagination li {
+    margin: 2px;
+  }
+  .pagination li.next {
+    margin-left: 10px;
+  }
+  .pagination li.prev {
+    margin-right: 10px;
+  }
+  .pagination li.next a,
+  .pagination li.prev a {
+    box-shadow: 0 3px 15px rgb(26 26 26 / 40%);
+  }
+  .pagination li.next a:hover,
+  .pagination li.prev a:hover,
+  .pagination li.page--current a {
+    box-shadow: 0 3px 15px rgb(207 32 46 / 40%);
+  }
+}
+@media (max-width: 480px) {
+  .pagination {
+    margin: 35px 0 0 0;
+  }
+}
