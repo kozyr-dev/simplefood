@@ -15,7 +15,7 @@ export interface FooterMenuResponseType {
   data: {
     id: number;
     createdAt: string;
-    menuItem: FooterMenu;
+    footerMenu: FooterMenu;
     publishedAt: string;
     updatedAt: string;
   };
