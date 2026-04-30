@@ -12,20 +12,5 @@
     &:last-child {
       margin-bottom: 0;
     }
-    .blog-post {
-      box-shadow: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: stretch;
-      &__image {
-        width: 45%;
-      }
-      &__description {
-        width: 51%;
-        .read-more {
-          margin-top: 10px;
-        }
-      }
-    }
   }
 }

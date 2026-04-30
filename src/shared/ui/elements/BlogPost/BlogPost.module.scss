@@ -1,6 +1,21 @@
 .blog-post {
   box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
 
+  &--list {
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    .blog-post__image {
+      width: 45%;
+    }
+    .blog-post__description {
+      width: 51%;
+      .read-more {
+        margin-top: 10px;
+      }
+    }
+  }
   .blog-post__image {
     position: relative;
   }

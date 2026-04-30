@@ -12,13 +12,14 @@ export interface BlogPostProps {
   Title: string;
   Text: string;
   Image: ImageProps;
+  layout?: "list" | "slider";
 }
 
 const BlogPost: React.FC<BlogPostProps> = (props) => {
   const postExcerpt = `${helpers.truncate(props.Text, 45)} ...`;
 
   return (
-    <div className={styles["blog-post"]}>
+    <div className={`${styles["blog-post"]} ${styles[`blog-post--${props.layout || "slider"}`]}`}>
       {props.Image && (
         <div className={styles["blog-post__image"]}>
           <Image
@@ -30,11 +31,11 @@ const BlogPost: React.FC<BlogPostProps> = (props) => {
         </div>
       )}
       <div className={styles["blog-post__description"]}>
-        <h6 className={styles["blog-post__title"]}>{props.Title}</h6>
-        <div className={styles["blog-post__excerpt"]}>
+        <h6 className={styles["title"]}>{props.Title}</h6>
+        <div className={styles["excerpt"]}>
           <ReactMarkdown>{postExcerpt}</ReactMarkdown>
         </div>
-        <Link href={`/news/${props.slug}`} className={styles["blog-post__read-more"]}>
+        <Link href={`/news/${props.slug}`} className={styles["read-more"]}>
           читати далі
         </Link>
       </div>

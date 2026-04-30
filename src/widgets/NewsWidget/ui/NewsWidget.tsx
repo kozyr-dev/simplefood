@@ -44,7 +44,7 @@ export function NewsWidget(props: NewsWidgetProps): JSX.Element {
                 <div className={styles["news-list"]}>
                   {blogData?.data?.map((post) => (
                     <div key={post.id} className={styles["news-list__el"]}>
-                      <BlogPost {...post} />
+                      <BlogPost {...post} layout="list" />
                     </div>
                   ))}
                 </div>
@@ -63,7 +63,7 @@ export function NewsWidget(props: NewsWidgetProps): JSX.Element {
               >
                 {blogData?.data?.map((post) => (
                   <SplideSlide key={post.id} className={styles["news-slider__slide"]}>
-                    <BlogPost {...post} />
+                    <BlogPost {...post} layout="slider" />
                   </SplideSlide>
                 ))}
               </Splide>
