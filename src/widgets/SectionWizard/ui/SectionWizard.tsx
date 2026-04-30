@@ -1,6 +1,6 @@
 "use client";
 
-import { useSingleTypePageSectionsQuery, useDynamicTypePageSectionsQuery } from "@/entities/PageData";
+import { notFound } from "next/navigation";
 import { ImageBanner } from "@/widgets/ImageBanner";
 import { ProductList } from "@/widgets/ProductList";
 import { BenefitsList } from "@/widgets/BenefitsList";
@@ -8,6 +8,7 @@ import { ArticlesList } from "@/widgets/ArticlesList";
 import { VideoWidget } from "@/widgets/VideoWidget";
 import { NewsWidget } from "@/widgets/NewsWidget";
 import { ProductsRawData } from "@/widgets/ProductList";
+import { useSingleTypePageSectionsQuery, useDynamicTypePageSectionsQuery } from "@/entities/PageData";
 import { Product } from "@/entities/Product";
 import { useProductsQuery } from "@/entities/Product";
 import ImageGallery from "@/shared/ui/blocks/ImageGallery/ImageGallery";
@@ -25,13 +26,11 @@ export function SectionWizard(props: SectionWizardProps) {
 
   const { data: rawProducts } = useProductsQuery();
 
-  const data = props.isPageDynamic ? dynamicTypePageData : singleTypePageData;
+  const pageSections = props.isPageDynamic ? dynamicTypePageData?.data[0]?.body : singleTypePageData?.data?.Body;
 
-  if (!data) {
-    return "Could not load sections";
+  if (!pageSections || (Array.isArray(pageSections) && pageSections.length === 0)) {
+    return notFound();
   }
-
-  const pageSections = props.isPageDynamic ? dynamicTypePageData?.data[0].body : singleTypePageData?.data.Body;
 
   return (
     <>

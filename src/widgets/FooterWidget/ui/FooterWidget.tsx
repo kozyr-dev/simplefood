@@ -11,9 +11,6 @@ export function FooterWidget(): JSX.Element {
   const { data: options } = useOptionsQuery();
   const { data: footerMenuData } = useFooterMenuQuery();
 
-  console.log("FooterWidget options:", options);
-  console.log("FooterWidget footerMenuData:", footerMenuData);
-
   const siteOptions = options || defaultSiteOptions;
   const footerMenu = footerMenuData?.data?.footerMenu || defaultFooterMenu;
 
