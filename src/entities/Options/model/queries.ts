@@ -1,4 +1,4 @@
-import globalOptionsApi from "../api/api";
+import { globalOptionsApi } from "../api/api";
 
 export const optionsQuery = () => ({
   queryKey: ["options"],

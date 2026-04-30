@@ -16,11 +16,7 @@ import { useBlogDataByCategoryQuery } from "@/entities/BlogData";
 export function NewsWidget(props: NewsWidgetProps): JSX.Element {
   const { title, layout, blog_category } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: blogData, isLoading, isError } = useBlogDataByCategoryQuery(blog_category.Name, currentPage);
-
-  useEffect(() => {
-    console.log("Blog Data:", blogData);
-  }, [blogData]);
+  const { data: blogData, isLoading } = useBlogDataByCategoryQuery(blog_category.Name, currentPage);
 
   const handlePageChange = (page: number) => {
     if (page && page === currentPage) return;

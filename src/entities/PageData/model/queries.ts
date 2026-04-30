@@ -1,11 +1,13 @@
 import { pageDataApi } from "../api/api";
 
-export const singleTypePageSectionsQuery = (slug: string) => ({
+export const singleTypePageSectionsQuery = (slug: string, enabled: boolean) => ({
   queryKey: ["singleTypePageSections", slug],
   queryFn: () => pageDataApi.getSingleTypePageSections(slug),
+  enabled,
 });
 
-export const singleTypePageSectionQuery = (slug: string, section_slug: string) => ({
-  queryKey: ["singleTypePageSection", slug, section_slug],
-  queryFn: () => pageDataApi.getSingleTypePageSection(slug, section_slug),
+export const dynamicTypePageSectionsQuery = (slug: string, enabled: boolean) => ({
+  queryKey: ["dynamicTypePageSection", slug],
+  queryFn: () => pageDataApi.getDynamicTypePageSections(slug),
+  enabled,
 });

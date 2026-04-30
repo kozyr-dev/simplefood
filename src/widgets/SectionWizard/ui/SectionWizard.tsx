@@ -1,32 +1,42 @@
 "use client";
 
-import { useSingleTypePageSectionsQuery } from "@/entities/PageData";
+import { useSingleTypePageSectionsQuery, useDynamicTypePageSectionsQuery } from "@/entities/PageData";
 import { ImageBanner } from "@/widgets/ImageBanner";
 import { ProductList } from "@/widgets/ProductList";
 import { BenefitsList } from "@/widgets/BenefitsList";
-import PromoBlock from "@/shared/ui/blocks/PromoBlock/PromoBlock";
 import { ArticlesList } from "@/widgets/ArticlesList";
-import ImageGallery from "@/shared/ui/blocks/ImageGallery/ImageGallery";
 import { VideoWidget } from "@/widgets/VideoWidget";
 import { NewsWidget } from "@/widgets/NewsWidget";
 import { ProductsRawData } from "@/widgets/ProductList";
+import { Product } from "@/entities/Product";
+import { useProductsQuery } from "@/entities/Product";
+import ImageGallery from "@/shared/ui/blocks/ImageGallery/ImageGallery";
+import PromoBlock from "@/shared/ui/blocks/PromoBlock/PromoBlock";
+import ContentBlock from "@/shared/ui/blocks/ContentBlock/ContentBlock";
 
 interface SectionWizardProps {
   pageSlug: string;
+  isPageDynamic: boolean;
 }
 
 export function SectionWizard(props: SectionWizardProps) {
-  const { data } = useSingleTypePageSectionsQuery(props.pageSlug);
+  const { data: dynamicTypePageData } = useDynamicTypePageSectionsQuery(props.pageSlug, props.isPageDynamic);
+  const { data: singleTypePageData } = useSingleTypePageSectionsQuery(props.pageSlug, !props.isPageDynamic);
+
+  const { data: rawProducts } = useProductsQuery();
+
+  const data = props.isPageDynamic ? dynamicTypePageData : singleTypePageData;
+
   if (!data) {
     return "Could not load sections";
   }
 
-  console.log("SectionWizard data:", data);
+  const pageSections = props.isPageDynamic ? dynamicTypePageData?.data[0].body : singleTypePageData?.data.Body;
 
   return (
     <>
-      {data.data.Body &&
-        data.data.Body.map((section, index) => {
+      {pageSections &&
+        pageSections.map((section, index) => {
           const sectionId = section.__component;
 
           if (sectionId === "sections.image-banner") {
@@ -45,8 +55,8 @@ export function SectionWizard(props: SectionWizardProps) {
           if (sectionId === "sections.products") {
             return (
               <ProductList
-                rawData={section as ProductsRawData & (typeof data.data.Body)[number]}
-                rawProducts={section.products}
+                rawData={section as ProductsRawData & (typeof pageSections)[number]}
+                rawProducts={rawProducts?.data as unknown as Product[]}
                 key={index}
               />
             );
@@ -112,17 +122,17 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.content") {
-          //   return (
-          //     <SectionContent
-          //       title={section.title}
-          //       content={section.content}
-          //       embed_code={section.embed_code}
-          //       button={section.button}
-          //       key={index}
-          //     />
-          //   );
-          // }
+          if (sectionId === "sections.content") {
+            return (
+              <ContentBlock
+                title={section.title}
+                content={section.content}
+                embed_code={section.embed_code}
+                button={section.button}
+                key={index}
+              />
+            );
+          }
 
           // if (sectionId === "sections.contact") {
           //   return (

@@ -31,7 +31,7 @@ export function ProductList(props: ProductListProps): JSX.Element {
     } else if (source === "Category" && product_category) {
       //TODO: fix product_category type and remove ts-ignore
       // @ts-ignore
-      data = product_category.data.attributes.products.data;
+      data = product_category.products;
     } else if (source === "Featured") {
       data = rawProducts.filter((product) => {
         return product.featured === true;

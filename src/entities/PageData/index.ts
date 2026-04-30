@@ -1,13 +1,3 @@
-export {
-  usePageDataQuery,
-  usePageDynamicDataQuery,
-  useSingleTypePageSectionsQuery,
-  useSingleTypePageSectionQuery,
-} from "./model/hooks";
-
-export {
-  singleTypePageSectionsQuery,
-  singleTypePageSectionQuery,
-  pageDynamicDataQuery,
-  pageDataQuery,
-} from "./model/queries";
+export { useSingleTypePageSectionsQuery, useDynamicTypePageSectionsQuery } from "./model/hooks";
+export { singleTypePageSectionsQuery, dynamicTypePageSectionsQuery } from "./model/queries";
+export { pageDataApi } from "./api/api";

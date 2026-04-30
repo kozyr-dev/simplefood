@@ -10,12 +10,15 @@ export type SiteOptions = {
     phone: string;
     address: string;
     SiteName: string;
-    SEO: {
-      seo_title: string;
-      seo_description: string;
-    };
+    SEO: SEO;
   };
   meta: object;
+};
+
+export type SEO = {
+  seo_title: string;
+  seo_description: string;
+  shareImage?: string;
 };
 
 export type HeaderMenu = {

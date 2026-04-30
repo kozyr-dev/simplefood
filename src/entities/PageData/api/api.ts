@@ -1,79 +1,14 @@
-import qs from "qs";
 import { fetchAPI } from "@/shared/utils/helpers/api";
-import { PageData, SingleTypePageSectionsData } from "../types/types";
-
-export const singleTypePageSectionsPopulate = {
-  Body: {
-    on: {
-      "sections.image-banner": {
-        populate: { image: true, button: true },
-      },
-      "sections.products": {
-        populate: {
-          products: {
-            populate: { image: true },
-          },
-        },
-      },
-      "sections.benefits": {
-        populate: {
-          Benefit: {
-            populate: { icon: true },
-          },
-          button: true,
-        },
-      },
-      "sections.promo-block": {
-        populate: { icon: true, image: true, button: true },
-      },
-      "sections.articles": {
-        populate: {
-          article: {
-            populate: { icon: true },
-          },
-          button: true,
-        },
-      },
-      "sections.image-gallery": {
-        populate: {
-          images: true,
-        },
-      },
-      "sections.video-block": {
-        populate: {
-          placeholder_image: true,
-        },
-      },
-      "sections.news-section": {
-        populate: "*",
-      },
-    },
-  },
-};
-
-export const singleTypePageSectionPopulate = (section_slug: string) => ({
-  Body: {
-    on: {
-      [section_slug]: {
-        populate: "*",
-      },
-    },
-  },
-});
+import { DynamicTypePageSectionsData, SingleTypePageSectionsData } from "../types/types";
 
 export const pageDataApi = {
-  getSingleTypePageSections: (
-    slug: string,
-    populate: Record<string, unknown> = singleTypePageSectionsPopulate,
-  ): Promise<SingleTypePageSectionsData> => fetchAPI("/" + slug, { populate }),
-  getSingleTypePageSection: (
-    slug: string,
-    section_slug: string,
-    populate: Record<string, unknown> = singleTypePageSectionPopulate(section_slug),
-  ): Promise<PageData> =>
-    fetchAPI("/" + slug, {
-      populate: qs.stringify(populate, {
-        encodeValuesOnly: true,
-      }),
+  getSingleTypePageSections: (slug: string): Promise<SingleTypePageSectionsData> =>
+    fetchAPI("/" + slug, { populate: "*" }),
+  getDynamicTypePageSections: (slug: string): Promise<DynamicTypePageSectionsData> =>
+    fetchAPI("/pages", {
+      filters: {
+        slug: slug,
+      },
+      populate: "*",
     }),
 };

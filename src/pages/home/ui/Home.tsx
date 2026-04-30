@@ -6,11 +6,11 @@ import { SectionWizard } from "@/widgets/SectionWizard";
 export async function Home(): Promise<JSX.Element> {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(singleTypePageSectionsQuery("homepage"));
+  await queryClient.prefetchQuery(singleTypePageSectionsQuery("homepage", true));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SectionWizard pageSlug="homepage" />
+      <SectionWizard pageSlug="homepage" isPageDynamic={false} />
     </HydrationBoundary>
   );
 }

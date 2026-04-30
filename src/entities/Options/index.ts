@@ -4,4 +4,5 @@ export { useGetSiteOptions, useSetSiteOptions, useClearSiteOptions } from "./mod
 export type { SiteOptionsStore } from "./model/context";
 export { optionsQuery } from "./model/queries";
 export { useOptionsQuery } from "./model/hooks";
-export type { SiteOptions, SiteOptionsState } from "./model/types";
+export type { SiteOptionsState } from "./model/types";
+export { globalOptionsApi } from "./api/api";
