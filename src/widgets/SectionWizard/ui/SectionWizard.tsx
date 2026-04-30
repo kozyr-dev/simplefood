@@ -8,6 +8,7 @@ import { ArticlesList } from "@/widgets/ArticlesList";
 import { VideoWidget } from "@/widgets/VideoWidget";
 import { NewsWidget } from "@/widgets/NewsWidget";
 import { ProductsRawData } from "@/widgets/ProductList";
+import { ContactUs } from "@/widgets/ContactUs";
 import { useSingleTypePageSectionsQuery, useDynamicTypePageSectionsQuery } from "@/entities/PageData";
 import { Product } from "@/entities/Product";
 import { useProductsQuery } from "@/entities/Product";
@@ -133,18 +134,18 @@ export function SectionWizard(props: SectionWizardProps) {
             );
           }
 
-          // if (sectionId === "sections.contact") {
-          //   return (
-          //     <SectionContact
-          //       title={section.title}
-          //       content={section.content}
-          //       content2={section.content2}
-          //       form={{ title: section.form_title, enable: section.form }}
-          //       embed_code={section.map_embed_code}
-          //       key={index}
-          //     />
-          //   );
-          // }
+          if (sectionId === "sections.contact") {
+            return (
+              <ContactUs
+                title={section.title}
+                content={section.content}
+                content2={section.content2}
+                form={{ title: section.form_title, enable: section.form }}
+                embed_code={section.map_embed_code}
+                key={index}
+              />
+            );
+          }
         })}
     </>
   );

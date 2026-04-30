@@ -6,3 +6,7 @@ export function getStrapiMedia(media: any): string {
   const imageUrl = url.startsWith("/") ? getStrapiURL(url) : url;
   return imageUrl;
 }
+
+export function prefixContentImages(html: string): string {
+  return html.replace(/src="(\/uploads\/[^"]+)"/g, (_, path) => `src="${getStrapiURL(path)}"`);
+}
