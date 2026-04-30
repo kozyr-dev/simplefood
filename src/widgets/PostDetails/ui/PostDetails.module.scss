@@ -1,0 +1,15 @@
+.single-post {
+  &__text {
+    color: #2a2a2a;
+  }
+
+  &__image {
+    margin-bottom: 20px;
+  }
+
+  hr {
+    margin: 20px 0;
+    border-top: 1px solid #000;
+    max-width: 250px;
+  }
+}
