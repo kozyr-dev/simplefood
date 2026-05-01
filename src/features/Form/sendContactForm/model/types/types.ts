@@ -4,8 +4,9 @@ export interface ContactUsFormValues {
   email: string;
 }
 
-export interface ContactFormAPIResponse {
-  data: {
+export interface ContactFormServerResponse {
+  status: number;
+  data?: {
     id: number;
     documentId: string;
     name: string;
@@ -15,5 +16,6 @@ export interface ContactFormAPIResponse {
     updatedAt: string;
     publishedAt: string;
   };
-  meta: object;
+  meta?: object;
+  error?: string;
 }

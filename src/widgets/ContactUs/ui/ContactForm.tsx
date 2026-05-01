@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import classNames from "classnames/bind";
 import { MyTextInput, MyTextArea } from "./FormInputs";
 import Image from "next/image";
-import { UseSendContactForm, ContactFormAPIResponse } from "@/features/Form/sendContactForm";
+import { UseSendContactForm, ContactFormServerResponse } from "@/features/Form/sendContactForm";
 
 export function ContactForm(): React.JSX.Element {
   const [formStatus, setFormStatus] = useState<null | number>(null);
@@ -31,19 +31,10 @@ export function ContactForm(): React.JSX.Element {
       onSubmit={async (values, { setSubmitting }): Promise<void> => {
         setFormProcessing(true);
 
-        try {
-          const result: ContactFormAPIResponse = await sendContactForm(values);
-          console.log("Contact form submitted successfully:", result);
-          setFormStatus(200);
-          return;
-        } catch (error) {
-          console.error("Error sending contact form:", error);
-          setFormStatus(400);
-          return;
-        } finally {
-          setFormProcessing(false);
-          setSubmitting(false);
-        }
+        const result: ContactFormServerResponse = await sendContactForm(values);
+        setFormStatus(result.status);
+        setFormProcessing(false);
+        setSubmitting(false);
       }}
     >
       <Form className="form form--contact">
