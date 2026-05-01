@@ -4,11 +4,12 @@ import * as Yup from "yup";
 import classNames from "classnames/bind";
 import { MyTextInput, MyTextArea } from "./FormInputs";
 import Image from "next/image";
-//import contactForm from "../../api/contactForm";
+import { UseSendContactForm, ContactFormAPIResponse } from "@/features/Form/sendContactForm";
 
 export function ContactForm(): React.JSX.Element {
   const [formStatus, setFormStatus] = useState<null | number>(null);
   const [formProcessing, setFormProcessing] = useState(false);
+  const sendContactForm = UseSendContactForm();
 
   // @ts-ignore
   const submitBtnClass = classNames({
@@ -30,13 +31,19 @@ export function ContactForm(): React.JSX.Element {
       onSubmit={async (values, { setSubmitting }): Promise<void> => {
         setFormProcessing(true);
 
-        //const result = await contactForm.send(values);
-
-        // @ts-ignore
-        setFormStatus(result.status);
-        setFormProcessing(false);
-
-        setSubmitting(false);
+        try {
+          const result: ContactFormAPIResponse = await sendContactForm(values);
+          console.log("Contact form submitted successfully:", result);
+          setFormStatus(200);
+          return;
+        } catch (error) {
+          console.error("Error sending contact form:", error);
+          setFormStatus(400);
+          return;
+        } finally {
+          setFormProcessing(false);
+          setSubmitting(false);
+        }
       }}
     >
       <Form className="form form--contact">
