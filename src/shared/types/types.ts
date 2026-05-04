@@ -72,19 +72,6 @@ export interface Button {
   onClick?: (e: React.MouseEvent) => void;
 }
 
-export type User = {
-  id: number;
-  username: string;
-  phone: string | null;
-  email: string;
-  address: string | null;
-  confirmed: boolean;
-  blocked: boolean;
-  provider: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
 export type Order = {
   address: string;
   name: string;
@@ -93,7 +80,7 @@ export type Order = {
   dishes: string;
   amount: number;
   comments: string;
-  user: User;
+  //user: User;
 };
 
 export interface ContactUsFormValues {

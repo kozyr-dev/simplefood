@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames/bind";
-import { MyTextInput, MyTextArea } from "./FormInputs";
+import { MyTextInput, MyTextArea } from "@/shared/ui/forms/FormInputs";
 import Image from "next/image";
 import { UseSendContactForm, ContactFormServerResponse } from "@/features/Form/sendContactForm";
 
