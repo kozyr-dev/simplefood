@@ -5,16 +5,18 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames/bind";
 import MicroModal from "micromodal";
-import { MyTextInput } from "@/shared/ui/forms/FormInputs";
 import Image from "next/image";
 import { useSignIn } from "@/features/Auth";
+import { useSetUser } from "@/entities/User/model/selectors";
 import Portal from "@/shared/ui/Portal/Portal";
+import { MyTextInput } from "@/shared/ui/forms/FormInputs";
 import ModalResetPassword from "@/shared/ui/modals/ModalResetPassword/ModalResetPassword";
 import styles from "./SignIn.module.scss";
 
 export function SignIn(): React.JSX.Element {
   const [formProcessing, setFormProcessing] = useState(false);
   const signIn = useSignIn();
+  const setUser = useSetUser();
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -36,7 +38,7 @@ export function SignIn(): React.JSX.Element {
 
   const openLostPasswordPopup = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
-    MicroModal.show("resetPasswordModal");
+    MicroModal.show("forgotPasswordModal");
   };
 
   return (
@@ -53,8 +55,9 @@ export function SignIn(): React.JSX.Element {
         })}
         onSubmit={async (values, { setSubmitting }): Promise<void> => {
           try {
-            await signIn({ identifier: values.username, password: values.password });
-            //console.log('User profile', JSON.stringify(result));
+            const user = await signIn({ identifier: values.username, password: values.password });
+            //console.log('User profile', JSON.stringify(user));
+            setUser(user);
           } catch (error) {
             if (typeof window !== "undefined") {
               console.log("An error occurred:", error);
@@ -62,7 +65,6 @@ export function SignIn(): React.JSX.Element {
           }
 
           setFormProcessing(false);
-
           setSubmitting(false);
         }}
       >
@@ -78,11 +80,11 @@ export function SignIn(): React.JSX.Element {
           <div className="form-group">
             <MyTextInput name="password" type="password" placeholder="Пароль" className="form-control" />
           </div>
-          <p className="lost-password">
+          {/* <p className="lost-password">
             <a href="" onClick={openLostPasswordPopup}>
               Забули ваш пароль?
             </a>
-          </p>
+          </p> */}
           <div className={styles["form-submit"]}>
             <button type="submit" className={"form-submit-btn " + submitBtnClass} disabled={formProcessing}>
               {((): string => (formProcessing ? "Обробка..." : "Увійти"))()}

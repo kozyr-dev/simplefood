@@ -4,16 +4,17 @@ import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import classNames from "classnames/bind";
-import { MyTextInput } from "@/shared/ui/forms/FormInputs";
 import Image from "next/image";
 import { useSignUp } from "@/features/Auth";
+import { useSetUser } from "@/entities/User";
+import { MyTextInput } from "@/shared/ui/forms/FormInputs";
 import styles from "./SignUp.module.scss";
 
 export function SignUp(): React.JSX.Element {
   const [formProcessing, setFormProcessing] = useState(false);
 
   const signUp = useSignUp();
-
+  const setUser = useSetUser();
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const submitBtnClass = classNames({
@@ -39,14 +40,15 @@ export function SignUp(): React.JSX.Element {
         })}
         onSubmit={async (values, { setSubmitting }): Promise<void> => {
           try {
-            const response = await signUp({
+            const user = await signUp({
               username: values.name,
               email: values.email,
               phone: values.phone,
               password: values.password,
             });
             if (typeof window !== "undefined") {
-              console.log("User profile", JSON.stringify(response));
+              //console.log("User profile", JSON.stringify(user));
+              setUser(user);
             }
           } catch (error) {
             if (typeof window !== "undefined") {
@@ -55,7 +57,6 @@ export function SignUp(): React.JSX.Element {
           }
 
           setFormProcessing(false);
-
           setSubmitting(false);
         }}
       >

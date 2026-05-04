@@ -1,7 +1,6 @@
 "use client";
 
 import { JSX } from "react";
-import { redirect } from "next/navigation";
 import { SignIn } from "@/widgets/SignIn";
 import { SignUp } from "@/widgets/SignUp";
 import { UserInfo } from "@/widgets/UserInfo";
@@ -18,7 +17,6 @@ export function Account(): JSX.Element {
     e.preventDefault();
     resetToken();
     resetUser();
-    //redirect("/");
   };
 
   return (

@@ -1,19 +1,11 @@
-.profile-info {
-  .make-editable-btn {
-    margin-top: 20px;
+.user-details-table {
+  margin-bottom: 20px;
+
+  td:first-child {
+    font-weight: 700;
+    width: 300px;
   }
-
-  .user-details-table {
-    width: 100%;
-    margin: 0 -10px;
-
-    td:first-child {
-      font-weight: 700;
-      width: 300px;
-    }
-
-    td {
-      padding: 10px;
-    }
+  td {
+    padding: 5px;
   }
 }

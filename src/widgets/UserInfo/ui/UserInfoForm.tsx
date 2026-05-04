@@ -5,17 +5,20 @@ import "yup-phone";
 import classNames from "classnames/bind";
 import Image from "next/image";
 import { useToken } from "@/features/Auth";
-import { User } from "@/entities/User";
+import { User, useSetUser } from "@/entities/User";
 import { useUpdateLoggedInUserInfo } from "@/features/Auth";
 import { MyTextInput } from "@/shared/ui/forms/FormInputs";
+import styles from "./UserInfoForm.module.scss";
 
 interface UserInfoFormProps {
   user: User;
+  onUpdated: () => void;
 }
 
 export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
   const jwt = useToken() || "";
   const updateLoggedInUserInfo = useUpdateLoggedInUserInfo();
+  const setUser = useSetUser();
 
   const [formProcessing, setFormProcessing] = useState(false);
 
@@ -47,7 +50,9 @@ export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
       })}
       onSubmit={async (values, { setSubmitting }): Promise<void> => {
         try {
-          await updateLoggedInUserInfo({ userId: props.user.id, token: jwt, data: values });
+          const user = await updateLoggedInUserInfo({ userId: props.user.id, token: jwt, data: values });
+          setUser(user);
+          props.onUpdated();
         } catch (error) {
           if (typeof window !== "undefined") {
             console.log("An error occurred:", error);
@@ -59,7 +64,7 @@ export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
       }}
     >
       <Form className="form login-form">
-        <table className="user-details-table">
+        <table className={styles["user-details-table"]}>
           <tbody>
             <tr>
               <td>

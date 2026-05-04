@@ -17,7 +17,7 @@ export function UserInfo(user: User): JSX.Element {
       <h4>Інформація</h4>
 
       {editable ? (
-        <UserInfoForm user={user} />
+        <UserInfoForm user={user} onUpdated={() => setEditable(false)} />
       ) : (
         <>
           <table className={styles["user-details-table"]}>

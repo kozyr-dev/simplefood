@@ -9,7 +9,7 @@ type User = {
 };
 
 interface NavbarLoginProps {
-  user?: User;
+  user?: User | null;
 }
 
 export default function NavbarLogin(props: NavbarLoginProps): JSX.Element {

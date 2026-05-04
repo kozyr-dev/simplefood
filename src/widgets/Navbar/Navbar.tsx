@@ -5,14 +5,15 @@ import { JSX, useCallback, useEffect, useRef, useState } from "react";
 import { useHeaderMenuQuery, useDropDownMenuQuery } from "@/entities/Menu";
 import { useIsDropdownMenuOpen } from "@/entities/NavBar";
 import { useCart } from "@/entities/Cart";
+import { useUser } from "@/entities/User";
 import NavbarCenter from "@/shared/ui/partials/Navbar/NavbarCenter/NavbarCenter";
 import NavbarLogin from "@/shared/ui/partials/Navbar/NavbarLogin/NavbarLogin";
 import NavbarTel from "@/shared/ui/partials/Navbar/NavbarTel/NavbarTel";
 import NavbarCollapse from "@/shared/ui/partials/Navbar/NavbarCollapse/NavbarCollapse";
 import NavbarCollapseDropdownMenu from "@/shared/ui/partials/Navbar/NavbarCollapseDropdownMenu/NavbarCollapseDropdownMenu";
-import styles from "./Navbar.module.scss";
 import { defaultDropDownMenu, defaultHeaderMenu, defaultSiteOptions } from "@/shared/constants/constants";
 import { SiteOptions } from "@/shared/types/types";
+import styles from "./Navbar.module.scss";
 
 interface NavbarProps {
   siteOptions?: SiteOptions;
@@ -22,6 +23,7 @@ export const Navbar = (props: NavbarProps): JSX.Element => {
   const { siteOptions = defaultSiteOptions } = props;
   const { data: headerMenuData } = useHeaderMenuQuery();
   const { data: dropDownMenuData } = useDropDownMenuQuery();
+  const user = useUser();
 
   const headerMenu = headerMenuData?.data?.menuItem || defaultHeaderMenu;
   const dropDownMenu1 = dropDownMenuData?.data?.menuItem || defaultDropDownMenu.menuItem;
@@ -74,7 +76,7 @@ export const Navbar = (props: NavbarProps): JSX.Element => {
       <div className={clsx(styles["navbar_top"])} ref={navBarTop}>
         <NavbarTel {...siteOptions} />
         <NavbarCenter {...siteOptions} />
-        <NavbarLogin />
+        <NavbarLogin user={user} />
       </div>
       <NavbarCollapse headerMenu={headerMenu} cart={useCart()} />
       <NavbarCollapseDropdownMenu
