@@ -1,6 +1,7 @@
 export {
   useSignUp,
   useSignIn,
+  useSignOut,
   useFetchLoggedInUserInfo,
   useUpdateLoggedInUserInfo,
   useResetPassword,

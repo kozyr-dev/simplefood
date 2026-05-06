@@ -5,17 +5,17 @@ import { SignIn } from "@/widgets/SignIn";
 import { SignUp } from "@/widgets/SignUp";
 import { UserInfo } from "@/widgets/UserInfo";
 import { useUser, useResetUser } from "@/entities/User";
-import { useResetToken } from "@/features/Auth";
+import { useSignOut } from "@/features/Auth";
 import styles from "./Account.module.scss";
 
 export function Account(): JSX.Element {
   const user = useUser();
-  const resetToken = useResetToken();
+  const signOut = useSignOut();
   const resetUser = useResetUser();
 
-  const logoutHandler = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+  const logoutHandler = async (e: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
     e.preventDefault();
-    resetToken();
+    await signOut();
     resetUser();
   };
 

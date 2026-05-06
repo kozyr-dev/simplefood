@@ -7,7 +7,7 @@ export const useAuthStore = create(
     (set) => ({
       token: null,
       setToken: (token) => set({ token }),
-      resetedToken: () => set({ token: null }),
+      resetToken: () => set({ token: null }),
     }),
     {
       name: "token-storage",

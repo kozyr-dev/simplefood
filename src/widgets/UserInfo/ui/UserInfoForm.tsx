@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import "yup-phone";
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useToken } from "@/features/Auth";
 import { User, useSetUser } from "@/entities/User";
 import { useUpdateLoggedInUserInfo } from "@/features/Auth";
 import { MyTextInput } from "@/shared/ui/forms/FormInputs";
@@ -16,7 +15,6 @@ interface UserInfoFormProps {
 }
 
 export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
-  const jwt = useToken() || "";
   const updateLoggedInUserInfo = useUpdateLoggedInUserInfo();
   const setUser = useSetUser();
 
@@ -50,7 +48,7 @@ export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
       })}
       onSubmit={async (values, { setSubmitting }): Promise<void> => {
         try {
-          const user = await updateLoggedInUserInfo({ userId: props.user.id, token: jwt, data: values });
+          const user = await updateLoggedInUserInfo({ userId: props.user.id, data: values });
           setUser(user);
           props.onUpdated();
         } catch (error) {

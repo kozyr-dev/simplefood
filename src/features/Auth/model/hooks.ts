@@ -1,10 +1,10 @@
 import { User } from "@/entities/User";
-import { useSetToken } from "@/features/Auth";
+import { useSetToken, useResetToken } from "@/features/Auth";
 import authApi from "../api/api";
 
 export function useSignUp() {
   const setToken = useSetToken();
-  const signUp = async ({
+  return async ({
     username,
     email,
     phone,
@@ -19,8 +19,6 @@ export function useSignUp() {
     setToken(response.jwt);
     return response.user;
   };
-
-  return signUp;
 }
 
 export function useSignIn() {
@@ -32,42 +30,24 @@ export function useSignIn() {
   };
 }
 
-export function useFetchLoggedInUserInfo() {
-  const fetchLoggedInUserInfo = async (token: string): Promise<User> => {
-    return await authApi.fetchLoggedInUserInfo(token);
+export function useSignOut() {
+  const resetToken = useResetToken();
+  return async (): Promise<void> => {
+    await authApi.signOut();
+    resetToken();
   };
+}
 
-  return fetchLoggedInUserInfo;
+export function useFetchLoggedInUserInfo() {
+  return (): Promise<User> => authApi.fetchLoggedInUserInfo();
 }
 
 export function useUpdateLoggedInUserInfo() {
-  const updateLoggedInUserInfo = async ({
-    userId,
-    token,
-    data,
-  }: {
-    userId: number;
-    token: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: object | any;
-  }): Promise<User> => {
-    return await authApi.updateLoggedInUserInfo(userId, token, data);
-  };
-
-  return updateLoggedInUserInfo;
+  return ({ userId, data }: { userId: number; data: Record<string, unknown> }): Promise<User> =>
+    authApi.updateLoggedInUserInfo(userId, data);
 }
 
 export function useResetPassword() {
-  const resetPassword = async ({
-    password,
-    passwordConfirmation,
-  }: {
-    password: string;
-    passwordConfirmation: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }): Promise<object | any> => {
-    return await authApi.resetPassword(password, passwordConfirmation);
-  };
-
-  return resetPassword;
+  return ({ password, passwordConfirmation }: { password: string; passwordConfirmation: string }): Promise<object> =>
+    authApi.resetPassword(password, passwordConfirmation);
 }
