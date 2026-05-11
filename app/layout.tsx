@@ -100,9 +100,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <NavigationProgress />
         </Suspense>
-        <QueryProvider>
-          <MainLayout>{children}</MainLayout>
-        </QueryProvider>
+        <QueryProvider>{children}</QueryProvider>
         <div id="portal-root"></div>
       </body>
     </html>
