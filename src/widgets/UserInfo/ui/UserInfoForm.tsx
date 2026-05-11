@@ -7,6 +7,7 @@ import Image from "next/image";
 import { User, useSetUser } from "@/entities/User";
 import { useUpdateLoggedInUserInfo } from "@/features/Auth";
 import { MyTextInput } from "@/shared/ui/forms/FormInputs";
+import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import styles from "./UserInfoForm.module.scss";
 
 interface UserInfoFormProps {
@@ -17,6 +18,7 @@ interface UserInfoFormProps {
 export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
   const updateLoggedInUserInfo = useUpdateLoggedInUserInfo();
   const setUser = useSetUser();
+  const { openSnackbar } = useSnackbarHook();
 
   const [formProcessing, setFormProcessing] = useState(false);
 
@@ -54,6 +56,7 @@ export const UserInfoForm = (props: UserInfoFormProps): JSX.Element => {
         } catch (error) {
           if (typeof window !== "undefined") {
             console.log("An error occurred:", error);
+            openSnackbar("error", "Error updating user information.");
           }
         }
 

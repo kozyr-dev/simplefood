@@ -11,10 +11,12 @@ import { useSetUser } from "@/entities/User/model/selectors";
 import Portal from "@/shared/ui/Portal/Portal";
 import { MyTextInput } from "@/shared/ui/forms/FormInputs";
 import ModalResetPassword from "@/shared/ui/modals/ModalResetPassword/ModalResetPassword";
+import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import styles from "./SignIn.module.scss";
 
 export function SignIn(): React.JSX.Element {
   const [formProcessing, setFormProcessing] = useState(false);
+  const { openSnackbar } = useSnackbarHook();
   const signIn = useSignIn();
   const setUser = useSetUser();
 
@@ -61,6 +63,7 @@ export function SignIn(): React.JSX.Element {
           } catch (error) {
             if (typeof window !== "undefined") {
               console.log("An error occurred:", error);
+              openSnackbar("error", "Error signing in.");
             }
           }
 

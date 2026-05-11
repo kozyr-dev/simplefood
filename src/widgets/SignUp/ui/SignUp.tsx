@@ -8,10 +8,12 @@ import Image from "next/image";
 import { useSignUp } from "@/features/Auth";
 import { useSetUser } from "@/entities/User";
 import { MyTextInput } from "@/shared/ui/forms/FormInputs";
+import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import styles from "./SignUp.module.scss";
 
 export function SignUp(): React.JSX.Element {
   const [formProcessing, setFormProcessing] = useState(false);
+  const { openSnackbar } = useSnackbarHook();
 
   const signUp = useSignUp();
   const setUser = useSetUser();
@@ -53,6 +55,7 @@ export function SignUp(): React.JSX.Element {
           } catch (error) {
             if (typeof window !== "undefined") {
               console.log("An error occurred:", error);
+              openSnackbar("error", "Error signing up.");
             }
           }
 

@@ -6,17 +6,25 @@ import { SignUp } from "@/widgets/SignUp";
 import { UserInfo } from "@/widgets/UserInfo";
 import { useUser, useResetUser } from "@/entities/User";
 import { useSignOut } from "@/features/Auth";
+import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import styles from "./Account.module.scss";
 
 export function Account(): JSX.Element {
   const user = useUser();
+  const { openSnackbar } = useSnackbarHook();
   const signOut = useSignOut();
   const resetUser = useResetUser();
 
   const logoutHandler = async (e: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
     e.preventDefault();
-    await signOut();
-    resetUser();
+    try {
+      await signOut();
+    } catch (error) {
+      console.log("An error occurred:", error);
+      openSnackbar("error", "Error signing out.");
+    } finally {
+      resetUser();
+    }
   };
 
   return (

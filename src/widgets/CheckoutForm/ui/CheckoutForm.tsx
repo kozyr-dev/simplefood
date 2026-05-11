@@ -15,6 +15,7 @@ import { useSendOrder } from "@/features/Order/placeOrder";
 import { useResetCart } from "@/entities/Cart";
 import ShippingMethodForm from "./ShippingMethodForm";
 import { MyTextArea, MyTextInput } from "@/shared/ui/forms/FormInputs";
+import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import { ShippingMethod } from "../model/types";
 import styles from "./CheckoutForm.module.scss";
 
@@ -29,6 +30,7 @@ export function CheckoutForm(props: Props): React.JSX.Element {
 
   const user = useUser();
   const cartData = useCart();
+  const { openSnackbar } = useSnackbarHook();
   const { data: siteOptions } = useOptionsQuery();
   const resetCart = useResetCart();
   const sendOrder = useSendOrder();
@@ -87,6 +89,7 @@ export function CheckoutForm(props: Props): React.JSX.Element {
           } catch (error) {
             console.error("Error placing order:", error);
             props.onError();
+            openSnackbar("error", "Error placing order.");
           }
 
           setFormProcessing(false);

@@ -3,7 +3,7 @@ import Head from "next/head";
 import localFont from "next/font/local";
 import { Suspense } from "react";
 import { QueryProvider } from "@/app/QueryProvider";
-import MainLayout from "@/app/layouts/MainLayout/MainLayout";
+import NotificationProvider from "@/app/NotificationProvider";
 import { NavigationProgress } from "@/shared/ui/partials/NavigationProgress/NavigationProgress";
 import "@/shared/styles/globals.scss";
 
@@ -100,7 +100,9 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <NavigationProgress />
         </Suspense>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <NotificationProvider>{children}</NotificationProvider>
+        </QueryProvider>
         <div id="portal-root"></div>
       </body>
     </html>
