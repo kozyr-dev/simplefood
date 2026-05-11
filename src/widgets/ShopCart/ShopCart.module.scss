@@ -73,7 +73,18 @@
   // .table-header {
   //   display: none;
   // }
+  &.checkout {
+    display: block;
+
+    input[name="quantity"] {
+      color: #555;
+    }
+    .mini_cart_checkout {
+      display: none;
+    }
+  }
 }
+
 #scrolltable {
   max-height: 305px;
   display: block;

@@ -1,4 +1,9 @@
 .cart-product-info {
+  &.dark {
+    .mini_price {
+      color: #555;
+    }
+  }
   &:last-child {
     border-bottom: 0;
   }

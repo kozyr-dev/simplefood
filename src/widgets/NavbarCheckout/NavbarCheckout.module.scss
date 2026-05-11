@@ -1,0 +1,33 @@
+.navbar {
+  background-color: #212121;
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+
+  .navbar_top {
+    position: relative;
+    z-index: 60;
+    width: 100%;
+    padding: 2px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #46ba3c;
+    transition: margin-top 0.1s linear;
+    box-shadow: 0 4px 4px 1px rgba(53, 53, 53, 0.2);
+
+    .navbar-back-link {
+      display: inline-block;
+      font-size: 18px;
+      font-family: "Geometria", sans-serif;
+      font-weight: 700;
+      padding: 15px 0;
+      color: #fff !important;
+      text-decoration: none;
+
+      em {
+        margin-right: 15px;
+      }
+    }
+  }
+}

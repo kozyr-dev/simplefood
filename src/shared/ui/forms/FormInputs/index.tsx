@@ -8,6 +8,9 @@ export const MyTextInput = ({
   label?: string;
   name: string;
   type: string;
+  value?: string;
+  hidden?: boolean;
+  disabled?: boolean;
   placeholder: string;
   className?: string;
   id?: string;

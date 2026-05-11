@@ -8,9 +8,10 @@ import styles from "./ShopCart.module.scss";
 
 interface ShopCartProps {
   cart: CartState;
+  className?: string;
 }
 
-export default function ShopCart({ cart }: ShopCartProps): JSX.Element {
+export default function ShopCart({ cart, className }: ShopCartProps): JSX.Element {
   const totalAmount = cart.totalAmount.toFixed(0);
   const hasItems = cart.items.length > 0;
   const addItemToCart = useAddItemToCart();
@@ -30,7 +31,7 @@ export default function ShopCart({ cart }: ShopCartProps): JSX.Element {
   };
 
   return (
-    <div className={styles["shop-cart"]}>
+    <div className={clsx(styles["shop-cart"], styles[className || ""])}>
       <div>
         {hasItems && (
           <table id={styles["scrolltable"]} className={clsx(styles["table"], "scrollable-y")}>
@@ -54,6 +55,7 @@ export default function ShopCart({ cart }: ShopCartProps): JSX.Element {
                   onRemove={cartItemRemoveHandler.bind(null, item.id)}
                   onDelete={cartDeleteItemHandler.bind(null, item.id)}
                   onAdd={cartItemAddHandler.bind(null, item)}
+                  className="dark"
                 />
               ))}
             </tbody>

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Routes that require an authenticated session (refresh_token cookie present)
-const protectedRoutes = ["/orders", "/profile"];
+const protectedRoutes = ["/checkout"];
 
 export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;

@@ -14,11 +14,12 @@ interface ShopCartItemProps {
   onRemove: () => void;
   onDelete: () => void;
   onAdd: () => void;
+  className?: string;
 }
 
 export default function ShopCartItem(props: ShopCartItemProps): JSX.Element {
   return (
-    <tr className={styles["cart-product-info"]} data-product-id={props.id}>
+    <tr className={clsx(styles["cart-product-info"], styles[props.className || ""])} data-product-id={props.id}>
       <td className={clsx("text-left", styles["mini_cart_img"])}>
         <Image
           className="img-responsive"
