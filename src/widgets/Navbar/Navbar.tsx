@@ -2,8 +2,9 @@
 
 import clsx from "clsx";
 import { JSX, useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useHeaderMenuQuery, useDropDownMenuQuery } from "@/entities/Menu";
-import { useIsDropdownMenuOpen } from "@/entities/NavBar";
+import { useIsDropdownMenuOpen, useSetDropdownMenuOpen } from "@/entities/NavBar";
 import { useCart } from "@/entities/Cart";
 import { useUser } from "@/entities/User";
 import NavbarCenter from "@/shared/ui/partials/Navbar/NavbarCenter/NavbarCenter";
@@ -31,6 +32,12 @@ export const Navbar = (props: NavbarProps): JSX.Element => {
 
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
   const navBarCollapseDropdownMenuOpen = useIsDropdownMenuOpen();
+  const setDropdownMenuOpen = useSetDropdownMenuOpen();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setDropdownMenuOpen(false);
+  }, [pathname]);
 
   const navBarTop = useRef<HTMLDivElement | null>(null);
 
