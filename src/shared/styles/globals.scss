@@ -4,6 +4,17 @@
 @use "mixins.scss";
 @use "tailwindcss";
 
+#nprogress .bar {
+  background: #ea5b21;
+  height: 2px;
+}
+
+#nprogress .peg {
+  box-shadow:
+    0 0 10px #ea5b21,
+    0 0 5px #ea5b21;
+}
+
 body {
   font-family: "Geometria", sans-serif;
   color: #333;

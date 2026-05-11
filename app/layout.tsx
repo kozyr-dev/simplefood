@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Head from "next/head";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 import { QueryProvider } from "@/app/QueryProvider";
 import MainLayout from "@/app/layouts/MainLayout/MainLayout";
+import { NavigationProgress } from "@/shared/ui/partials/NavigationProgress/NavigationProgress";
 import "@/shared/styles/globals.scss";
 
 const openSans = localFont({
@@ -95,6 +97,9 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
+        <Suspense fallback={null}>
+          <NavigationProgress />
+        </Suspense>
         <QueryProvider>
           <MainLayout>{children}</MainLayout>
         </QueryProvider>
