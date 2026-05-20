@@ -3,7 +3,7 @@ import Image from "next/image";
 import MicroModal from "micromodal";
 import Portal from "@/shared/ui/Portal/Portal";
 import ModalCallUs from "@/shared/ui/modals/ModalCallUs/ModalCallUs";
-import styles from "./NavbarTel.module.scss";
+import styles from "./NavbarTelStyles.module.scss";
 import { SiteOptions } from "@/shared/types/types";
 
 export default function NavbarTel({ data }: SiteOptions): JSX.Element {
