@@ -1,0 +1,33 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd /srv/simplefood/frontend
+
+            git pull origin main
+            npm ci
+
+            # NEXT_PUBLIC_ vars are baked in at build time — .env must exist on VPS
+            npm run build
+
+            # Copy static assets into standalone bundle (required by Next.js standalone output)
+            cp -r .next/static  .next/standalone/.next/static
+            cp -r public        .next/standalone/public
+
+            pm2 restart simplefood-frontend || \
+              pm2 start .next/standalone/server.js --name simplefood-frontend
+            pm2 save
