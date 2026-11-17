@@ -1,27 +1,27 @@
 "use client";
 
-import React, { JSX, useEffect } from "react";
+import React, { JSX, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { NewsWidgetProps } from "../model/types";
 // @ts-ignore
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 // @ts-ignore
 import "@splidejs/react-splide/css";
-import { useState } from "react";
+import { useBlogPostsQuery } from "@/entities/Blog";
 import Pagination from "@/shared/ui/elements/Pagination/Pagination";
 import BlogPost from "@/shared/ui/elements/BlogPost/BlogPost";
+import { NewsWidgetProps } from "../model/types";
 import styles from "./NewsWidget.module.scss";
-import { useBlogDataByCategoryQuery } from "@/entities/BlogData";
 
-export function NewsWidget(props: NewsWidgetProps): JSX.Element {
-  const { title, layout, blog_category } = props;
+/** A blog category's posts, paged; nothing when the category was deleted. */
+export function NewsWidget(props: NewsWidgetProps): JSX.Element | null {
+  const { title, layout, blogCategory } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: blogData, isLoading } = useBlogDataByCategoryQuery(blog_category.Name, currentPage);
+  const { data: blogData, isLoading } = useBlogPostsQuery(
+    { category: blogCategory?.slug, page: currentPage },
+    blogCategory !== null,
+  );
 
-  const handlePageChange = (page: number) => {
-    if (page && page === currentPage) return;
-    setCurrentPage(page);
-  };
+  if (!blogCategory) return null;
 
   //Todo: add skeleton loader for better UX
   if (isLoading) {
@@ -42,14 +42,14 @@ export function NewsWidget(props: NewsWidgetProps): JSX.Element {
             {layout === "list" && (
               <>
                 <div className={styles["news-list"]}>
-                  {blogData?.data?.map((post) => (
+                  {blogData?.data.map((post) => (
                     <div key={post.id} className={styles["news-list__el"]}>
                       <BlogPost {...post} layout="list" />
                     </div>
                   ))}
                 </div>
 
-                <Pagination {...blogData?.meta?.pagination} onPageChange={(page) => handlePageChange(page)} />
+                <Pagination {...blogData?.meta} onPageChange={setCurrentPage} />
               </>
             )}
 
@@ -61,7 +61,7 @@ export function NewsWidget(props: NewsWidgetProps): JSX.Element {
                   perPage: 2,
                 }}
               >
-                {blogData?.data?.map((post) => (
+                {blogData?.data.map((post) => (
                   <SplideSlide key={post.id} className={styles["news-slider__slide"]}>
                     <BlogPost {...post} layout="slider" />
                   </SplideSlide>

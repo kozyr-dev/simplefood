@@ -1,9 +1,3 @@
-import { ImageProps, ButtonProps } from "@/shared/types/types";
+import type { SectionOf } from "@/shared/api";
 
-export interface ImageBannerProps {
-  title: string;
-  text: string;
-  bgColor: string;
-  image: ImageProps;
-  button: ButtonProps;
-}
+export type ImageBannerProps = SectionOf<"image-banner">;

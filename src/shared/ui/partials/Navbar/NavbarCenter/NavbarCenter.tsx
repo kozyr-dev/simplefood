@@ -2,23 +2,17 @@ import { JSX } from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import type { Settings } from "@/shared/api";
 import styles from "./NavbarCenter.module.scss";
-import { SiteOptions } from "@/shared/types/types";
-import { helpers } from "@/shared/utils/helpers/base";
 
-export default function NavbarCenter({ data }: SiteOptions): JSX.Element {
-  const scrollTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    helpers.scrollToAnchor("#delivery");
-  };
-
+export default function NavbarCenter({ settings }: { settings: Settings }): JSX.Element {
   return (
     <div className={clsx(styles["center_blk"], "text-center")}>
       <div className={clsx("text-center", styles["working"])}>
         <table>
           <tbody>
             <tr>
-              <td className="text-left">{data?.takingOrdersHours}</td>
+              <td className="text-left">{settings.takingOrdersHours}</td>
             </tr>
             <tr>
               <td className={clsx("text-right", "text-white")}>Без вихідних</td>

@@ -1,201 +1,81 @@
+import { apiError, fakeResponse } from "@/shared/lib/testing/fakeResponse";
+import { useSessionStore } from "@/shared/session";
 import authApi from "./api";
-import { fetchWithAuth } from "./authenticatedFetch";
-import { fetchAPI } from "@/shared/utils/helpers/api";
-import type { User } from "@/entities/User";
 
-jest.mock("./authenticatedFetch", () => ({ fetchWithAuth: jest.fn() }));
-jest.mock("@/shared/utils/helpers/api", () => ({ fetchAPI: jest.fn() }));
-
-const mockedFetchWithAuth = fetchWithAuth as jest.MockedFunction<typeof fetchWithAuth>;
-const mockedFetchAPI = fetchAPI as jest.MockedFunction<typeof fetchAPI>;
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
-const mockUser: User = {
-  id: 1,
-  username: "testuser",
-  email: "test@example.com",
-  phone: "+1234567890",
-  address: null,
-  confirmed: true,
-  blocked: false,
-  provider: "local",
-  createdAt: "2024-01-01T00:00:00.000Z",
-  updatedAt: "2024-01-01T00:00:00.000Z",
-};
-
-const ok = (data: unknown) => ({ ok: true, json: async () => data });
-const fail = (data: unknown) => ({ ok: false, json: async () => data });
+const body = (call = 0) => JSON.parse(mockFetch.mock.calls[call][1].body as string);
 
 describe("authApi", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    mockFetch.mockReset();
+    process.env.NEXT_PUBLIC_API_URL = "http://api.test";
   });
 
-  describe("signIn", () => {
-    it("POSTs to /api/auth/login", async () => {
-      mockFetch.mockResolvedValue(ok({ jwt: "token", user: mockUser }));
-      await authApi.signIn("user@example.com", "pass");
-      expect(mockFetch).toHaveBeenCalledWith(
-        "/api/auth/login",
-        expect.objectContaining({ method: "POST" }),
-      );
-    });
+  it("signs in through the site's route with the email", async () => {
+    mockFetch.mockResolvedValue(fakeResponse(200, { data: { accessToken: "a", expiresIn: 900 } }));
 
-    it("sends identifier and password as JSON", async () => {
-      mockFetch.mockResolvedValue(ok({ jwt: "token", user: mockUser }));
-      await authApi.signIn("user@example.com", "pass");
-      const [, options] = mockFetch.mock.calls[0];
-      expect(JSON.parse(options.body)).toEqual({
-        identifier: "user@example.com",
-        password: "pass",
-      });
-    });
+    await authApi.signIn("olena@example.com", "secret");
 
-    it("returns jwt and user on success", async () => {
-      mockFetch.mockResolvedValue(ok({ jwt: "tok123", user: mockUser }));
-      const result = await authApi.signIn("user", "pass");
-      expect(result).toEqual({ jwt: "tok123", user: mockUser });
-    });
+    expect(mockFetch.mock.calls[0][0]).toBe("/api/auth/login");
+    expect(body()).toEqual({ email: "olena@example.com", password: "secret" });
+  });
 
-    it("throws with the server error message on failure", async () => {
-      mockFetch.mockResolvedValue(fail({ error: { message: "Invalid credentials" } }));
-      await expect(authApi.signIn("user", "wrong")).rejects.toThrow("Invalid credentials");
-    });
+  it("signs up with name, email, phone and password", async () => {
+    mockFetch.mockResolvedValue(fakeResponse(201, { data: { accessToken: "a", expiresIn: 900 } }));
+    const data = { name: "Олена", email: "o@example.com", phone: "+380671234567", password: "long enough" };
 
-    it("throws a fallback message when server provides no error detail", async () => {
-      mockFetch.mockResolvedValue(fail({}));
-      await expect(authApi.signIn("user", "wrong")).rejects.toThrow("Sign in failed");
+    await authApi.signUp(data);
+
+    expect(mockFetch.mock.calls[0][0]).toBe("/api/auth/register");
+    expect(body()).toEqual(data);
+  });
+
+  it("throws the API's error, e.g. INVALID_CREDENTIALS", async () => {
+    mockFetch.mockResolvedValue(fakeResponse(401, apiError(401, "INVALID_CREDENTIALS")));
+
+    await expect(authApi.signIn("o@example.com", "wrong")).rejects.toMatchObject({
+      status: 401,
+      code: "INVALID_CREDENTIALS",
     });
   });
 
-  describe("signUp", () => {
-    it("POSTs to /api/auth/register", async () => {
-      mockFetch.mockResolvedValue(ok({ jwt: "token", user: mockUser }));
-      await authApi.signUp("user", "user@example.com", "+123", "pass");
-      expect(mockFetch).toHaveBeenCalledWith(
-        "/api/auth/register",
-        expect.objectContaining({ method: "POST" }),
-      );
-    });
+  it("changes the password through the route, with the access token", async () => {
+    mockFetch.mockResolvedValue(fakeResponse(200, { data: { accessToken: "b", expiresIn: 900 } }));
 
-    it("sends all registration fields as JSON", async () => {
-      mockFetch.mockResolvedValue(ok({ jwt: "token", user: mockUser }));
-      await authApi.signUp("testuser", "user@example.com", "+123", "pass");
-      const [, options] = mockFetch.mock.calls[0];
-      expect(JSON.parse(options.body)).toEqual({
-        username: "testuser",
-        email: "user@example.com",
-        phone: "+123",
-        password: "pass",
-      });
-    });
+    await authApi.changePassword("a", "old secret", "new secret");
 
-    it("returns jwt and user on success", async () => {
-      mockFetch.mockResolvedValue(ok({ jwt: "tok456", user: mockUser }));
-      const result = await authApi.signUp("user", "user@example.com", "+123", "pass");
-      expect(result).toEqual({ jwt: "tok456", user: mockUser });
-    });
-
-    it("throws with the server error message on failure", async () => {
-      mockFetch.mockResolvedValue(fail({ error: { message: "Email already taken" } }));
-      await expect(
-        authApi.signUp("user", "taken@example.com", "+123", "pass"),
-      ).rejects.toThrow("Email already taken");
-    });
+    expect(mockFetch.mock.calls[0][0]).toBe("/api/auth/change-password");
+    expect(mockFetch.mock.calls[0][1].headers).toMatchObject({ Authorization: "Bearer a" });
+    expect(body()).toEqual({ currentPassword: "old secret", newPassword: "new secret" });
   });
 
-  describe("signOut", () => {
-    it("POSTs to /api/auth/logout", async () => {
-      mockFetch.mockResolvedValue({ ok: true });
-      await authApi.signOut();
-      expect(mockFetch).toHaveBeenCalledWith("/api/auth/logout", { method: "POST" });
-    });
+  it("asks the API directly for reset links, resets and verification", async () => {
+    mockFetch.mockResolvedValue(fakeResponse(204));
 
-    it("returns void", async () => {
-      mockFetch.mockResolvedValue({ ok: true });
-      const result = await authApi.signOut();
-      expect(result).toBeUndefined();
-    });
+    await authApi.forgotPassword("o@example.com");
+    await authApi.resetPassword("tok", "new secret");
+    await authApi.verifyEmail("tok2");
+
+    expect(mockFetch.mock.calls.map(([url]) => url)).toEqual([
+      "http://api.test/api/auth/forgot-password",
+      "http://api.test/api/auth/reset-password",
+      "http://api.test/api/auth/verify-email",
+    ]);
+    expect([body(0), body(1), body(2)]).toEqual([
+      { email: "o@example.com" },
+      { token: "tok", newPassword: "new secret" },
+      { token: "tok2" },
+    ]);
   });
 
-  describe("fetchLoggedInUserInfo", () => {
-    it("calls fetchWithAuth with /users/me", async () => {
-      mockedFetchWithAuth.mockResolvedValue(mockUser);
-      await authApi.fetchLoggedInUserInfo();
-      expect(mockedFetchWithAuth).toHaveBeenCalledWith("/users/me");
-    });
+  it("resends the verification link as the signed-in user", async () => {
+    useSessionStore.setState({ accessToken: "a", status: "authenticated" });
+    mockFetch.mockResolvedValue(fakeResponse(204));
 
-    it("returns the user data", async () => {
-      mockedFetchWithAuth.mockResolvedValue(mockUser);
-      const result = await authApi.fetchLoggedInUserInfo();
-      expect(result).toBe(mockUser);
-    });
-  });
+    await authApi.resendVerification();
 
-  describe("updateLoggedInUserInfo", () => {
-    it("calls fetchWithAuth with PUT to /users/:id", async () => {
-      mockedFetchWithAuth.mockResolvedValue(mockUser);
-      await authApi.updateLoggedInUserInfo(1, { username: "newname" });
-      expect(mockedFetchWithAuth).toHaveBeenCalledWith(
-        "/users/1",
-        {},
-        expect.objectContaining({ method: "PUT" }),
-      );
-    });
-
-    it("includes the data in the request body", async () => {
-      mockedFetchWithAuth.mockResolvedValue(mockUser);
-      await authApi.updateLoggedInUserInfo(1, { username: "newname" });
-      const [, , options] = mockedFetchWithAuth.mock.calls[0];
-      expect(JSON.parse(options!.body as string)).toMatchObject({ username: "newname" });
-    });
-
-    it("strips password and passwordConfirmation when password is an empty string", async () => {
-      mockedFetchWithAuth.mockResolvedValue(mockUser);
-      await authApi.updateLoggedInUserInfo(1, {
-        username: "newname",
-        password: "",
-        passwordConfirmation: "anything",
-      });
-      const [, , options] = mockedFetchWithAuth.mock.calls[0];
-      const body = JSON.parse(options!.body as string);
-      expect(body).not.toHaveProperty("password");
-      expect(body).not.toHaveProperty("passwordConfirmation");
-    });
-
-    it("keeps password when it is non-empty", async () => {
-      mockedFetchWithAuth.mockResolvedValue(mockUser);
-      await authApi.updateLoggedInUserInfo(1, {
-        password: "newpass",
-        passwordConfirmation: "newpass",
-      });
-      const [, , options] = mockedFetchWithAuth.mock.calls[0];
-      const body = JSON.parse(options!.body as string);
-      expect(body.password).toBe("newpass");
-      expect(body.passwordConfirmation).toBe("newpass");
-    });
-  });
-
-  describe("resetPassword", () => {
-    it("calls fetchAPI with the reset-password endpoint", async () => {
-      mockedFetchAPI.mockResolvedValue({});
-      await authApi.resetPassword("newpass", "newpass");
-      expect(mockedFetchAPI).toHaveBeenCalledWith(
-        "/auth/reset-password",
-        {},
-        expect.objectContaining({ method: "POST" }),
-      );
-    });
-
-    it("sends password and passwordConfirmation in the body", async () => {
-      mockedFetchAPI.mockResolvedValue({});
-      await authApi.resetPassword("newpass", "newpass");
-      const [, , options] = mockedFetchAPI.mock.calls[0];
-      expect(JSON.parse(options!.body as string)).toEqual({
-        password: "newpass",
-        passwordConfirmation: "newpass",
-      });
-    });
+    expect(mockFetch.mock.calls[0][1].headers).toMatchObject({ Authorization: "Bearer a" });
   });
 });

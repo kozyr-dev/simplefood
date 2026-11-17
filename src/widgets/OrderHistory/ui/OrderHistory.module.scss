@@ -1,0 +1,26 @@
+.orders {
+  width: 100%;
+  margin-bottom: 20px;
+
+  th,
+  td {
+    padding: 8px 5px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  th {
+    font-weight: 700;
+  }
+  .total {
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: pre-line;
+}

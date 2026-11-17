@@ -4,7 +4,7 @@ import { generatePageMetadata } from "@/widgets/PageSEO/PageSEO";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  return generatePageMetadata(slug, true);
+  return generatePageMetadata(slug);
 }
 
 export default async function InnerPage({ params }: { params: Promise<{ slug: string }> }) {

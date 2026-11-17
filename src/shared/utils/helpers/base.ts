@@ -30,7 +30,7 @@ export const helpers = {
     target.style.transitionDuration = duration + "ms";
     target.style.boxSizing = "border-box";
     target.style.height = target.offsetHeight + "px";
-    target.offsetHeight;
+    void target.offsetHeight; // forces a reflow, so the transition starts from here
     target.style.overflow = "hidden";
     target.style.height = "0";
     target.style.paddingTop = "0";
@@ -64,7 +64,7 @@ export const helpers = {
     target.style.paddingBottom = "0";
     target.style.marginTop = "0";
     target.style.marginBottom = "0";
-    target.offsetHeight;
+    void target.offsetHeight; // forces a reflow, so the transition starts from here
     target.style.boxSizing = "border-box";
     target.style.transitionProperty = "height, margin, padding";
     target.style.transitionDuration = duration + "ms";
@@ -87,28 +87,6 @@ export const helpers = {
     } else {
       helpers.slideUp(target, duration);
     }
-  },
-
-  scrollToTop() {
-    window.scroll({ top: 0, left: 0, behavior: "smooth" });
-  },
-
-  scrollToAnchor(id: string) {
-    const el = document.querySelector(id);
-    if (process.browser && el) {
-      el.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  },
-
-  getFullYear() {
-    const today = new Date();
-    return today.getFullYear();
-  },
-
-  truncate(str: string | undefined | null, no_words: number) {
-    return str?.split(" ").splice(0, no_words).join(" ") ?? "";
   },
 };
 

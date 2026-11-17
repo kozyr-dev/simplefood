@@ -4,9 +4,9 @@ import React, { JSX } from "react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import styles from "./FooterNav.module.scss";
-import { FooterMenu } from "@/shared/types/types";
+import type { MenuItem } from "@/shared/api";
 
-export default function FooterNav(props: { footerMenu: FooterMenu }): JSX.Element {
+export default function FooterNav(props: { footerMenu: MenuItem[] }): JSX.Element {
   const { footerMenu } = props;
 
   const params = useParams<{ slug: string }>();
@@ -19,9 +19,9 @@ export default function FooterNav(props: { footerMenu: FooterMenu }): JSX.Elemen
         {footerMenu && (
           <ul>
             {footerMenu.map((item) => (
-              <li className={"menu-item " + (item?.Classname || "")} key={item.id}>
-                <Link href={item.Link} className={currentRoute === item.Link?.replace("/", "") ? "active" : ""}>
-                  {item.Title}
+              <li className={"menu-item " + (item.className || "")} key={item.id}>
+                <Link href={item.link} className={currentRoute === item.link.replace("/", "") ? "active" : ""}>
+                  {item.title}
                 </Link>
               </li>
             ))}

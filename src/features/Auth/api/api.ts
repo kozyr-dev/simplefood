@@ -1,55 +1,55 @@
-import { User } from "@/entities/User";
-import { fetchAPI } from "@/shared/utils/helpers/api";
-import { fetchWithAuth } from "./authenticatedFetch";
-import { SignInResponse, SignUpResponse } from "../model/types";
+import { apiFetch, errorFromResponse, type User } from "@/shared/api";
+import { authFetch, type SessionResponse } from "@/shared/session";
+
+/**
+ * The site's own /api/auth routes (app/api/auth): they keep the refresh
+ * token in an HttpOnly cookie and return the rest. Throws ApiError.
+ */
+async function sessionCall(path: string, body?: unknown, token?: string | null): Promise<SessionResponse<User>> {
+  const response = await fetch(`/api/auth/${path}`, {
+    method: "POST",
+    headers: {
+      ...(body === undefined ? {} : { "Content-Type": "application/json" }),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  if (!response.ok) throw await errorFromResponse(response);
+  return (await response.json()) as SessionResponse<User>;
+}
+
+export interface SignUpData {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+}
 
 const authApi = {
-  signIn: (identifier: string, password: string): Promise<SignInResponse> =>
-    fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ identifier, password }),
-    }).then(async (res) => {
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error?.message ?? "Sign in failed");
-      return data;
-    }),
+  signIn: (email: string, password: string) => sessionCall("login", { email, password }),
 
-  signUp: (username: string, email: string, phone: string, password: string): Promise<SignUpResponse> =>
-    fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, phone, password }),
-    }).then(async (res) => {
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error?.message ?? "Sign up failed");
-      return data;
-    }),
+  signUp: (data: SignUpData) => sessionCall("register", data),
 
-  signOut: (): Promise<void> =>
-    fetch("/api/auth/logout", { method: "POST" }).then(() => undefined),
-
-  fetchLoggedInUserInfo: (): Promise<User> =>
-    fetchWithAuth("/users/me") as Promise<User>,
-
-  updateLoggedInUserInfo: (userId: number, data: Record<string, unknown>): Promise<User> => {
-    const payload = { ...data };
-    if (payload["password"] === "") {
-      delete payload["password"];
-      delete payload["passwordConfirmation"];
-    }
-    return fetchWithAuth(`/users/${userId}`, {}, {
-      method: "PUT",
-      body: JSON.stringify(payload),
-    }) as Promise<User>;
+  /** Ends the session on the server too; the cookie is cleared either way. */
+  signOut: async (): Promise<void> => {
+    await fetch("/api/auth/logout", { method: "POST" });
   },
 
-  resetPassword: (password: string, passwordConfirmation: string): Promise<object> =>
-    fetchAPI("/auth/reset-password", {}, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password, passwordConfirmation }),
-    }),
+  /** Ends every other session; this one continues with a new token (the route stores the cookie). */
+  changePassword: (token: string | null, currentPassword: string, newPassword: string) =>
+    sessionCall("change-password", { currentPassword, newPassword }, token),
+
+  /** Always succeeds (204) whether or not an account has the email. */
+  forgotPassword: (email: string) =>
+    apiFetch<void>("/auth/forgot-password", { method: "POST", body: { email } }),
+
+  /** Doesn't sign in: every session ends. */
+  resetPassword: (token: string, newPassword: string) =>
+    apiFetch<void>("/auth/reset-password", { method: "POST", body: { token, newPassword } }),
+
+  verifyEmail: (token: string) => apiFetch<void>("/auth/verify-email", { method: "POST", body: { token } }),
+
+  resendVerification: () => authFetch<void>("/auth/resend-verification", { method: "POST" }),
 };
 
 export default authApi;

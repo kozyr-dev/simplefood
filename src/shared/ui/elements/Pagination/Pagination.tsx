@@ -1,4 +1,4 @@
-import React, { useState, useEffect, JSX } from "react";
+import React, { JSX } from "react";
 import clsx from "clsx";
 import styles from "./Pagination.module.scss";
 
@@ -10,13 +10,9 @@ interface PageProps {
   onPageChange: (page: number) => void;
 }
 
+/** Page links; the page shown comes from the list's `meta` (controlled by the caller). */
 const Pagination: React.FC<PageProps> = (props) => {
-  const { page = 1, pageSize = 10, pageCount = 1, total = 1 } = props;
-  const [currentPage, setCurrentPage] = useState(page);
-
-  useEffect(() => {
-    props.onPageChange(currentPage);
-  }, [currentPage, props]);
+  const { page: currentPage = 1, pageCount = 1 } = props;
 
   const getPages = (pages: number): JSX.Element[] => {
     const content = [];
@@ -34,8 +30,8 @@ const Pagination: React.FC<PageProps> = (props) => {
 
   const clickHandler = (e: React.MouseEvent<HTMLAnchorElement>, pageId: number): void => {
     e.preventDefault();
-    if (pageId <= 0 || pageId > pageCount) return;
-    setCurrentPage(pageId);
+    if (pageId <= 0 || pageId > pageCount || pageId === currentPage) return;
+    props.onPageChange(pageId);
   };
 
   return (

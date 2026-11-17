@@ -1,17 +1,12 @@
-import { ContactUsFormValues, ContactFormServerResponse } from "../model/types/types";
+import { apiFetch } from "@/shared/api";
+import { ContactUsFormValues } from "../model/types/types";
 
 export const contactFormApi = {
-  send: async (data: ContactUsFormValues): Promise<ContactFormServerResponse> => {
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const json = await response.json();
-      return { ...json, status: response.ok ? 200 : 400 };
-    } catch {
-      return { status: 400 };
-    }
-  },
+  /**
+   * Straight to the API (F5): saved, then the shop is emailed. 204; throws
+   * ApiError. `website` is the honeypot: always empty from people; a bot
+   * that fills it gets a 204 and is dropped.
+   */
+  send: (data: ContactUsFormValues, website = ""): Promise<void> =>
+    apiFetch<void>("/contact", { method: "POST", body: { ...data, website } }),
 };

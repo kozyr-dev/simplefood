@@ -1,80 +1,75 @@
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import classNames from "classnames/bind";
-import { MyTextInput, MyTextArea } from "@/shared/ui/forms/FormInputs";
+import clsx from "clsx";
 import Image from "next/image";
-import { UseSendContactForm, ContactFormServerResponse } from "@/features/Form/sendContactForm";
+import { UseSendContactForm } from "@/features/Form/sendContactForm";
+import { errorMessage } from "@/shared/api";
+import { emailField } from "@/shared/lib/validation";
+import { MyTextInput, MyTextArea } from "@/shared/ui/forms/FormInputs";
+import styles from "./ContactUs.module.scss";
 
+type Status = { ok: true } | { ok: false; message: string } | null;
+
+/** Straight to the API (F5): saved, and the shop gets an email it can reply to. */
 export function ContactForm(): React.JSX.Element {
-  const [formStatus, setFormStatus] = useState<null | number>(null);
-  const [formProcessing, setFormProcessing] = useState(false);
+  const [status, setStatus] = useState<Status>(null);
   const sendContactForm = UseSendContactForm();
-
-  // @ts-ignore
-  const submitBtnClass = classNames({
-    processing: formProcessing,
-  });
 
   return (
     <Formik
-      initialValues={{
-        name: "",
-        message: "",
-        email: "",
-      }}
+      initialValues={{ name: "", email: "", message: "", website: "" }}
       validationSchema={Yup.object({
-        name: Yup.string().max(30, "Must be 30 characters or less").required("Required Field"),
-        message: Yup.string().required("Required Field"),
-        email: Yup.string().email("Invalid email address").required("Required Field"),
+        name: Yup.string().trim().max(100, "Не більше 100 символів").required("Обов’язкове поле"),
+        email: emailField(),
+        message: Yup.string().trim().max(5000, "Не більше 5000 символів").required("Обов’язкове поле"),
       })}
-      onSubmit={async (values, { setSubmitting }): Promise<void> => {
-        setFormProcessing(true);
-
-        const result: ContactFormServerResponse = await sendContactForm(values);
-        setFormStatus(result.status);
-        setFormProcessing(false);
-        setSubmitting(false);
+      onSubmit={async ({ website, ...values }, { resetForm }): Promise<void> => {
+        setStatus(null);
+        try {
+          await sendContactForm(
+            { name: values.name.trim(), email: values.email.trim(), message: values.message.trim() },
+            website,
+          );
+          resetForm();
+          setStatus({ ok: true });
+        } catch (error) {
+          setStatus({ ok: false, message: errorMessage(error, "Помилка. Спробуйте пізніше") });
+        }
       }}
     >
-      <Form className="form form--contact">
-        <div className="form-group">
-          <MyTextInput name="name" type="text" placeholder="Ім’я" className="form-control" />
-        </div>
-        <div className="form-group">
-          <MyTextInput name="email" type="email" placeholder="Email" className="form-control" />
-        </div>
-        <div className="form-group">
-          <MyTextArea
-            columns={40}
-            rows={4}
-            name="message"
-            type="textarea"
-            placeholder="Повідомлення"
-            className="form-control textarea"
-          />
-        </div>
-        <div className="form-submit">
-          <button type="submit" className={"form-submit-btn " + submitBtnClass} disabled={formProcessing}>
-            {((): string => (formProcessing ? "Відправка..." : "Надіслати"))()}
-          </button>
-          {formProcessing && <Image src="/loader.svg" className="spinner" alt="spinner" width="50" height="50" />}
-        </div>
-        {formStatus && (
-          <div className={`form-submit-message status-${formStatus}`}>
-            <h5>
-              {((): string => {
-                switch (formStatus) {
-                  case 400:
-                    return "Помилка. Спробуйте пізніше";
-                  default:
-                    return "Повідомлення відправлене";
-                }
-              })()}
-            </h5>
+      {({ isSubmitting }) => (
+        <Form className="form form--contact">
+          <div className="form-group">
+            <MyTextInput name="name" type="text" placeholder="Ім’я" className="form-control" autoComplete="name" />
           </div>
-        )}
-      </Form>
+          <div className="form-group">
+            <MyTextInput name="email" type="email" placeholder="Email" className="form-control" autoComplete="email" />
+          </div>
+          <div className="form-group">
+            <MyTextArea cols={40} rows={4} name="message" placeholder="Повідомлення" className="form-control textarea" />
+          </div>
+          <div className={styles.honeypot} aria-hidden="true">
+            <label htmlFor="contact-website">Website</label>
+            <Field id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
+          <div className="form-submit">
+            <button
+              type="submit"
+              className={clsx("form-submit-btn", { processing: isSubmitting })}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Відправка..." : "Надіслати"}
+            </button>
+            {isSubmitting && <Image src="/loader.svg" className="spinner" alt="spinner" width="50" height="50" />}
+          </div>
+          {status && (
+            <div className={`form-submit-message status-${status.ok ? 200 : 400}`}>
+              <h5>{status.ok ? "Повідомлення відправлене" : status.message}</h5>
+            </div>
+          )}
+        </Form>
+      )}
     </Formik>
   );
 }

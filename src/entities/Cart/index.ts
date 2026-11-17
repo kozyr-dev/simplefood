@@ -1,7 +1,5 @@
 export {
   useCart,
-  useCartItems,
-  useCartTotalAmount,
   useAddItemToCart,
   useRemoveItemFromCart,
   useDeleteItemFromCart,

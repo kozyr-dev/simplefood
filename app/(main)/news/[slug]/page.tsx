@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { NewsPost } from "@/pages/newsPost";
-import { generatePageMetadata } from "@/widgets/PageSEO/PageSEO";
+import { generatePostMetadata } from "@/widgets/PageSEO/PageSEO";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  return generatePageMetadata(slug, true);
+  return generatePostMetadata(slug);
 }
 
 export default async function InnerPage({ params }: { params: Promise<{ slug: string }> }) {

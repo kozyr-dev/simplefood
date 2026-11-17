@@ -1,7 +1,8 @@
-import { ImageProps } from "@/shared/types/types";
+import type { Media } from "@/shared/api";
 
 export interface CartState {
   items: Array<CartItem>;
+  /** In kopiykas: an estimate for display; the order's subtotal comes from the API. */
   totalAmount: number;
 }
 
@@ -13,11 +14,13 @@ export interface Cart extends CartState {
 }
 
 export type CartItem = {
-  id: number;
+  /** The product's id (UUID). */
+  id: string;
   title: string;
-  image: ImageProps;
+  image: Media | null;
+  /** Unit price in kopiykas, as shown when it was added. */
   price: number;
   amount: number;
 };
 
-export type cartItemID = number;
+export type cartItemID = string;

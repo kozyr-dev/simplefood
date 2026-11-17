@@ -1,96 +1,96 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import classNames from "classnames/bind";
+import clsx from "clsx";
 import Image from "next/image";
 import { useSignUp } from "@/features/Auth";
-import { useSetUser } from "@/entities/User";
+import { errorMessage, fieldErrors } from "@/shared/api";
+import { emailField, nameField, newPasswordField, phoneField } from "@/shared/lib/validation";
 import { MyTextInput } from "@/shared/ui/forms/FormInputs";
 import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import styles from "./SignUp.module.scss";
 
 export function SignUp(): React.JSX.Element {
-  const [formProcessing, setFormProcessing] = useState(false);
   const { openSnackbar } = useSnackbarHook();
-
   const signUp = useSignUp();
-  const setUser = useSetUser();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const submitBtnClass = classNames({
-    processing: formProcessing,
-  });
 
   return (
     <>
       <h4 className={styles["title"]}>Реєстрація</h4>
 
       <Formik
-        initialValues={{
-          name: "",
-          phone: "",
-          email: "",
-          password: "",
-        }}
+        initialValues={{ name: "", phone: "", email: "", password: "" }}
         validationSchema={Yup.object({
-          name: Yup.string().max(30, "Must be 30 characters or less").required("Required Field"),
-          phone: Yup.string().phone("UA", true).required("Required Field"),
-          email: Yup.string().email("Invalid email address").required("Required Field"),
-          password: Yup.string().min(7, "Must be 7 characters or more").required("Required Field"),
+          // Not unique: customers may share a name; the email is the login.
+          name: nameField(),
+          phone: phoneField().required("Обов’язкове поле"),
+          email: emailField(),
+          password: newPasswordField(),
         })}
-        onSubmit={async (values, { setSubmitting }): Promise<void> => {
+        onSubmit={async (values, { setErrors }): Promise<void> => {
           try {
-            const user = await signUp({
-              username: values.name,
-              email: values.email,
-              phone: values.phone,
+            await signUp({
+              name: values.name.trim(),
+              email: values.email.trim(),
+              phone: values.phone.trim(),
               password: values.password,
             });
-            if (typeof window !== "undefined") {
-              //console.log("User profile", JSON.stringify(user));
-              setUser(user);
-            }
+            // A verification link is on its way: the account page says so.
           } catch (error) {
-            if (typeof window !== "undefined") {
-              console.log("An error occurred:", error);
-              openSnackbar("error", "Error signing up.");
-            }
+            const errors = fieldErrors(error);
+            if (Object.keys(errors).length) setErrors(errors);
+            else openSnackbar("error", errorMessage(error, "Не вдалося зареєструватися."));
           }
-
-          setFormProcessing(false);
-          setSubmitting(false);
         }}
       >
-        <Form className="form register-form">
-          <div className="form-group">
-            <MyTextInput name="name" type="text" placeholder="Iм`я" className="form-control" />
-          </div>
-          <div className="form-group">
-            <MyTextInput name="email" type="email" placeholder="Адреса електронної пошти" className="form-control" />
-          </div>
-          <div className="form-group">
-            <MyTextInput name="phone" type="tel" placeholder="(111)111-1111" className="form-control" />
-          </div>
-          <div className="form-group">
-            <MyTextInput name="password" type="password" placeholder="Пароль" className="form-control" />
-          </div>
-          <div className="gray">
-            <div className={styles["privacy-policy-text"]}>
-              <p>
-                Ваші особисті дані будуть використовуватися для спрощення вашої роботи з сайтом, управління доступом до
-                вашого облікового запису та для інших цілей.
-              </p>
+        {({ isSubmitting }) => (
+          <Form className="form register-form">
+            <div className="form-group">
+              <MyTextInput name="name" type="text" placeholder="Iм`я" className="form-control" autoComplete="name" />
             </div>
-          </div>
-          <div className={styles["form-submit"]}>
-            <button type="submit" className={"form-submit-btn " + submitBtnClass} disabled={formProcessing}>
-              {((): string => (formProcessing ? "Обробка..." : "Реєстрація"))()}
-            </button>
-            {formProcessing && <Image src="/loader.svg" className="spinner" alt="spinner" width="50" height="50" />}
-          </div>
-        </Form>
+            <div className="form-group">
+              <MyTextInput
+                name="email"
+                type="email"
+                placeholder="Адреса електронної пошти"
+                className="form-control"
+                autoComplete="email"
+              />
+            </div>
+            <div className="form-group">
+              <MyTextInput name="phone" type="tel" placeholder="(111)111-1111" className="form-control" autoComplete="tel" />
+            </div>
+            <div className="form-group">
+              <MyTextInput
+                name="password"
+                type="password"
+                placeholder="Пароль (щонайменше 8 символів)"
+                className="form-control"
+                autoComplete="new-password"
+              />
+            </div>
+            <div className="gray">
+              <div className={styles["privacy-policy-text"]}>
+                <p>
+                  Ваші особисті дані будуть використовуватися для спрощення вашої роботи з сайтом, управління доступом
+                  до вашого облікового запису та для інших цілей.
+                </p>
+              </div>
+            </div>
+            <div className={styles["form-submit"]}>
+              <button
+                type="submit"
+                className={clsx("form-submit-btn", { processing: isSubmitting })}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Обробка..." : "Реєстрація"}
+              </button>
+              {isSubmitting && <Image src="/loader.svg" className="spinner" alt="spinner" width="50" height="50" />}
+            </div>
+          </Form>
+        )}
       </Formik>
     </>
   );

@@ -8,7 +8,10 @@ import styles from "./ArticlesList.module.scss";
 
 export function ArticlesList(props: ArticlesListProps) {
   return (
-    <section className={"page-section section-padding section-articles " + (props.class || "")} id={props.id}>
+    <section
+      className={"page-section section-padding section-articles " + (props.className || "")}
+      id={props.anchorId ?? undefined}
+    >
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-row">
           <div className="basis-full">
@@ -18,8 +21,9 @@ export function ArticlesList(props: ArticlesListProps) {
               </div>
             )}
             <div className={clsx("flex flex-row space-x-6", styles["articles-grid"])}>
-              {props.articles.map((article) => (
-                <div className="basis-full md:basis-1/2 lg:basis-1/3" key={article.id}>
+              {props.items.map((article, index) => (
+                // Items have no id; their order is fixed by the editor.
+                <div className="basis-full md:basis-1/2 lg:basis-1/3" key={index}>
                   <ArticlePost {...article} />
                 </div>
               ))}

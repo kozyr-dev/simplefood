@@ -72,6 +72,10 @@ export const useCartStore = create(
     }),
     {
       name: "cart-storage",
+      // 1: the Nest API's UUIDs and prices in kopiykas. A cart saved by the
+      // Strapi site (numeric ids, hryvnias) means nothing to it: emptied.
+      version: 1,
+      migrate: () => ({ ...initialData }) as Cart,
     },
   ),
 );

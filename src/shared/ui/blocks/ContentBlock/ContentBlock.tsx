@@ -2,20 +2,18 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import Button from "@/shared/ui/base/Button/Button";
 import styles from "./ContentBlock.module.scss";
-import { ButtonProps } from "@/shared/types/types";
+import type { SectionOf } from "@/shared/api";
+import { prefixContentImages } from "@/shared/utils/helpers/media";
 
-export interface ContentBlockProps {
-  title: string;
-  content: string;
-  embed_code: string;
-  button: ButtonProps;
-  id?: string;
-  class?: string;
-}
+/**
+ * `image` isn't shown: the Strapi site never showed it either (two pages
+ * have one). Showing it is a design decision, not part of the move.
+ */
+export type ContentBlockProps = SectionOf<"content">;
 
 const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   return (
-    <section className={"page-section section-padding section-content " + (props.class || "")} id={props.id}>
+    <section className="page-section section-padding section-content">
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-row">
           <div className="basis-full">
@@ -25,10 +23,10 @@ const ContentBlock: React.FC<ContentBlockProps> = (props) => {
               </div>
             )}
             {props.content && (
-              <div className="section-content" dangerouslySetInnerHTML={{ __html: props.content }}></div>
+              <div className="section-content" dangerouslySetInnerHTML={{ __html: prefixContentImages(props.content) }} />
             )}
-            {props.embed_code && (
-              <div className={styles.embedCode} dangerouslySetInnerHTML={{ __html: props.embed_code }} />
+            {props.embedCode && (
+              <div className={styles.embedCode} dangerouslySetInnerHTML={{ __html: props.embedCode }} />
             )}
             {props.button && (
               <div className="cta">

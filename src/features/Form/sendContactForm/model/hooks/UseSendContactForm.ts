@@ -1,10 +1,6 @@
 import { contactFormApi } from "../../api/api";
-import { ContactFormServerResponse, ContactUsFormValues } from "../types/types";
+import { ContactUsFormValues } from "../types/types";
 
 export function UseSendContactForm() {
-  const sendContactForm = async (data: ContactUsFormValues): Promise<ContactFormServerResponse> => {
-    return await contactFormApi.send(data);
-  };
-
-  return sendContactForm;
+  return (data: ContactUsFormValues, website?: string): Promise<void> => contactFormApi.send(data, website);
 }

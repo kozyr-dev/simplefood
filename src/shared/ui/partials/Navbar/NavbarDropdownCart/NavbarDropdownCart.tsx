@@ -6,7 +6,7 @@ import { CartState } from "@/entities/Cart";
 
 interface NavbarDropdownCartProps {
   show: boolean;
-  cart: CartState; // Replace with actual cart state from context or props
+  cart: CartState;
 }
 
 export default function NavbarDropdownCart({ show, cart }: NavbarDropdownCartProps): JSX.Element {

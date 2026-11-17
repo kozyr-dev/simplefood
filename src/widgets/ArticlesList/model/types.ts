@@ -1,10 +1,3 @@
-import { ButtonProps } from "@/shared/types/types";
-import { ArticlePostProps as Article } from "@/shared/ui/elements/ArticlePost/ArticlePost";
+import type { SectionOf } from "@/shared/api";
 
-export interface ArticlesListProps {
-  title: string;
-  articles: Array<Article>;
-  button: ButtonProps;
-  id: string;
-  class: string;
-}
+export type ArticlesListProps = SectionOf<"articles">;

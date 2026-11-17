@@ -4,16 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import NavBarDropdownCart from "../NavbarDropdownCart/NavbarDropdownCart";
 import { CartState } from "@/entities/Cart";
+import { formatPrice } from "@/shared/utils/helpers/money";
 import styles from "./NavbarCollapseCart.module.scss";
 
 interface NavbarCollapseCartProps {
-  cart: CartState; // Replace with actual cart state from context or props
+  cart: CartState;
 }
 
 export default function NavbarCollapseCart({ cart }: NavbarCollapseCartProps): JSX.Element {
   const [cartIsShown, setCartIsShown] = useState(false);
 
-  const totalAmount = Number(cart.totalAmount.toFixed(0));
+  const totalAmount = cart.totalAmount;
 
   const setIsShownHandler = (show: boolean) => {
     if (show === true && cart.items.length) {
@@ -36,7 +37,7 @@ export default function NavbarCollapseCart({ cart }: NavbarCollapseCartProps): J
         <Link href="/checkout" className={clsx(styles["link_cart"], { [styles["not-empty"]]: totalAmount > 0 })}>
           <p className={styles["text_cart"]}>
             <span className={styles["sec"]}>
-              <span className={styles["price-total"]}>{totalAmount}</span> ₴
+              <span className={styles["price-total"]}>{formatPrice(totalAmount)}</span> ₴
             </span>
           </p>
         </Link>

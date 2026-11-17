@@ -1,20 +1,13 @@
 import { JSX } from "react";
 import { useField } from "formik";
 
-export const MyTextInput = ({
-  label,
-  ...props
-}: {
+type TextInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   name: string;
-  type: string;
-  value?: string;
-  hidden?: boolean;
-  disabled?: boolean;
-  placeholder: string;
-  className?: string;
-  id?: string;
-}): JSX.Element => {
+};
+
+/** A Formik text input with its error under it (once touched). */
+export const MyTextInput = ({ label, ...props }: TextInputProps): JSX.Element => {
   const [field, meta] = useField(props);
   return (
     <>
@@ -25,60 +18,18 @@ export const MyTextInput = ({
   );
 };
 
-export const MyTextArea = ({
-  label,
-  ...props
-}: {
+type TextAreaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;
   name: string;
-  type: string;
-  placeholder: string;
-  columns?: number;
-  className?: string;
-  rows?: number;
-  id?: string;
-}): JSX.Element => {
+};
+
+export const MyTextArea = ({ label, ...props }: TextAreaProps): JSX.Element => {
   const [field, meta] = useField(props);
   return (
     <>
       {label && <label htmlFor={props.id || props.name}>{label}</label>}
-      <textarea
-        className={props.className ? `${props.className} text-input` : "text-input"}
-        {...field}
-        {...props}
-      ></textarea>
+      <textarea className={props.className ? `${props.className} text-input` : "text-input"} {...field} {...props} />
       {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
     </>
-  );
-};
-
-export const MyCheckbox = ({
-  children,
-  ...props
-}: {
-  children: React.ReactNode;
-  name: string;
-  id?: string;
-}): JSX.Element => {
-  const [field, meta] = useField({ ...props, type: "checkbox" });
-  return (
-    <div>
-      <label className="checkbox-input" htmlFor={props.id || props.name}>
-        <input type="checkbox" {...field} {...props} />
-        {children}
-      </label>
-      {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
-    </div>
-  );
-};
-
-export const MySelect = ({ label, ...props }: { label?: string; name: string; id?: string }): JSX.Element => {
-  const [field, meta] = useField(props);
-  return (
-    <div>
-      {label && <label htmlFor={props.id || props.name}>{label}</label>}
-      <select {...field} {...props} />
-      {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
-    </div>
   );
 };

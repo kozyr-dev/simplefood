@@ -1,15 +1,16 @@
 import clsx from "clsx";
 import { JSX } from "react";
-import Image from "next/image";
+import type { Media } from "@/shared/api";
+import MediaImage from "@/shared/ui/base/MediaImage/MediaImage";
+import { formatPrice } from "@/shared/utils/helpers/money";
 import styles from "./ShopCartItem.module.scss";
-import { ImageProps } from "@/shared/types/types";
 
 interface ShopCartItemProps {
-  key: number;
-  id: number;
+  id: string;
   title: string;
-  image: ImageProps;
+  image: Media | null;
   amount: number;
+  /** Unit price in kopiykas. */
   price: number;
   onRemove: () => void;
   onDelete: () => void;
@@ -21,13 +22,7 @@ export default function ShopCartItem(props: ShopCartItemProps): JSX.Element {
   return (
     <tr className={clsx(styles["cart-product-info"], styles[props.className || ""])} data-product-id={props.id}>
       <td className={clsx("text-left", styles["mini_cart_img"])}>
-        <Image
-          className="img-responsive"
-          src={process.env.API_URL + props.image.url}
-          width={props.image.width}
-          height={props.image.height}
-          alt={props.image.alternativeText}
-        />
+        {props.image && <MediaImage className="img-responsive" media={props.image} format="thumbnail" />}
       </td>
       <td className={clsx(styles["mini-cart-prod"], "text-left", "blk_cart")}>
         <p className={clsx(styles["mini_name_prod"])}>{props.title}</p>
@@ -59,7 +54,7 @@ export default function ShopCartItem(props: ShopCartItemProps): JSX.Element {
         </div>
       </td>
       <td width="13%" className={clsx("text-right")}>
-        <p className={clsx(styles["mini_price"], "white")}>{props.price * props.amount} грн</p>
+        <p className={clsx(styles["mini_price"], "white")}>{formatPrice(props.price * props.amount)} грн</p>
       </td>
       <td width="9%" className={clsx("text-center", styles["remove"])}>
         <span className={clsx(styles["remove-product"])} onClick={props.onDelete}>

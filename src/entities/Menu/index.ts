@@ -1,1 +1,2 @@
-export { useHeaderMenuQuery, useFooterMenuQuery, useDropDownMenuQuery } from "./model/hooks";
+export { useMenuQuery } from "./model/hooks";
+export { menuQuery } from "./model/queries";

@@ -1,39 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { callApi, endSession, errorResponse, passError, REFRESH_COOKIE, startSession } from "../_lib/session";
 
-const STRAPI_URL = process.env.API_URL;
-const REFRESH_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
-
+/**
+ * A new access token for the session in the cookie, which is replaced: the
+ * API uses up the token sent. Without a cookie a 401 at once (no API call):
+ * every page load of a signed-out visitor asks.
+ */
 export async function POST(request: NextRequest) {
-  const refreshToken = request.cookies.get("refresh_token")?.value;
-
+  const refreshToken = request.cookies.get(REFRESH_COOKIE)?.value;
   if (!refreshToken) {
-    return NextResponse.json({ error: "No refresh token" }, { status: 401 });
+    return endSession(errorResponse(401, "NO_SESSION", "Not signed in"));
   }
 
-  const strapiRes = await fetch(`${STRAPI_URL}/api/auth/refresh-token`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refreshToken }),
-  });
-
-  if (!strapiRes.ok) {
-    const response = NextResponse.json({ error: "Token refresh failed" }, { status: 401 });
-    response.cookies.delete("refresh_token");
-    return response;
-  }
-
-  const { jwt, refreshToken: newRefreshToken } = await strapiRes.json();
-  const response = NextResponse.json({ jwt });
-
-  // Rotate the refresh token if Strapi returns a new one
-  const tokenToSet = newRefreshToken ?? refreshToken;
-  response.cookies.set("refresh_token", tokenToSet, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: REFRESH_MAX_AGE,
-    path: "/",
-  });
-
-  return response;
+  const apiResponse = await callApi(request, "refresh", { refreshToken });
+  if (apiResponse.ok) return startSession(apiResponse);
+  // A used-up, expired or revoked token: the session is over. Anything else
+  // (a 429, the API down) keeps the cookie for the next try.
+  const response = await passError(apiResponse);
+  return apiResponse.status === 401 ? endSession(response) : response;
 }

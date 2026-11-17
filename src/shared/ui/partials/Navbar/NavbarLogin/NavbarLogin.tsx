@@ -4,12 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./NavbarLogin.module.scss";
 
-type User = {
-  username: string;
-};
-
 interface NavbarLoginProps {
-  user?: User | null;
+  user?: { name: string } | null;
 }
 
 export default function NavbarLogin(props: NavbarLoginProps): JSX.Element {
@@ -20,7 +16,7 @@ export default function NavbarLogin(props: NavbarLoginProps): JSX.Element {
       <div className={styles["login"]}>
         <Image src="/login.png" alt="" width="39" height="39" />
         <p>
-          <Link href="/account">{user ? user.username : "Увiйти"}</Link>
+          <Link href="/account">{user ? user.name : "Увiйти"}</Link>
         </p>
       </div>
     </div>

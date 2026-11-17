@@ -4,26 +4,26 @@ import { JSX } from "react";
 import { SignIn } from "@/widgets/SignIn";
 import { SignUp } from "@/widgets/SignUp";
 import { UserInfo } from "@/widgets/UserInfo";
-import { useUser, useResetUser } from "@/entities/User";
+import { ChangePasswordForm } from "@/widgets/ChangePasswordForm";
+import { OrderHistory } from "@/widgets/OrderHistory";
+import { useUser } from "@/entities/User";
 import { useSignOut } from "@/features/Auth";
+import { useSessionStatus } from "@/shared/session";
 import useSnackbarHook from "@/shared/hooks/useSnackbarHook";
 import styles from "./Account.module.scss";
 
 export function Account(): JSX.Element {
   const user = useUser();
+  const status = useSessionStatus();
   const { openSnackbar } = useSnackbarHook();
   const signOut = useSignOut();
-  const resetUser = useResetUser();
 
   const logoutHandler = async (e: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
     e.preventDefault();
     try {
       await signOut();
-    } catch (error) {
-      console.log("An error occurred:", error);
-      openSnackbar("error", "Error signing out.");
-    } finally {
-      resetUser();
+    } catch {
+      openSnackbar("error", "Не вдалося вийти. Спробуйте ще раз.");
     }
   };
 
@@ -35,7 +35,10 @@ export function Account(): JSX.Element {
             <span>ОСОБИСТИЙ</span> КАБIНЕТ
           </h2>
         </div>
-        {!user ? (
+        {status === "unknown" || (status === "authenticated" && !user) ? (
+          // The session is restored after the page loads.
+          <p>Завантаження…</p>
+        ) : !user ? (
           <div className="flex flex-row gap-10">
             <div className="basis-1/2">
               <SignIn />
@@ -48,6 +51,8 @@ export function Account(): JSX.Element {
           <div className="flex flex-row gap-10">
             <div className="basis-2/3">
               <UserInfo {...user} />
+              <OrderHistory />
+              <ChangePasswordForm />
             </div>
             <div className="basis-1/3 text-right">
               <a href="#" className={styles["logout-btn"]} onClick={logoutHandler}>

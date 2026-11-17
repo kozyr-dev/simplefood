@@ -1,16 +1,8 @@
 import { JSX } from "react";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { singleTypePageSectionsQuery } from "@/entities/PageData";
-import { SectionWizard } from "@/widgets/SectionWizard";
+import { HOME_PAGE_SLUG } from "@/entities/Page";
+import { Subpage } from "@/pages/subpage";
 
-export async function Home(): Promise<JSX.Element> {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(singleTypePageSectionsQuery("homepage", true));
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <SectionWizard pageSlug="homepage" isPageDynamic={false} />
-    </HydrationBoundary>
-  );
+/** The homepage is the CMS page with the slug `home`. */
+export function Home(): JSX.Element {
+  return <Subpage pageSlug={HOME_PAGE_SLUG} />;
 }

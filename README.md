@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SimpleFood: the website
 
-## Getting Started
+The shop's website: Next.js 16 (App Router), React 19, react-query 5, zustand 5, Formik and yup, Sass and Tailwind 4. Its data comes from the NestJS API in `../api` (the Strapi backend in `../backend` is being retired; see `../api/docs/backend-migration-plan.md`, phase 8).
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+nvm use                 # Node 24 (.nvmrc)
+cp .env.example .env    # the API's address: http://localhost:1339 locally
+npm ci
+npm run dev             # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The API must be running (`cd ../api && npm run start:dev`), with `CORS_ORIGINS` and `FRONTEND_URL` set to `http://localhost:3000` (its `.env.example` defaults).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script              | What it does                                                               |
+| ------------------- | -------------------------------------------------------------------------- |
+| `npm run dev`       | Development server                                                         |
+| `npm run build`     | Production build (`output: standalone`)                                    |
+| `npm run lint`      | ESLint (Next's rules)                                                      |
+| `npm run typecheck` | TypeScript                                                                 |
+| `npm test`          | Jest                                                                       |
+| `npm run api:types` | Regenerates `src/shared/api/schema.ts` from the running API's OpenAPI spec |
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+| Variable              | Used for                                                                                     |
+| --------------------- | -------------------------------------------------------------------------------------------- |
+| `DEV_API_URL`         | `next dev`: server-side calls, and the browser unless `NEXT_PUBLIC_API_URL` is set           |
+| `PROD_API_URL`        | `next build`: server-side calls (may be an internal address); `STAGING=1` uses `DEV_API_URL` |
+| `NEXT_PUBLIC_API_URL` | The browser's calls and image URLs: always the public address                                |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+They're inlined at build time (`next.config.ts`).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How it talks to the API
 
-## Deploy on Vercel
+- **Types** come from the API's OpenAPI spec: `src/shared/api/schema.ts` is generated (`npm run api:types`), and `src/shared/api/types.ts` names the shapes. After an API change, regenerate and let `tsc` show what broke.
+- **Calls:** `apiFetch()` (`src/shared/api/client.ts`) for public ones; it throws `ApiError` (`status`, `code`, `details`, `retryAfter`). `errorMessage()` / `fieldErrors()` (`errors.ts`) turn it into Ukrainian text or Formik field errors.
+- **Signed-in calls:** `authFetch()` (`src/shared/session/`) sends the access token, refreshes it once on a 401 and retries. Concurrent calls share one refresh; tabs take turns through the browser's Web Locks, because a refresh token works once.
+- **Sessions:** the access token and the profile live in memory only. The refresh token is an HttpOnly cookie (`sf_refresh`, `SameSite=Strict`, path `/api/auth`) that only the site's own routes in `app/api/auth/` read: login, register, refresh, logout, change-password. Everything else goes from the browser to the API directly. After a page load, `SessionBootstrap` asks `/api/auth/refresh` for a new access token.
+- **Pages** are loaded on the server first, so unknown or unpublished pages and posts get a real 404 (`notFoundOn404`); sections arrive resolved (products, images, categories embedded).
+- **Prices** are integer kopiykas everywhere; `formatPrice()` divides for display.
+- **Images:** `MediaImage` (`src/shared/ui/base/MediaImage`) renders an uploaded image with its size and alt text; `prefixContentImages()` points `/uploads/…` images in editor HTML at the API.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Feature-Sliced Design under `src/` (the Next `app/` folder sits at the root and only routes):
+
+```text
+app/        routes; app/api/auth/* are the session routes
+src/
+  app/      providers, layouts, the session bootstrap
+  pages/    page components
+  widgets/  page blocks (header, sections, checkout form, account parts)
+  features/ user actions: auth, placing an order, the contact form
+  entities/ settings, menus, pages, blog, products, cart, orders, user
+  shared/   api client and types, session, helpers, UI kit, styles
+```
+
+## Deploy
+
+`.github/workflows/deploy.yml`: lint, typecheck and tests on every push and PR; on `main` the VPS pulls, builds and restarts the standalone server with pm2. The production setup changes at the cutover (plan, phase 9).

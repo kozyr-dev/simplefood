@@ -1,16 +1,4 @@
-import { Product } from "@/entities/Product";
+import type { SectionOf } from "@/shared/api";
 
-export interface ProductListProps {
-  rawData: ProductsRawData;
-  rawProducts: Array<Product>;
-}
-
-export interface ProductsRawData {
-  title: string;
-  source: string;
-  layout: string;
-  products: Array<Product>;
-  product_category: object;
-  custom_Class: string;
-  custom_ID: string;
-}
+/** The products arrive resolved by the API: available ones only, in display order. */
+export type ProductListProps = SectionOf<"products">;

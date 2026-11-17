@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Head from "next/head";
 import localFont from "next/font/local";
 import { Suspense } from "react";
 import { QueryProvider } from "@/app/QueryProvider";
 import NotificationProvider from "@/app/NotificationProvider";
+import { SessionBootstrap } from "@/app/SessionBootstrap";
 import { NavigationProgress } from "@/shared/ui/partials/NavigationProgress/NavigationProgress";
 import "@/shared/styles/globals.scss";
 
@@ -92,15 +92,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${openSans.variable} ${geometria.variable}`}>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <html lang="uk" className={`${openSans.variable} ${geometria.variable}`}>
       <body>
         <Suspense fallback={null}>
           <NavigationProgress />
         </Suspense>
         <QueryProvider>
+          <SessionBootstrap />
           <NotificationProvider>{children}</NotificationProvider>
         </QueryProvider>
         <div id="portal-root"></div>

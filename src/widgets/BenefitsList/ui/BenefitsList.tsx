@@ -17,8 +17,9 @@ export function BenefitsList(props: BenefitsListProps) {
               </div>
             )}
             <div className={`flex flex-row ${styles["articles-grid"]} space-x-6`}>
-              {props.articles?.map((article) => (
-                <div className="basis-full md:basis-1/2 lg:basis-1/3" key={article.id}>
+              {props.items.map((article, index) => (
+                // Items have no id; their order is fixed by the editor.
+                <div className="basis-full md:basis-1/2 lg:basis-1/3" key={index}>
                   <BenefitPost {...article} />
                 </div>
               ))}

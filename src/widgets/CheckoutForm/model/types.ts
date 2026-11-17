@@ -1,1 +1,1 @@
-export type ShippingMethod = "flat_rate" | "local_pickup";
+export type { ShippingMethod } from "@/shared/api";

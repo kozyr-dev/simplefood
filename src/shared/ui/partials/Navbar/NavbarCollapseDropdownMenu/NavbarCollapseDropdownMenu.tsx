@@ -3,20 +3,20 @@ import { JSX } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./NavbarCollapseDropdownMenu.module.scss";
-import { SiteOptions, DropDownMenu } from "@/shared/types/types";
+import type { MenuItem, Settings } from "@/shared/api";
 
 interface NavbarCollapseDropdownMenuProps {
   dropDownMenuOpen: boolean;
   navbarCollapsed: boolean;
-  siteOptions?: SiteOptions;
-  dropDownMenu1?: DropDownMenu;
-  dropDownMenu2?: DropDownMenu;
+  settings: Settings;
+  dropDownMenu1?: MenuItem[];
+  dropDownMenu2?: MenuItem[];
 }
 
 export default function NavbarCollapseDropdownMenu({
   dropDownMenuOpen,
   navbarCollapsed,
-  siteOptions,
+  settings,
   dropDownMenu1,
   dropDownMenu2,
 }: NavbarCollapseDropdownMenuProps): JSX.Element {
@@ -38,8 +38,8 @@ export default function NavbarCollapseDropdownMenu({
             {dropDownMenu1 && (
               <ul className={styles["menu-list"]}>
                 {dropDownMenu1.map((item) => (
-                  <li className={clsx(styles["menu-list__item"], styles[item.Classname || ""])} key={item.id}>
-                    <Link href={item.Link}>{item.Title}</Link>
+                  <li className={clsx(styles["menu-list__item"], styles[item.className || ""])} key={item.id}>
+                    <Link href={item.link}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -53,11 +53,11 @@ export default function NavbarCollapseDropdownMenu({
                   <li
                     className={clsx(
                       styles["menu-list__item"],
-                      ...(item.Classname || "").split(" ").map((cls) => styles[cls]),
+                      ...(item.className || "").split(" ").map((cls) => styles[cls]),
                     )}
                     key={item.id}
                   >
-                    <Link href={item.Link}>{item.Title}</Link>
+                    <Link href={item.link}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -67,20 +67,20 @@ export default function NavbarCollapseDropdownMenu({
         <hr />
         <div className={styles["menus__contact"]}>
           <div className={styles["menus__contact__phone"]}>
-            <a href={`tel:${siteOptions?.data?.phone || ""}`}>
+            <a href={`tel:${settings.phone || ""}`}>
               <Image src="/phone1.png" alt="" width="35" height="35" />
-              {siteOptions?.data?.phone}
+              {settings.phone}
             </a>
           </div>
           <div className={styles["menus__contact__social"]}>
             <div className={styles["fsoc"]}>
               <div className={styles["fsoc__item"]}>
-                <Link target="_blank" href={siteOptions?.data?.facebook || ""}>
+                <Link target="_blank" href={settings.facebook || ""}>
                   <em className="icon icon-facebook"></em>
                 </Link>
               </div>
               <div className={styles["fsoc__item"]}>
-                <Link target="_blank" href={siteOptions?.data?.instagram || ""}>
+                <Link target="_blank" href={settings.instagram || ""}>
                   <em className="icon icon-instagram"></em>
                 </Link>
               </div>

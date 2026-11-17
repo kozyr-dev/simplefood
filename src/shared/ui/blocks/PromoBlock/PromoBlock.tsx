@@ -1,51 +1,29 @@
 import React from "react";
 import clsx from "clsx";
-import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import Button from "@/shared/ui/base/Button/Button";
 import styles from "./PromoBlock.module.scss";
-import { ImageProps } from "@/shared/types/types";
-import { ButtonProps } from "@/shared/types/types";
+import type { SectionOf } from "@/shared/api";
+import MediaImage from "@/shared/ui/base/MediaImage/MediaImage";
 
-export interface PromoBlockProps {
-  title: string;
-  text: string;
-  invert: boolean;
-  button: ButtonProps;
-  icon: ImageProps;
-  image: ImageProps;
-}
+export type PromoBlockProps = SectionOf<"promo">;
 
 const PromoBlock: React.FC<PromoBlockProps> = (props) => {
   return (
     <section
       className={clsx("page-section section-padding", styles["section-promo"], {
-        [styles["invert-layout"]]: props.invert,
+        [styles["invert-layout"]]: props.invertLayout,
       })}
     >
       <div className={styles["section-promo__image"]}>
-        {props.image && (
-          <Image
-            src={process.env.API_URL + props.image.url}
-            width={props.image.width}
-            height={props.image.height}
-            alt={props.image.alternativeText}
-          />
-        )}
+        {props.image && <MediaImage media={props.image} />}
       </div>
       <div className={styles["section-promo__body"]}>
         <div className="container mx-auto max-w-6xl">
           <div className={clsx("flex flex-row", styles["flex-row"])}>
             <div className={styles["section-promo__block"]}>
               <div className={styles["section-promo__icon"]}>
-                {props.icon && (
-                  <Image
-                    src={process.env.API_URL + props.icon.url}
-                    width={props.icon.width}
-                    height={props.icon.height}
-                    alt={props.icon.alternativeText}
-                  />
-                )}
+                {props.icon && <MediaImage media={props.icon} />}
               </div>
               <div className={styles["section-promo__text"]}>
                 {props.title && (
@@ -54,7 +32,7 @@ const PromoBlock: React.FC<PromoBlockProps> = (props) => {
                   </div>
                 )}
                 <div className={styles["text"]}>
-                  <ReactMarkdown>{props.text}</ReactMarkdown>
+                  <ReactMarkdown>{props.text ?? ""}</ReactMarkdown>
                 </div>
                 {props.button && (
                   <div className={styles["cta"]}>

@@ -1,23 +1,7 @@
-import { fetchAPI } from "@/shared/utils/helpers/api";
-import { HeaderMenuResponseType, FooterMenuResponseType, DropdownMenuResponseType } from "../types/types";
+import { apiFetch, type DataResponse, type MenuItem, type MenuKey } from "@/shared/api";
 
-export const headerMenuApi = {
-  get: (): Promise<HeaderMenuResponseType> =>
-    fetchAPI("/header-menu", {
-      populate: "*",
-    }),
-};
-
-export const footerMenuApi = {
-  get: (): Promise<FooterMenuResponseType> =>
-    fetchAPI("/footer-menu", {
-      populate: "*",
-    }),
-};
-
-export const dropdownMenuApi = {
-  get: (): Promise<DropdownMenuResponseType> =>
-    fetchAPI("/dropdown-menu", {
-      populate: "*",
-    }),
+export const menuApi = {
+  /** The menu's items, `main` group first, each in the editor's order. */
+  get: async (key: MenuKey): Promise<MenuItem[]> =>
+    (await apiFetch<DataResponse<{ items: MenuItem[] }>>(`/menus/${key}`)).data.items,
 };

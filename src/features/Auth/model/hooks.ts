@@ -1,53 +1,72 @@
-import { User } from "@/entities/User";
-import { useSetToken, useResetToken } from "@/features/Auth";
-import authApi from "../api/api";
+import { useResetUser, useSetUser, userApi, type ProfileChanges, type User } from "@/entities/User";
+import { ApiError } from "@/shared/api";
+import { refreshAccessToken, useSessionStore, type SessionResponse } from "@/shared/session";
+import authApi, { type SignUpData } from "../api/api";
 
-export function useSignUp() {
-  const setToken = useSetToken();
-  return async ({
-    username,
-    email,
-    phone,
-    password,
-  }: {
-    username: string;
-    email: string;
-    phone: string;
-    password: string;
-  }): Promise<User> => {
-    const response = await authApi.signUp(username, email, phone, password);
-    setToken(response.jwt);
-    return response.user;
+/** Stores what a sign-in, sign-up or password change returned; the user. */
+function useStartSession() {
+  const setUser = useSetUser();
+  return ({ data }: SessionResponse<User>): User => {
+    useSessionStore.getState().setAccessToken(data.accessToken);
+    if (data.user) setUser(data.user);
+    return data.user as User;
   };
 }
 
 export function useSignIn() {
-  const setToken = useSetToken();
-  return async ({ identifier, password }: { identifier: string; password: string }): Promise<User> => {
-    const response = await authApi.signIn(identifier, password);
-    setToken(response.jwt);
-    return response.user;
-  };
+  const start = useStartSession();
+  return async ({ email, password }: { email: string; password: string }): Promise<User> =>
+    start(await authApi.signIn(email, password));
+}
+
+export function useSignUp() {
+  const start = useStartSession();
+  return async (data: SignUpData): Promise<User> => start(await authApi.signUp(data));
 }
 
 export function useSignOut() {
-  const resetToken = useResetToken();
+  const resetUser = useResetUser();
   return async (): Promise<void> => {
-    await authApi.signOut();
-    resetToken();
+    try {
+      await authApi.signOut();
+    } finally {
+      useSessionStore.getState().clear();
+      resetUser();
+    }
   };
 }
 
-export function useFetchLoggedInUserInfo() {
-  return (): Promise<User> => authApi.fetchLoggedInUserInfo();
+/**
+ * Changes the password; every other session ends, this one continues. An
+ * expired access token is refreshed once first.
+ */
+export function useChangePassword() {
+  const start = useStartSession();
+  return async ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) => {
+    try {
+      start(await authApi.changePassword(useSessionStore.getState().accessToken, currentPassword, newPassword));
+    } catch (error) {
+      if (!(error instanceof ApiError) || error.status !== 401) throw error;
+      const token = await refreshAccessToken();
+      if (!token) throw error;
+      start(await authApi.changePassword(token, currentPassword, newPassword));
+    }
+  };
 }
 
-export function useUpdateLoggedInUserInfo() {
-  return ({ userId, data }: { userId: number; data: Record<string, unknown> }): Promise<User> =>
-    authApi.updateLoggedInUserInfo(userId, data);
+export function useUpdateProfile() {
+  const setUser = useSetUser();
+  return async (changes: ProfileChanges): Promise<User> => {
+    const user = await userApi.update(changes);
+    setUser(user);
+    return user;
+  };
 }
 
-export function useResetPassword() {
-  return ({ password, passwordConfirmation }: { password: string; passwordConfirmation: string }): Promise<object> =>
-    authApi.resetPassword(password, passwordConfirmation);
+export function useResendVerification() {
+  return (): Promise<void> => authApi.resendVerification();
 }
+
+export const forgotPassword = authApi.forgotPassword;
+export const resetPassword = authApi.resetPassword;
+export const verifyEmail = authApi.verifyEmail;

@@ -2,10 +2,12 @@ export {
   useSignUp,
   useSignIn,
   useSignOut,
-  useFetchLoggedInUserInfo,
-  useUpdateLoggedInUserInfo,
-  useResetPassword,
+  useChangePassword,
+  useUpdateProfile,
+  useResendVerification,
+  forgotPassword,
+  resetPassword,
+  verifyEmail,
 } from "./model/hooks";
-export { useToken, useSetToken, useResetToken } from "./model/selectors";
-export type { AuthStoreState } from "./model/types";
-export { fetchWithAuth } from "./api/authenticatedFetch";
+export { restoreSession, useSessionBootstrap } from "./model/session";
+export type { SignUpData } from "./api/api";

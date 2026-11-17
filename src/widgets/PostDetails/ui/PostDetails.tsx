@@ -3,8 +3,8 @@
 import { JSX } from "react";
 import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import { usePostDataDynamicQuery } from "@/entities/PostData";
+import { useBlogPostQuery } from "@/entities/Blog";
+import MediaImage from "@/shared/ui/base/MediaImage/MediaImage";
 import styles from "./PostDetails.module.scss";
 
 interface PostDetailsProps {
@@ -12,9 +12,8 @@ interface PostDetailsProps {
 }
 
 export function PostDetails(props: PostDetailsProps): JSX.Element {
-  const { data } = usePostDataDynamicQuery(props.pageSlug);
-
-  const postData = data?.data[0];
+  // Loaded on the server first (404s there).
+  const { data: postData } = useBlogPostQuery(props.pageSlug);
 
   if (!postData) {
     return notFound();
@@ -27,23 +26,18 @@ export function PostDetails(props: PostDetailsProps): JSX.Element {
           <div className="basis-full">
             {postData && (
               <article className={styles["single-post"]}>
-                {postData.Title && (
+                {postData.title && (
                   <div className="section-title single-post__title">
-                    <ReactMarkdown components={{ p: "h2" }}>{postData.Title}</ReactMarkdown>
+                    <ReactMarkdown components={{ p: "h2" }}>{postData.title}</ReactMarkdown>
                   </div>
                 )}
-                {postData.Image && (
+                {postData.image && (
                   <div className={styles["single-post__image"]}>
-                    <Image
-                      src={process.env.API_URL + postData.Image.url}
-                      width={postData.Image.width}
-                      height={postData.Image.height}
-                      alt={postData.Image.alternativeText}
-                    />
+                    <MediaImage media={postData.image} />
                   </div>
                 )}
                 <div className={styles["single-post__text"]}>
-                  <ReactMarkdown>{postData.Text}</ReactMarkdown>
+                  <ReactMarkdown>{postData.text}</ReactMarkdown>
                 </div>
               </article>
             )}

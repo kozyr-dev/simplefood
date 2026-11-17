@@ -1,8 +1,3 @@
-import { ButtonProps } from "@/shared/types/types";
-import { BenefitPostProps as Article } from "@/shared/ui/elements/BenefitPost/BenefitPost";
+import type { SectionOf } from "@/shared/api";
 
-export interface BenefitsListProps {
-  title: string;
-  articles: Array<Article>;
-  button: ButtonProps;
-}
+export type BenefitsListProps = SectionOf<"benefits">;

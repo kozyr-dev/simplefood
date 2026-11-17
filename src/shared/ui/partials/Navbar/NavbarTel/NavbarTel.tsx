@@ -3,10 +3,10 @@ import Image from "next/image";
 import MicroModal from "micromodal";
 import Portal from "@/shared/ui/Portal/Portal";
 import ModalCallUs from "@/shared/ui/modals/ModalCallUs/ModalCallUs";
+import type { Settings } from "@/shared/api";
 import styles from "./NavbarTelStyles.module.scss";
-import { SiteOptions } from "@/shared/types/types";
 
-export default function NavbarTel({ data }: SiteOptions): JSX.Element {
+export default function NavbarTel({ settings }: { settings: Settings }): JSX.Element {
   useEffect(() => {
     // Dynamically load MicroModal.js
     (async () => {
@@ -29,14 +29,14 @@ export default function NavbarTel({ data }: SiteOptions): JSX.Element {
       <div className={styles.tel}>
         <Image src="/phone.png" alt="" width="35" height="35" />
         <p className={styles.phone}>
-          {data?.phone}
+          {settings.phone}
           <span onClick={openCallMeModal}>
             <a href="#">замовити зворотній дзвінок</a>
           </span>
         </p>
       </div>
       <Portal>
-        <ModalCallUs phone={data?.phone} />
+        <ModalCallUs phone={settings.phone ?? ""} />
       </Portal>
     </>
   );

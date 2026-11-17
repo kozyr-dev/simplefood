@@ -1,8 +1,3 @@
-import { ImageProps } from "@/shared/types/types";
+import type { SectionOf } from "@/shared/api";
 
-export interface VideoWidgetProps {
-  title: string;
-  description: string;
-  videoUrl: string;
-  image: ImageProps;
-}
+export type VideoWidgetProps = SectionOf<"video">;

@@ -1,12 +1,3 @@
-export interface ContactUsProps {
-  title: string;
-  content: string;
-  content2?: string;
-  embed_code: string;
-  form: {
-    title: string;
-    enable: boolean;
-  };
-  id?: string;
-  class?: string;
-}
+import type { SectionOf } from "@/shared/api";
+
+export type ContactUsProps = SectionOf<"contact">;

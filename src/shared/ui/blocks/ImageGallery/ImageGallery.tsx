@@ -4,14 +4,11 @@ import ReactMarkdown from "react-markdown";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 // @ts-ignore
 import "@splidejs/react-splide/css";
-import Image from "next/image";
+import type { SectionOf } from "@/shared/api";
+import MediaImage from "@/shared/ui/base/MediaImage/MediaImage";
 import styles from "./ImageGallery.module.scss";
-import { ImageProps } from "@/shared/types/types";
 
-export interface ImageGalleryProps {
-  title: string;
-  images: ImageProps[];
-}
+export type ImageGalleryProps = SectionOf<"image-gallery">;
 
 const ImageGallery: React.FC<ImageGalleryProps> = (props) => {
   return (
@@ -33,18 +30,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = (props) => {
               start: 2,
             }}
           >
-            {props.images &&
-              props.images.map((image, index) => (
-                <SplideSlide key={index} className={styles["gallery-slider__slide"]}>
-                  <Image
-                    priority={true}
-                    src={process.env.API_URL + (image?.formats?.medium?.url || image.url)}
-                    width={image.width}
-                    height={image.height}
-                    alt={image.alternativeText}
-                  />
-                </SplideSlide>
-              ))}
+            {props.images.map((image) => (
+              <SplideSlide key={image.id} className={styles["gallery-slider__slide"]}>
+                <MediaImage media={image} format="medium" priority={true} />
+              </SplideSlide>
+            ))}
           </Splide>
         </div>
       </div>

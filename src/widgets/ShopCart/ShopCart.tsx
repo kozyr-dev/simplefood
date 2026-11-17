@@ -4,6 +4,7 @@ import { CartItem, CartState } from "@/entities/Cart";
 import { useAddItemToCart, useDeleteItemFromCart, useRemoveItemFromCart } from "@/entities/Cart";
 import ShopCartItem from "@/shared/ui/elements/ShopCartItem/ShopCartItem";
 import Button from "@/shared/ui/base/Button/Button";
+import { formatPrice } from "@/shared/utils/helpers/money";
 import styles from "./ShopCart.module.scss";
 
 interface ShopCartProps {
@@ -12,17 +13,17 @@ interface ShopCartProps {
 }
 
 export default function ShopCart({ cart, className }: ShopCartProps): JSX.Element {
-  const totalAmount = cart.totalAmount.toFixed(0);
+  const totalAmount = formatPrice(cart.totalAmount);
   const hasItems = cart.items.length > 0;
   const addItemToCart = useAddItemToCart();
   const deleteItemFromCart = useDeleteItemFromCart();
   const removeItemFromCart = useRemoveItemFromCart();
 
-  const cartItemRemoveHandler = (id: number): void => {
+  const cartItemRemoveHandler = (id: string): void => {
     removeItemFromCart(id);
   };
 
-  const cartDeleteItemHandler = (id: number): void => {
+  const cartDeleteItemHandler = (id: string): void => {
     deleteItemFromCart(id);
   };
 

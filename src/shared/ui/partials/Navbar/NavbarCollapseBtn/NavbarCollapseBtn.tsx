@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { JSX, useEffect } from "react";
+import { JSX } from "react";
 import { useIsDropdownMenuOpen, useSetDropdownMenuOpen } from "@/entities/NavBar";
 import styles from "./NavbarCollapseBtn.module.scss";
 

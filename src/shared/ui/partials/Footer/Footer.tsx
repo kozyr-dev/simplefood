@@ -3,15 +3,15 @@ import clsx from "clsx";
 import Link from "next/link";
 import FooterNav from "./FooterNav/FooterNav";
 import styles from "./Footer.module.scss";
-import { FooterMenu, SiteOptions } from "@/shared/types/types";
+import type { MenuItem, Settings } from "@/shared/api";
 
 interface FooterProps {
-  siteOptions: SiteOptions;
-  footerMenu: FooterMenu;
+  settings: Settings;
+  footerMenu: MenuItem[];
 }
 
 export default function Footer(props: FooterProps): JSX.Element {
-  const { siteOptions, footerMenu } = props;
+  const { settings, footerMenu } = props;
 
   return (
     <footer className={styles["page-footer"]}>
@@ -25,7 +25,7 @@ export default function Footer(props: FooterProps): JSX.Element {
               <p>
                 Замовлення приймаються:
                 <br />
-                {siteOptions?.data.takingOrdersHours} | без вихідних
+                {settings.takingOrdersHours} | без вихідних
               </p>
             </div>
           </div>
@@ -35,13 +35,13 @@ export default function Footer(props: FooterProps): JSX.Element {
           <div className={clsx(styles["fsoc"], "basis-2/12")}>
             <ul>
               <li className={styles["menu-soc"]}>
-                <Link target="_blank" href={siteOptions?.data.facebook || "#"}>
-                  <em className={clsx("icon, icon-facebook")}></em>
+                <Link target="_blank" href={settings.facebook || "#"}>
+                  <em className={clsx("icon", "icon-facebook")}></em>
                 </Link>
               </li>
               <li className={styles["menu-soc"]}>
-                <Link target="_blank" href={siteOptions?.data.instagram || "#"}>
-                  <em className={clsx("icon, icon-instagram")}></em>
+                <Link target="_blank" href={settings.instagram || "#"}>
+                  <em className={clsx("icon", "icon-instagram")}></em>
                 </Link>
               </li>
             </ul>

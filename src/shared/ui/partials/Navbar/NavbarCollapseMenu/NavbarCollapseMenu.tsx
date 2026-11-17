@@ -1,11 +1,11 @@
 import { JSX } from "react";
 import clsx from "clsx";
 import Link from "next/link";
-import { HeaderMenu } from "@/shared/types/types";
+import type { MenuItem } from "@/shared/api";
 import styles from "./NavbarCollapseMenu.module.scss";
 
 interface NavbarCollapseMenuProps {
-  headerMenu?: HeaderMenu;
+  headerMenu?: MenuItem[];
 }
 
 export default function NavbarCollapseMenu({ headerMenu }: NavbarCollapseMenuProps): JSX.Element {
@@ -14,8 +14,8 @@ export default function NavbarCollapseMenu({ headerMenu }: NavbarCollapseMenuPro
       {headerMenu && (
         <ul>
           {headerMenu.map((item) => (
-            <li className={clsx(styles["menu-item"], item.Classname && styles[item.Classname])} key={item.id}>
-              <Link href={item.Link}>{item.Title}</Link>
+            <li className={clsx(styles["menu-item"], item.className && styles[item.className])} key={item.id}>
+              <Link href={item.link}>{item.title}</Link>
             </li>
           ))}
         </ul>

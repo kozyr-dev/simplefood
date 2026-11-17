@@ -1,14 +1,3 @@
-import { ImageProps } from "@/shared/types/types";
+import type { SectionOf } from "@/shared/api";
 
-export interface NewsWidgetProps {
-  title: string;
-  blog_category: BlogCategory;
-  layout: string;
-}
-
-export interface BlogCategory {
-  id: number;
-  documentId: string;
-  Name: string;
-  Slug: string;
-}
+export type NewsWidgetProps = SectionOf<"news">;

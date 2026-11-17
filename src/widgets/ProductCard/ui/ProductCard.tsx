@@ -1,6 +1,9 @@
 import { JSX, useRef, useState } from "react";
 import clsx from "clsx";
 import Image from "next/image";
+import MediaImage from "@/shared/ui/base/MediaImage/MediaImage";
+import { prefixContentImages } from "@/shared/utils/helpers/media";
+import { formatPrice } from "@/shared/utils/helpers/money";
 import { useAddItemToCart } from "@/entities/Cart";
 import { Product } from "@/entities/Product";
 import { helpers } from "@/shared/utils/helpers/base";
@@ -85,27 +88,25 @@ export function ProductCard(props: Product): JSX.Element {
     <form className={styles["product-b"]} onSubmit={submitHandler}>
       <div className={styles["product-b__i"]}>
         <div className={styles["product-b__image"]}>
-          {props.image && (
-            <Image
-              src={process.env.API_URL + props.image.url}
-              width={props.image.width}
-              height={props.image.height}
-              alt={props.image.alternativeText}
-            />
-          )}
+          {props.image && <MediaImage media={props.image} format="small" />}
         </div>
         <div className={styles["product-b__description"]}>
           <h5 className={styles["product-b__title"]} onClick={toggleDetails}>
             {props.title}
           </h5>
           <div className={styles["product-b__details"]} ref={descriptionRef}>
-            <div className={styles["product-b__desc"]} dangerouslySetInnerHTML={{ __html: props.description }}></div>
+            {props.description && (
+              <div
+                className={styles["product-b__desc"]}
+                dangerouslySetInnerHTML={{ __html: prefixContentImages(props.description) }}
+              />
+            )}
             <p className={styles["product-b__meta"]}>
-              <span className={styles["weight"]}>{props.weight} г</span>
+              {props.weight ? <span className={styles["weight"]}>{props.weight} г</span> : ""}
               {props.calories ? <span className={styles["calories"]}>{props.calories} ккал</span> : ""}
             </p>
           </div>
-          <div className={styles["product-b__weight"]}>{props.weight}г</div>
+          {props.weight ? <div className={styles["product-b__weight"]}>{props.weight}г</div> : null}
           <div className={styles["product-b__qty"]}>
             <div className={styles["quantity"]}>
               <div className={styles["minus"]}>
@@ -139,7 +140,7 @@ export function ProductCard(props: Product): JSX.Element {
         <div className={styles["product-b__cta"]}>
           <button type="submit" className={styles["add-to-cart"]} aria-label="Добавити  у кошик">
             <em className={clsx(styles["icon"], "icon-basket-1")}></em>
-            {props.price}
+            {formatPrice(props.price)}
             <span>₴</span>
           </button>
         </div>
