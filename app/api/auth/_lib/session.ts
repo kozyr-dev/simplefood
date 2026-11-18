@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
  * The site's session routes (login, register, refresh, logout,
  * change-password) between the browser and the API: the refresh token
  * lives in an HttpOnly cookie that only these routes read, so page scripts
- * never see it (decision F1). Everything else the browser asks the API
+ * never see it. Everything else the browser asks the API
  * directly.
  */
 

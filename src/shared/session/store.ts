@@ -8,7 +8,7 @@ import { create } from "zustand";
 export type SessionStatus = "unknown" | "authenticated" | "anonymous";
 
 export interface SessionState {
-  /** In memory only: never in localStorage (decision F2). The refresh token is an HttpOnly cookie. */
+  /** In memory only: never in localStorage. The refresh token is an HttpOnly cookie. */
   accessToken: string | null;
   status: SessionStatus;
   setAccessToken: (accessToken: string) => void;

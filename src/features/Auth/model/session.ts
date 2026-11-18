@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { userApi, useUserStore } from "@/entities/User";
 import { refreshAccessToken, useSessionStore } from "@/shared/session";
 
-/** localStorage keys of the Strapi site's token and profile (F2: neither is stored any more). */
+/** localStorage keys of the Strapi site's token and profile (neither is stored any more). */
 const LEGACY_KEYS = ["token-storage", "user-storage"];
 
 let restoring: Promise<void> | null = null;

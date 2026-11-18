@@ -11,7 +11,7 @@ import styles from "./ContactUs.module.scss";
 
 type Status = { ok: true } | { ok: false; message: string } | null;
 
-/** Straight to the API (F5): saved, and the shop gets an email it can reply to. */
+/** Straight to the API: saved, and the shop gets an email it can reply to. */
 export function ContactForm(): React.JSX.Element {
   const [status, setStatus] = useState<Status>(null);
   const sendContactForm = UseSendContactForm();

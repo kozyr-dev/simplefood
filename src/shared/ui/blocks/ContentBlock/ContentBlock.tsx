@@ -7,7 +7,7 @@ import { prefixContentImages } from "@/shared/utils/helpers/media";
 
 /**
  * `image` isn't shown: the Strapi site never showed it either (two pages
- * have one). Showing it is a design decision, not part of the move.
+ * have one).
  */
 export type ContentBlockProps = SectionOf<"content">;
 

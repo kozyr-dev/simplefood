@@ -1127,7 +1127,7 @@ export interface components {
             /** @example 01a1559c-a1ed-7641-ac0e-64612b99bb5a */
             id: string;
             /**
-             * @description Relative to the API origin for now.
+             * @description Relative to the API origin.
              * @example /uploads/borscht_3f9a.jpg
              */
             url: string;
@@ -1179,7 +1179,7 @@ export interface components {
             /** @example 01a1559c-a1ed-7641-ac0e-64612b99bb5a */
             id: string;
             /**
-             * @description Relative to the API origin for now.
+             * @description Relative to the API origin.
              * @example /uploads/borscht_3f9a.jpg
              */
             url: string;

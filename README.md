@@ -1,6 +1,6 @@
 # SimpleFood: the website
 
-The shop's website: Next.js 16 (App Router), React 19, react-query 5, zustand 5, Formik and yup, Sass and Tailwind 4. Its data comes from the NestJS API in `../api` (the Strapi backend in `../backend` is being retired; see `../api/docs/backend-migration-plan.md`, phase 8).
+The shop's website: Next.js 16 (App Router), React 19, react-query 5, zustand 5, Formik and yup, Sass and Tailwind 4. Its data comes from the NestJS API in `../api`. The shop's staff edit it in the API's admin app.
 
 ## Getting started
 
@@ -61,4 +61,6 @@ src/
 
 ## Deploy
 
-`.github/workflows/deploy.yml`: lint, typecheck and tests on every push and PR; on `main` the VPS pulls, builds and restarts the standalone server with pm2. The production setup changes at the cutover (plan, phase 9).
+`.github/workflows/deploy.yml`: lint, typecheck and tests on every push and PR. **A push to `main` deploys to production:** the VPS pulls, builds with the Node version in `.nvmrc` and restarts the standalone server with pm2 on `127.0.0.1:3000`, behind nginx (its proxy template is in `../api/deploy/nginx/`).
+
+The production `.env` lives on the VPS only. There `PROD_API_URL` is the API's local address (`http://127.0.0.1:1339`) and `NEXT_PUBLIC_API_URL` its public one (`https://api-simplefood.kozyr.info`).
