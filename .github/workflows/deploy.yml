@@ -66,7 +66,10 @@ jobs:
             # Started afresh each time: `pm2 restart` keeps the Node version and
             # the environment the process was first started with. Localhost
             # only: nginx is the way in.
+            # .nvmrc ends in CRLF here; an empty interpreter would mean nvm's
+            # default Node, so the lookup must succeed before anything stops.
+            node_bin=$(nvm which "$(tr -d '[:space:]' < .nvmrc)")
             pm2 delete simplefood-frontend || true
             HOSTNAME=127.0.0.1 PORT=3000 pm2 start .next/standalone/server.js \
-              --name simplefood-frontend --interpreter "$(nvm which "$(cat .nvmrc)")"
+              --name simplefood-frontend --interpreter "$node_bin"
             pm2 save
